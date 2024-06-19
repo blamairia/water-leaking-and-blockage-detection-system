@@ -123,7 +123,7 @@
         }
 
         function drawHistoricalCharts(date) {
-            fetch(`/history/pulses/1?date=${date}`)
+            fetch(`/history/pulses/0?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -139,7 +139,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/flow_rates/1?date=${date}`)
+            fetch(`/history/flow_rates/0?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -155,7 +155,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/volumes/1?date=${date}`)
+            fetch(`/history/volumes/0?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var areaData = new google.visualization.DataTable();
@@ -172,7 +172,7 @@
                 });
 
             // Repeat for Sensor 2
-            fetch(`/history/pulses/2?date=${date}`)
+            fetch(`/history/pulses/1?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -188,7 +188,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/flow_rates/2?date=${date}`)
+            fetch(`/history/flow_rates/1?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -204,7 +204,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/volumes/2?date=${date}`)
+            fetch(`/history/volumes/1?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var areaData = new google.visualization.DataTable();
@@ -221,7 +221,7 @@
                 });
 
             // Repeat for Sensor 3
-            fetch(`/history/pulses/3?date=${date}`)
+            fetch(`/history/pulses/2?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -237,7 +237,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/flow_rates/3?date=${date}`)
+            fetch(`/history/flow_rates/2?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -253,7 +253,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/volumes/3?date=${date}`)
+            fetch(`/history/volumes/2?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
                     var areaData = new google.visualization.DataTable();

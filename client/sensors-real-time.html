@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Flow Real-Time Monitoring</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['gauge']});
+    </script>
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .chart-container {
+            margin-bottom: 30px;
+        }
+        .sensor-box {
+            padding: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Water Flow Monitoring</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="sensors-real-time.html">Real-Time Monitoring</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sensors-history.html">History</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="text-center mb-4">
+            <h1>Water Flow Real-Time Monitoring</h1>
+        </header>
+
+        <div class="row">
+            <!-- Sensor 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="sensor-box">
+                    <h2>Sensor 1</h2>
+                    <div class="chart-container">
+                        <h4>Flow Rate</h4>
+                        <div id="gauge-flowrate0"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Pulse Count</h4>
+                        <div id="gauge-pulse0"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Volume</h4>
+                        <div id="gauge-volume0"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sensor 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="sensor-box">
+                    <h2>Sensor 2</h2>
+                    <div class="chart-container">
+                        <h4>Flow Rate</h4>
+                        <div id="gauge-flowrate1"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Pulse Count</h4>
+                        <div id="gauge-pulse1"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Volume</h4>
+                        <div id="gauge-volume1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sensor 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="sensor-box">
+                    <h2>Sensor 3</h2>
+                    <div class="chart-container">
+                        <h4>Flow Rate</h4>
+                        <div id="gauge-flowrate2"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Pulse Count</h4>
+                        <div id="gauge-pulse2"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Volume</h4>
+                        <div id="gauge-volume2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        google.charts.setOnLoadCallback(initialize);
+
+        let flowRateCharts = [];
+        let pulseCharts = [];
+        let volumeCharts = [];
+        let flowRateData = [];
+        let pulseData = [];
+        let volumeData = [];
+
+        function initialize() {
+            const options = { width: 300, height: 300, redFrom: 0.9, redTo: 1, yellowFrom: 0.75, yellowTo: 0.9, minorTicks: 5 };
+
+            // Initialize the charts with dummy data
+            for (let i = 0; i < 3; i++) {
+                flowRateData[i] = google.visualization.arrayToDataTable([
+                    ['Label', 'Value'],
+                    ['Flow Rate', 0]
+                ]);
+                pulseData[i] = google.visualization.arrayToDataTable([
+                    ['Label', 'Value'],
+                    ['Pulse Count', 0]
+                ]);
+                volumeData[i] = google.visualization.arrayToDataTable([
+                    ['Label', 'Value'],
+                    ['Volume', 0]
+                ]);
+
+                flowRateCharts[i] = new google.visualization.Gauge(document.getElementById(`gauge-flowrate${i}`));
+                pulseCharts[i] = new google.visualization.Gauge(document.getElementById(`gauge-pulse${i}`));
+                volumeCharts[i] = new google.visualization.Gauge(document.getElementById(`gauge-volume${i}`));
+
+                flowRateCharts[i].draw(flowRateData[i], options);
+                pulseCharts[i].draw(pulseData[i], options);
+                volumeCharts[i].draw(volumeData[i], options);
+            }
+
+            const socket = io();
+
+            // Listen for real-time data
+            socket.on('realtime-data', (data) => {
+                updateGaugeChart(data);
+            });
+
+            // Update the charts every second
+            setInterval(() => {
+                for (let i = 0; i < 3; i++) {
+                    fetch(`/realtime/flow_rates/${i}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            updateGaugeChart({ sensorId: i, flowRate: data[0].flowRate, pulseCount: 0, volume: 0 });
+                        });
+
+                    fetch(`/realtime/pulses/${i}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            updateGaugeChart({ sensorId: i, flowRate: 0, pulseCount: data[0].pulseCount, volume: 0 });
+                        });
+
+                    fetch(`/realtime/volumes/${i}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            updateGaugeChart({ sensorId: i, flowRate: 0, pulseCount: 0, volume: data[0].volume });
+                        });
+                }
+            }, 1000);
+        }
+
+        function updateGaugeChart(data) {
+            const sensorId = data.sensorId;
+
+            if (data.flowRate !== undefined) {
+                flowRateData[sensorId].setValue(0, 1, data.flowRate);
+                flowRateCharts[sensorId].draw(flowRateData[sensorId]);
+            }
+
+            if (data.volume !== undefined) {
+                volumeData[sensorId].setValue(0, 1, data.volume);
+                volumeCharts[sensorId].draw(volumeData[sensorId]);
+            }
+
+            if (data.pulseCount !== undefined) {
+                pulseData[sensorId].setValue(0, 1, data.pulseCount);
+                pulseCharts[sensorId].draw(pulseData[sensorId]);
+            }
+        }
+    </script>
+</body>
+</html>
