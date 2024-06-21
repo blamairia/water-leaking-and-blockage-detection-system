@@ -25,6 +25,7 @@ let lastPulseCount = [0, 0, 0];
 let lastVolume = [0, 0, 0];
 let realTimeData = [{ flowRate: 0, pulseCount: 0, volume: 0 }, { flowRate: 0, pulseCount: 0, volume: 0 }, { flowRate: 0, pulseCount: 0, volume: 0 }];
 let medianRealTimeData = { flowRate: 0, pulseCount: 0, volume: 0 };
+let latestSystemState = 'UNKNOWN';
 
 // Open the database
 db.serialize(() => {
@@ -46,6 +47,9 @@ db.serialize(() => {
   db.run("CREATE TABLE IF NOT EXISTS median_volumes (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, median_volume REAL)", (err) => {
     if (err) console.error('Error creating median_volumes table:', err.message);
   });
+  db.run("CREATE TABLE IF NOT EXISTS system_state (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, state TEXT)", (err) => {
+    if (err) console.error('Error creating system_state table:', err.message);
+  });
 });
 
 // Set up serial port
@@ -55,141 +59,165 @@ const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 parser.on('data', (data) => {
   console.log('Serial data received:', data);
   const trimmedData = data.trim();
-  const lines = trimmedData.split('\n');
-  lines.forEach(line => {
-    const parts = line.split(':');
-    if (parts.length === 2) {
-      const sensorData = parts[1].split(',');
-      if (sensorData.length === 3) {
-        const [flowRate, , pulseCount] = sensorData;
-        const sensorId = parseInt(parts[0].replace('FlowMeter', '')) - 1;
-        const parsedFlowRate = parseFloat(flowRate);
-        const parsedPulseCount = parseInt(pulseCount);
 
-        // Calculate volume from pulse count
-        let volume = 0;
-        switch (sensorId) {
-          case 0:
-            volume = parsedPulseCount / calibrationFactor1;
-            break;
-          case 1:
-            volume = parsedPulseCount / calibrationFactor2;
-            break;
-          case 2:
-            volume = parsedPulseCount / calibrationFactor3;
-            break;
-        }
+  if (trimmedData === 'ON' || trimmedData === 'OFF') {
+    latestSystemState = trimmedData;
+    // Log the system state change to the database
+    db.run("INSERT INTO system_state (state) VALUES (?)", [trimmedData], (err) => {
+      if (err) console.error('Error inserting into system_state table:', err.message);
+      else console.log(`System state logged: ${trimmedData}`);
+    });
+  } else {
+    const lines = trimmedData.split('\n');
+    lines.forEach(line => {
+      const parts = line.split(':');
+      if (parts.length === 2) {
+        const sensorData = parts[1].split(',');
+        if (sensorData.length === 3) {
+          const [flowRate, , pulseCount] = sensorData;
+          const sensorId = parseInt(parts[0].replace('FlowMeter', '')) - 1;
+          const parsedFlowRate = parseFloat(flowRate);
+          const parsedPulseCount = parseInt(pulseCount);
 
-        // Update real-time data
-        realTimeData[sensorId] = {
-          flowRate: parsedFlowRate,
-          pulseCount: parsedPulseCount,
-          volume: volume
-        };
+          // Calculate volume from pulse count
+          let volume = 0;
+          switch (sensorId) {
+            case 0:
+              volume = parsedPulseCount / calibrationFactor1;
+              break;
+            case 1:
+              volume = parsedPulseCount / calibrationFactor2;
+              break;
+            case 2:
+              volume = parsedPulseCount / calibrationFactor3;
+              break;
+          }
 
-        // Only log non-zero values into the database
-        if (parsedFlowRate !== 0) {
-          db.run("INSERT INTO flow_rates (sensor_id, flow_rate) VALUES (?, ?)", [sensorId, parsedFlowRate], (err) => {
-            if (err) console.error('Error inserting into flow_rates table:', err.message);
-            else console.log(`Flow rate logged for sensor ${sensorId + 1}: ${parsedFlowRate}`);
-          });
-        }
+          // Update real-time data
+          realTimeData[sensorId] = {
+            flowRate: parsedFlowRate,
+            pulseCount: parsedPulseCount,
+            volume: volume
+          };
 
-        if (parsedPulseCount !== 0) {
-          db.get("SELECT pulse_count FROM pulses WHERE sensor_id = ? ORDER BY timestamp DESC LIMIT 1", [sensorId], (err, row) => {
-            if (err) {
-              console.error('Error fetching last pulse count:', err.message);
-              return;
-            }
-
-            const lastPulse = row ? row.pulse_count : 0;
-            const newPulseCount = lastPulse + parsedPulseCount;
-
-            db.run("INSERT INTO pulses (sensor_id, pulse_count) VALUES (?, ?)", [sensorId, newPulseCount], (err) => {
-              if (err) console.error('Error inserting into pulses table:', err.message);
-              else console.log(`Pulse count logged for sensor ${sensorId + 1}: ${newPulseCount}`);
+          // Only log non-zero values into the database
+          if (parsedFlowRate !== 0) {
+            db.run("INSERT INTO flow_rates (sensor_id, flow_rate) VALUES (?, ?)", [sensorId, parsedFlowRate], (err) => {
+              if (err) console.error('Error inserting into flow_rates table:', err.message);
+              else console.log(`Flow rate logged for sensor ${sensorId + 1}: ${parsedFlowRate}`);
             });
+          }
 
-            db.get("SELECT volume FROM volumes WHERE sensor_id = ? ORDER BY timestamp DESC LIMIT 1", [sensorId], (err, row) => {
+          if (parsedPulseCount !== 0) {
+            db.get("SELECT pulse_count FROM pulses WHERE sensor_id = ? ORDER BY timestamp DESC LIMIT 1", [sensorId], (err, row) => {
               if (err) {
-                console.error('Error fetching last volume:', err.message);
+                console.error('Error fetching last pulse count:', err.message);
                 return;
               }
 
-              const lastVolume = row ? row.volume : 0;
-              const newVolume = lastVolume + volume;
+              const lastPulse = row ? row.pulse_count : 0;
+              const newPulseCount = lastPulse + parsedPulseCount;
 
-              db.run("INSERT INTO volumes (sensor_id, volume) VALUES (?, ?)", [sensorId, newVolume], (err) => {
-                if (err) console.error('Error inserting into volumes table:', err.message);
-                else console.log(`Volume logged for sensor ${sensorId + 1}: ${newVolume}`);
+              db.run("INSERT INTO pulses (sensor_id, pulse_count) VALUES (?, ?)", [sensorId, newPulseCount], (err) => {
+                if (err) console.error('Error inserting into pulses table:', err.message);
+                else console.log(`Pulse count logged for sensor ${sensorId + 1}: ${newPulseCount}`);
+              });
+
+              db.get("SELECT volume FROM volumes WHERE sensor_id = ? ORDER BY timestamp DESC LIMIT 1", [sensorId], (err, row) => {
+                if (err) {
+                  console.error('Error fetching last volume:', err.message);
+                  return;
+                }
+
+                const lastVolume = row ? row.volume : 0;
+                const newVolume = lastVolume + volume;
+
+                db.run("INSERT INTO volumes (sensor_id, volume) VALUES (?, ?)", [sensorId, newVolume], (err) => {
+                  if (err) console.error('Error inserting into volumes table:', err.message);
+                  else console.log(`Volume logged for sensor ${sensorId + 1}: ${newVolume}`);
+                });
               });
             });
-          });
+          }
+
+          // Update median values if any value changes
+          if (parsedFlowRate !== 0 || parsedPulseCount !== 0) {
+            db.all("SELECT pulse_count FROM pulses WHERE timestamp >= datetime('now', '-1 second')", (err, rows) => {
+              if (!err && rows.length === 3) {
+                const pulses = rows.map(row => row.pulse_count).sort((a, b) => a - b);
+                const medianPulseCount = pulses[1];
+                db.run("INSERT INTO median_pulses (median_pulse_count) VALUES (?)", [medianPulseCount], (err) => {
+                  if (err) console.error('Error inserting into median_pulses table:', err.message);
+                  else console.log(`Median pulse count logged: ${medianPulseCount}`);
+                });
+              } else {
+                if (err) console.error('Error fetching pulse counts for median calculation:', err.message);
+              }
+            });
+
+            db.all("SELECT flow_rate FROM flow_rates WHERE timestamp >= datetime('now', '-1 second')", (err, rows) => {
+              if (!err && rows.length === 3) {
+                const flowRates = rows.map(row => row.flow_rate).sort((a, b) => a - b);
+                const medianFlowRate = flowRates[1];
+                db.run("INSERT INTO median_flow_rates (median_flow_rate) VALUES (?)", [medianFlowRate], (err) => {
+                  if (err) console.error('Error inserting into median_flow_rates table:', err.message);
+                  else console.log(`Median flow rate logged: ${medianFlowRate}`);
+                });
+              } else {
+                if (err) console.error('Error fetching flow rates for median calculation:', err.message);
+              }
+            });
+
+            db.all("SELECT volume FROM volumes WHERE timestamp >= datetime('now', '-1 second')", (err, rows) => {
+              if (!err && rows.length === 3) {
+                const volumes = rows.map(row => row.volume).sort((a, b) => a - b);
+                const medianVolume = volumes[1];
+                db.run("INSERT INTO median_volumes (median_volume) VALUES (?)", [medianVolume], (err) => {
+                  if (err) console.error('Error inserting into median_volumes table:', err.message);
+                  else console.log(`Median volume logged: ${medianVolume}`);
+                });
+              } else {
+                if (err) console.error('Error fetching volumes for median calculation:', err.message);
+              }
+            });
+          }
+
+          // Calculate median real-time data
+          const totalFlowRate = realTimeData.reduce((acc, data) => acc + data.flowRate, 0);
+          const totalPulseCount = realTimeData.reduce((acc, data) => acc + data.pulseCount, 0);
+          const totalVolume = realTimeData.reduce((acc, data) => acc + data.volume, 0);
+
+          medianRealTimeData = {
+            flowRate: totalFlowRate / 3,
+            pulseCount: totalPulseCount / 3,
+            volume: totalPulseCount / (3 * 9348 / 17.22)
+          };
+
+          // Emit real-time data to the front-end
+          io.emit('realtime-data', { sensorId, flowRate: parsedFlowRate, volume, pulseCount: parsedPulseCount });
+          io.emit('realtime-median-data', medianRealTimeData);
+        } else {
+          console.warn('Incomplete data received from serial:', { sensor: parts[0], sensorData });
         }
-
-        // Update median values if any value changes
-        if (parsedFlowRate !== 0 || parsedPulseCount !== 0) {
-          db.all("SELECT pulse_count FROM pulses WHERE timestamp >= datetime('now', '-1 second')", (err, rows) => {
-            if (!err && rows.length === 3) {
-              const pulses = rows.map(row => row.pulse_count).sort((a, b) => a - b);
-              const medianPulseCount = pulses[1];
-              db.run("INSERT INTO median_pulses (median_pulse_count) VALUES (?)", [medianPulseCount], (err) => {
-                if (err) console.error('Error inserting into median_pulses table:', err.message);
-                else console.log(`Median pulse count logged: ${medianPulseCount}`);
-              });
-            } else {
-              if (err) console.error('Error fetching pulse counts for median calculation:', err.message);
-            }
-          });
-
-          db.all("SELECT flow_rate FROM flow_rates WHERE timestamp >= datetime('now', '-1 second')", (err, rows) => {
-            if (!err && rows.length === 3) {
-              const flowRates = rows.map(row => row.flow_rate).sort((a, b) => a - b);
-              const medianFlowRate = flowRates[1];
-              db.run("INSERT INTO median_flow_rates (median_flow_rate) VALUES (?)", [medianFlowRate], (err) => {
-                if (err) console.error('Error inserting into median_flow_rates table:', err.message);
-                else console.log(`Median flow rate logged: ${medianFlowRate}`);
-              });
-            } else {
-              if (err) console.error('Error fetching flow rates for median calculation:', err.message);
-            }
-          });
-
-          db.all("SELECT volume FROM volumes WHERE timestamp >= datetime('now', '-1 second')", (err, rows) => {
-            if (!err && rows.length === 3) {
-              const volumes = rows.map(row => row.volume).sort((a, b) => a - b);
-              const medianVolume = volumes[1];
-              db.run("INSERT INTO median_volumes (median_volume) VALUES (?)", [medianVolume], (err) => {
-                if (err) console.error('Error inserting into median_volumes table:', err.message);
-                else console.log(`Median volume logged: ${medianVolume}`);
-              });
-            } else {
-              if (err) console.error('Error fetching volumes for median calculation:', err.message);
-            }
-          });
-        }
-
-       // Calculate median real-time data
-       const totalFlowRate = realTimeData.reduce((acc, data) => acc + data.flowRate, 0);
-       const totalPulseCount = realTimeData.reduce((acc, data) => acc + data.pulseCount, 0);
-       const totalVolume = realTimeData.reduce((acc, data) => acc + data.volume, 0);
-
-       medianRealTimeData = {
-         flowRate: totalFlowRate / 3,
-         pulseCount: totalPulseCount / 3,
-         volume: totalPulseCount / (3 * 9348 / 17.22)
-       };
-
-       // Emit real-time data to the front-end
-       io.emit('realtime-data', { sensorId, flowRate: parsedFlowRate, volume, pulseCount: parsedPulseCount });
-       io.emit('realtime-median-data', medianRealTimeData);
       } else {
-        console.warn('Incomplete data received from serial:', { sensor: parts[0], sensorData });
+        console.warn('Invalid data format received from serial:', line);
       }
-    } else {
-      console.warn('Invalid data format received from serial:', line);
-    }
-  });
+    });
+  }
+});
+
+// Endpoint to switch system state
+app.post('/system/switch', (req, res) => {
+  serialPort.write('P');
+  res.json({ message: 'System state switched' });
+});
+
+// Endpoint to get current system state
+app.get('/system/state', (req, res) => {
+  serialPort.write('S');
+  setTimeout(() => {
+    res.json({ state: latestSystemState });
+  }, 1000); // Wait 1 second to give Arduino time to respond
 });
 
 // Real-time data endpoints
@@ -239,6 +267,7 @@ app.get('/realtime/median_volumes', (req, res) => {
   console.log('GET /realtime/median_volumes');
   res.json([{ volume: medianRealTimeData.volume }]);
 });
+
 // Historical data endpoints with date filtering
 app.get('/history/pulses/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
