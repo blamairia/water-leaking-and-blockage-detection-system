@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Flow Monitoring</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+    </script>
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .chart-container {
+            margin-bottom: 30px;
+        }
+        .sensor-box {
+            padding: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Water Flow Monitoring</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sensors-real-time.html">Real-Time Monitoring</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sensors-history.html">History</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <header class="text-center mb-4">
+            <h1>Water Flow Monitoring</h1>
+        </header>
+
+        <div class="row">
+            <!-- Column 1: Median Charts -->
+            <div class="col-lg-4 col-md-6">
+                <div class="sensor-box">
+                    <h2>Median Values</h2>
+                    <div class="chart-container">
+                        <h4>Median Pulse Counts</h4>
+                        <div id="median-pulse-chart"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Median Flow Rates</h4>
+                        <div id="median-flowrate-chart"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Median Volumes</h4>
+                        <div id="median-volume-chart"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more columns for individual sensor data if needed -->
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        google.charts.setOnLoadCallback(drawMedianPulseChart);
+        google.charts.setOnLoadCallback(drawMedianFlowRateChart);
+        google.charts.setOnLoadCallback(drawMedianVolumeChart);
+
+        function drawMedianPulseChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Datetime', 'Pulse Count'],
+                [new Date(), 0]
+            ]);
+
+            var options = {
+                title: 'Median Pulse Counts',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('median-pulse-chart'));
+            chart.draw(data, options);
+
+            const socket = io();
+            socket.on('realtime-median-data', function (medianData) {
+                data.addRow([new Date(), medianData.pulseCount]);
+                chart.draw(data, options);
+            });
+        }
+
+        function drawMedianFlowRateChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Datetime', 'Flow Rate'],
+                [new Date(), 0]
+            ]);
+
+            var options = {
+                title: 'Median Flow Rates',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('median-flowrate-chart'));
+            chart.draw(data, options);
+
+            const socket = io();
+            socket.on('realtime-median-data', function (medianData) {
+                data.addRow([new Date(), medianData.flowRate]);
+                chart.draw(data, options);
+            });
+        }
+
+        function drawMedianVolumeChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Datetime', 'Volume'],
+                [new Date(), 0]
+            ]);
+
+            var options = {
+                title: 'Median Volumes',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('median-volume-chart'));
+            chart.draw(data, options);
+
+            const socket = io();
+            socket.on('realtime-median-data', function (medianData) {
+                data.addRow([new Date(), medianData.volume]);
+                chart.draw(data, options);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -24,6 +24,7 @@ const calibrationFactor3 = 10413.75 / 17.22;
 let lastPulseCount = [0, 0, 0];
 let lastVolume = [0, 0, 0];
 let realTimeData = [{ flowRate: 0, pulseCount: 0, volume: 0 }, { flowRate: 0, pulseCount: 0, volume: 0 }, { flowRate: 0, pulseCount: 0, volume: 0 }];
+let medianRealTimeData = { flowRate: 0, pulseCount: 0, volume: 0 };
 
 // Open the database
 db.serialize(() => {
@@ -168,8 +169,20 @@ parser.on('data', (data) => {
           });
         }
 
-        // Emit real-time data to the front-end
-        io.emit('realtime-data', { sensorId, flowRate: parsedFlowRate, volume, pulseCount: parsedPulseCount });
+       // Calculate median real-time data
+       const totalFlowRate = realTimeData.reduce((acc, data) => acc + data.flowRate, 0);
+       const totalPulseCount = realTimeData.reduce((acc, data) => acc + data.pulseCount, 0);
+       const totalVolume = realTimeData.reduce((acc, data) => acc + data.volume, 0);
+
+       medianRealTimeData = {
+         flowRate: totalFlowRate / 3,
+         pulseCount: totalPulseCount / 3,
+         volume: totalPulseCount / (3 * 9348 / 17.22)
+       };
+
+       // Emit real-time data to the front-end
+       io.emit('realtime-data', { sensorId, flowRate: parsedFlowRate, volume, pulseCount: parsedPulseCount });
+       io.emit('realtime-median-data', medianRealTimeData);
       } else {
         console.warn('Incomplete data received from serial:', { sensor: parts[0], sensorData });
       }
@@ -214,40 +227,18 @@ app.get('/realtime/volumes/:sensorId', (req, res) => {
 // Real-time median data endpoints
 app.get('/realtime/median_pulses', (req, res) => {
   console.log('GET /realtime/median_pulses');
-  db.all("SELECT median_pulse_count FROM median_pulses ORDER BY timestamp DESC LIMIT 1", (err, row) => {
-    if (err) {
-      console.error('Error fetching from median_pulses table:', err.message);
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    res.json(row);
-  });
+  res.json([{ pulse_count: medianRealTimeData.pulseCount }]);
 });
 
 app.get('/realtime/median_flow_rates', (req, res) => {
   console.log('GET /realtime/median_flow_rates');
-  db.all("SELECT median_flow_rate FROM median_flow_rates ORDER BY timestamp DESC LIMIT 1", (err, row) => {
-    if (err) {
-      console.error('Error fetching from median_flow_rates table:', err.message);
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    res.json(row);
-  });
+  res.json([{ flow_rate: medianRealTimeData.flowRate }]);
 });
 
 app.get('/realtime/median_volumes', (req, res) => {
   console.log('GET /realtime/median_volumes');
-  db.all("SELECT median_volume FROM median_volumes ORDER BY timestamp DESC LIMIT 1", (err, row) => {
-    if (err) {
-      console.error('Error fetching from median_volumes table:', err.message);
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    res.json(row);
-  });
+  res.json([{ volume: medianRealTimeData.volume }]);
 });
-
 // Historical data endpoints with date filtering
 app.get('/history/pulses/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;

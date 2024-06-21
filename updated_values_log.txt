@@ -1,0 +1,2367 @@
+Total number of rows updated: 12216
+Updated values:
+Name: daluxe housse machine a laver, Code Product: 6132291900319
+Name: brasse hodna, Code Product: 6132501944614
+Name: fury, Code Product: 6132501944683
+Name: fury, Code Product: 6132501944690
+Name: hodna brasse, Code Product: 6132501944621
+Name: brasse hodna, Code Product: 6132501944591
+Name: brasse, Code Product: 6132501944584
+Name: hodna brasse, Code Product: 6132501944577
+Name: hodna yaourt dey, Code Product: 6132501942511
+Name: hodna yaourt dey, Code Product: 6132501942443
+Name: yog, Code Product: 6132501942160
+Name: jumbo mix, Code Product: 6133320000536
+Name: jumbo mix, Code Product: 6133320000550
+Name: jumbo mix, Code Product: 6133320000574
+Name: hodna light, Code Product: 6132501940395
+Name: soumam.dialna, Code Product: 6130760002366
+Name: soumam.dialna, Code Product: 6130760002359
+Name: hodna light, Code Product: 6132501940401
+Name: hodna light, Code Product: 6132501940425
+Name: hodna light, Code Product: 6132501940449
+Name: soumam.dialna, Code Product: 6130760002342
+Name: soumam.dialna, Code Product: 6130760002335
+Name: hodna faida, Code Product: 6132501944850
+Name: hodna, Code Product: 6132501944867
+Name: hodna faida, Code Product: 6132501944881
+Name: hodna faida, Code Product: 6132501944898
+Name: hodna faida, Code Product: 6132501944904
+Name: brasse hodna, Code Product: 6132501943204
+Name: brasse hodna, Code Product: 6132501943181
+Name: hodna, Code Product: 6132501943228
+Name: hodna brasse, Code Product: 6132501944201
+Name: chips mahboul, Code Product: 6130336002509
+Name: moulin d'or., Code Product: 6194021111525
+Name: chips mahboul, Code Product: 6130336003285
+Name: moulin d'or., Code Product: 6194021111518
+Name: moulin dor, Code Product: 6194021111419
+Name: soummam light, Code Product: 6130760000843
+Name: danone yaourt aromatise, Code Product: 6130646004323
+Name: danone yaourt aromatise, Code Product: 6130646004316
+Name: danone yaourt aromatise, Code Product: 6130646004309
+Name: soummam light, Code Product: 6130760000850
+Name: super glue, Code Product: 6930659700188
+Name: aladin, Code Product: 6130760000324
+Name: danino, Code Product: 6130646001667
+Name: danino, Code Product: 6130646000905
+Name: cherchell, Code Product: 6130619001953
+Name: cherchell, Code Product: 6130619001922
+Name: trefle aux fruits, Code Product: 6130551004807
+Name: trefle aux fruits, Code Product: 6130551004791
+Name: crousti 33g, Code Product: 6132011101088
+Name: crousti 33g, Code Product: 6132011101071
+Name: colorant, Code Product: 6133674009834
+Name: aladin, Code Product: 6130760002915
+Name: aladin, Code Product: 6130760002922
+Name: hodna fruite, Code Product: 6132501945321
+Name: abellia savon, Code Product: 6132207300066
+Name: chips-vertables, Code Product: 6130336002042
+Name: moulin dor, Code Product: 6132501549031
+Name: aladin, Code Product: 6130760003547
+Name: j'nina, Code Product: 6130760001673
+Name: acti +, Code Product: 6130760002977
+Name: acti+, Code Product: 6130760002953
+Name: j'nina, Code Product: 6130760001703
+Name: frutty, Code Product: 6132502919239
+Name: activia, Code Product: 6130646002930
+Name: rouiba 20cl, Code Product: 6130002001713
+Name: activia, Code Product: 6130646002954
+Name: dorex, Code Product: 6130520004791
+Name: savon dorex, Code Product: 6130520004814
+Name: dorex, Code Product: 6130520004821
+Name: savon dorex, Code Product: 6130520004838
+Name: acti+, Code Product: 6130760003004
+Name: amila, Code Product: 6008155000795
+Name: acti +, Code Product: 6130760002960
+Name: acti +, Code Product: 6130760002946
+Name: amila, Code Product: 6008155000801
+Name: rami, Code Product: 6132502913947
+Name: acti+, Code Product: 6130760005800
+Name: danino, Code Product: 6130646003517
+Name: super glue, Code Product: 6930659700584
+Name: amila, Code Product: 6008155007213
+Name: ngaous, Code Product: 6133018001722
+Name: bona 33cl, Code Product: 6133218002390
+Name: bouna 33cl, Code Product: 6133218000969
+Name: twist 125ml, Code Product: 6130433001016
+Name: bona 33cl, Code Product: 6133218000457
+Name: bouna 33cl, Code Product: 6133218000433
+Name: twist 125ml, Code Product: 6130433001023
+Name: danette caramel, Code Product: 6130646004255
+Name: soummam minceur, Code Product: 6130760001253
+Name: soummam minceur, Code Product: 6130760001260
+Name: soummam bicouche, Code Product: 6130760001598
+Name: soummam bicouche, Code Product: 6130760001611
+Name: soummam bicouche, Code Product: 6130760001628
+Name: dulcesol, Code Product: 6134961000312
+Name: master chips, Code Product: 6133079000450
+Name: master chips, Code Product: 6133079000443
+Name: master chips, Code Product: 6133079000436
+Name: dulcesol, Code Product: 6134961000329
+Name: mr.chips, Code Product: 6133079000405
+Name: mito, Code Product: 6131264000216
+Name: mito, Code Product: 6131264000230
+Name: danette caramel, Code Product: 6130646004019
+Name: danette, Code Product: 6130646004583
+Name: ifri 33ml, Code Product: 6130093059945
+Name: chips mahboul, Code Product: 6130336002806
+Name: isser, Code Product: 6130606001959
+Name: danone, Code Product: 6130646004484
+Name: ifri 33ml, Code Product: 6130093059914
+Name: soumy, Code Product: 6130760005268
+Name: 2mix, Code Product: 6132501543206
+Name: jumbo nouilles, Code Product: 6133320000901
+Name: petit beurre, Code Product: 6134555000018
+Name: chaussette adidas, Code Product: 4048189146450
+Name: mirinda 33cl, Code Product: 6130743017097
+Name: jumbo nouilles, Code Product: 6133320000895
+Name: yago, Code Product: 6130760004889
+Name: mirinda 33cl, Code Product: 6130743016816
+Name: mirinda.33cl, Code Product: 6130743016809
+Name: wafers gaufrette, Code Product: 6132501540632
+Name: wafers gaufrette, Code Product: 6132501541394
+Name: chaussette lacoste, Code Product: 1000080000005
+Name: mirinda.33cl, Code Product: 6130743016779
+Name: wafers gaufrette, Code Product: 6132501541400
+Name: fendjel 1l, Code Product: 6135382000233
+Name: fendjel, Code Product: 3141544000051
+Name: chips, Code Product: 6133079000115
+Name: mr chips, Code Product: 6133079000153
+Name: ngaous 33, Code Product: 6133018001630
+Name: mr chips, Code Product: 6133079000146
+Name: chips, Code Product: 6133079000122
+Name: mr chips, Code Product: 6133079000160
+Name: mr.chips, Code Product: 6133079000184
+Name: mr.chips, Code Product: 6133079000191
+Name: wafers gaufrette, Code Product: 6132501541417
+Name: mr chips, Code Product: 6133079000139
+Name: tazej 33cl, Code Product: 6132504574306
+Name: tazej 33cl, Code Product: 6132504574320
+Name: anit boxeur homme, Code Product: 8699114057059
+Name: anit boxeur homme, Code Product: 8699114001311
+Name: arome, Code Product: 6131708400657
+Name: savon flux, Code Product: 3662742000013
+Name: mahboul, Code Product: 6130336001977
+Name: chips, Code Product: 6130336001991
+Name: kazamie, Code Product: 6135603000066
+Name: anit boxeur, Code Product: 8699114079334
+Name: chips-vertables, Code Product: 6130336002059
+Name: gurma chips, Code Product: 6135285001023
+Name: dulcesol, Code Product: 6134961000091
+Name: dulcesol, Code Product: 6134961000077
+Name: anit boxeur, Code Product: 8699114079310
+Name: pasta world conchiglie, Code Product: 6130769000950
+Name: pasta world conchiglie, Code Product: 6130769000851
+Name: anit boxeur, Code Product: 8699114079341
+Name: bona 1l, Code Product: 6133218002451
+Name: anit boxeur, Code Product: 8699114114127
+Name: kool break, Code Product: 6133414005607
+Name: bifa besto, Code Product: 6132501542964
+Name: gurma chips, Code Product: 6135285000965
+Name: arome, Code Product: 6133703001211
+Name: savon, Code Product: 0
+Name: arome, Code Product: 6132130500779
+Name: arome, Code Product: 6131708400145
+Name: vanille, Code Product: 6131131000479
+Name: naidja, Code Product: 6132204300212
+Name: bifa besto, Code Product: 6132501542773
+Name: rouiba excellence 25cl, Code Product: 6130002003441
+Name: rouiba excellence 25cl, Code Product: 6130002003168
+Name: vinaigre, Code Product: 2
+Name: tlitli mahbouba, Code Product: 6130403000384
+Name: tlitli mahbouba, Code Product: 6130403000087
+Name: macarona mahbouba, Code Product: 6130403000025
+Name: mahbouba, Code Product: 6130403000070
+Name: goblet cafe, Code Product: GOB11
+Name: goblet cafe, Code Product: 1010101010
+Name: mahbouba, Code Product: 6130403000049
+Name: amazone soda, Code Product: 6134318004840
+Name: film etirable, Code Product: 6132505280091
+Name: aqua fine, Code Product: 6132504574481
+Name: vermicelle, Code Product: 6132163300698
+Name: brosse pedicure, Code Product: 44000055
+Name: carvi, Code Product: 6134741001164
+Name: epices lella moulati, Code Product: 6134741001546
+Name: epices lella moulati, Code Product: 6134741001591
+Name: savon ab+, Code Product: 6132502070275
+Name: savon ab+, Code Product: 6132502070268
+Name: savon marseille, Code Product: 6132502070077
+Name: savon ab+, Code Product: 6132502070046
+Name: mio bebe, Code Product: 6132500074510
+Name: epices lella moulati, Code Product: 6134741002178
+Name: jumbo, Code Product: 6133320000369
+Name: curcuma, Code Product: 6134741001218
+Name: epices lella moulati, Code Product: 6134741001454
+Name: savon dorex, Code Product: 6130520001646
+Name: savon dorex, Code Product: 6130520001653
+Name: dorex gm, Code Product: 6130520001424
+Name: vaseline, Code Product: 6130480001106
+Name: savon dorex, Code Product: 6130520001615
+Name: colorant, Code Product: 6131408409998
+Name: dorex gm, Code Product: 6130520001721
+Name: surf 320g, Code Product: 6130601005037
+Name: surf 320g, Code Product: 6130601005013
+Name: film etirable, Code Product: 6132505280015
+Name: kit kat, Code Product: 1000250000002
+Name: fruit d'or 2l, Code Product: 6133428000155
+Name: yourty hodna, Code Product: 6132501944942
+Name: yourty hodna, Code Product: 6132501944928
+Name: sanibon amir, Code Product: 6133630000097
+Name: sanibon amir, Code Product: 6133630000066
+Name: yago, Code Product: 6130760004575
+Name: brilex, Code Product: 6132505790828
+Name: colorant, Code Product: 6131408409981
+Name: colorant, Code Product: 6131408409943
+Name: carvi, Code Product: 6132501230168
+Name: sani top, Code Product: 6132500252017
+Name: croustille lu, Code Product: 6132011100586
+Name: major, Code Product: 6132011100555
+Name: major, Code Product: 6132011100494
+Name: sani top, Code Product: 6132500253236
+Name: cote d'or, Code Product: 7622210615893
+Name: wafa serviettes 80 pieces, Code Product: 6130649001213
+Name: isis 320g, Code Product: 6130430004768
+Name: sanibon amir, Code Product: 6133630000080
+Name: bsissa, Code Product: 6133703001266
+Name: yago, Code Product: 6130760004568
+Name: yago, Code Product: 6130760006081
+Name: isis 320g, Code Product: 6130430005031
+Name: barari.the.vert, Code Product: 6111252990224
+Name: croustille, Code Product: 6132011100401
+Name: croustille, Code Product: 6132011100456
+Name: salade mechouia, Code Product: 6194024504348
+Name: croustille lu, Code Product: 6132011100623
+Name: bona 2l, Code Product: 6133218000044
+Name: bona 2l, Code Product: 6133218000075
+Name: mirinda, Code Product: 6130743016731
+Name: lingette poupoune, Code Product: 6130778001955
+Name: sv -liquide action, Code Product: 6130656000315
+Name: bona 2l, Code Product: 6133218000013
+Name: serpilliere, Code Product: 6192013000901
+Name: chips mahboul xxl, Code Product: 6130336002608
+Name: chips mahboul xxl, Code Product: 6130336002622
+Name: lingettes ultra, Code Product: 6134102000102
+Name: chips mahboul xxl, Code Product: 6130336002905
+Name: curcuma, Code Product: 6132501230588
+Name: savon dettol 60g, Code Product: 6223001271482
+Name: savon dettol 60g, Code Product: 6295120002049
+Name: farine mama 1kg, Code Product: 6130492000562
+Name: lingette poupoune, Code Product: 6130778001962
+Name: brosse pedicure, Code Product: 171732
+Name: savon dettol 60g, Code Product: 6001106116828
+Name: thym, Code Product: 6132201999877
+Name: hamoud cola, Code Product: 6130695113519
+Name: abusaad savon, Code Product: 6131645003386
+Name: abussad 4pcs, Code Product: 6131645004482
+Name: abussad savon, Code Product: 6131645004703
+Name: bona 2l, Code Product: 6133218000082
+Name: savon palmolive, Code Product: 8693495051040
+Name: savon palmolive, Code Product: 8693495051101
+Name: briki, Code Product: 1414
+Name: palmolive, Code Product: 8714789700069
+Name: farine mama 1kg, Code Product: 6130492000388
+Name: freedent, Code Product: 42070474
+Name: freedent, Code Product: 42268000
+Name: biscwik, Code Product: 6134211000055
+Name: fanta 1l, Code Product: 9000000088
+Name: twix, Code Product: 1000300000006
+Name: jumbo poulet 8cubes, Code Product: 6133320000734
+Name: boudoir chafia, Code Product: 6132508030631
+Name: jumbo poulet 8cubes, Code Product: 6133320000727
+Name: abussad savon, Code Product: 6131645004550
+Name: palmolive, Code Product: 8714789700045
+Name: mirinda, Code Product: 6130743005247
+Name: pepsi 1l, Code Product: 6130743001249
+Name: boudoirs chafia, Code Product: 6132508030839
+Name: boudoirs chafia, Code Product: 6132508030655
+Name: boudoirs chafia, Code Product: 6132508030648
+Name: boudoir chafia, Code Product: 6132508030020
+Name: silver liquid, Code Product: 8690757001072
+Name: abussad 4pcs, Code Product: 6131645004505
+Name: silver liquid, Code Product: 8690757001058
+Name: clementine 2l, Code Product: 6132506770119
+Name: clementine 2l, Code Product: 6132506770065
+Name: cumin, Code Product: 6132501230052
+Name: cumin, Code Product: 6132501230069
+Name: ambassadeur, Code Product: 6130014080010
+Name: ambassadeur, Code Product: 6130014080119
+Name: aigle top sols, Code Product: 6132500252581
+Name: aigle top sols, Code Product: 6132500252567
+Name: sanibon amir, Code Product: 6133630000295
+Name: aigle top sols, Code Product: 6132500258293
+Name: savon palmolive, Code Product: 8693495051187
+Name: rami, Code Product: 6132502917563
+Name: olive noir, Code Product: 6132300800012
+Name: el bahdja, Code Product: 6130396000743
+Name: briki, Code Product: 15644155
+Name: smartbig, Code Product: 6130606001775
+Name: smartbig, Code Product: 6130606001751
+Name: freedent, Code Product: 40099194
+Name: rouiba, Code Product: 6130002003755
+Name: sv -liquide action, Code Product: 6130656000599
+Name: poivre noir, Code Product: 6132501231677
+Name: nappe de table, Code Product: 6133275112155
+Name: cookies, Code Product: 6130015061537
+Name: shampooing venus, Code Product: 6130024161105
+Name: sardine ricamar, Code Product: 6130816001404
+Name: dulcesol, Code Product: 6134961000480
+Name: sardine ricamar, Code Product: 6130816001367
+Name: briquet, Code Product: 5577
+Name: brie, Code Product: 6133314000061
+Name: nappe de table, Code Product: 6132275112155
+Name: rouiba 1l, Code Product: 6130002003717
+Name: mon gouter, Code Product: 6133414001746
+Name: mon gouter, Code Product: 6133414001784
+Name: mon gouter, Code Product: 6133414001807
+Name: dorex liquide, Code Product: 6130520002247
+Name: pince a linge, Code Product: 6133471000027
+Name: chouchou ponge, Code Product: 55887
+Name: sanibon amir, Code Product: 6133630000301
+Name: nachafa, Code Product: 6192013000802
+Name: ifruit 1l, Code Product: 6130093056975
+Name: sanibon amir, Code Product: 6133630000288
+Name: fruit d'or 2l, Code Product: 6133428000056
+Name: sanibon amir, Code Product: 6133630000271
+Name: yorty, Code Product: 6132501945116
+Name: dove, Code Product: 8712561277242
+Name: president 8pc, Code Product: 6130759000885
+Name: venus, Code Product: 6130024161495
+Name: bifa big family, Code Product: 6134427001167
+Name: venus, Code Product: 6130024161662
+Name: bifa big family, Code Product: 6134427001174
+Name: test 500g, Code Product: 6130793001688
+Name: dorex liquide, Code Product: 6130520002285
+Name: kit kat, Code Product: 3800020456224
+Name: savon dorex, Code Product: 6130520002230
+Name: naidja, Code Product: 6132204300229
+Name: gel douche venus, Code Product: 6130024165943
+Name: venus gel douche, Code Product: 6130024165868
+Name: venus gel douche, Code Product: 6130024165813
+Name: sidhoum javel moussant 1l, Code Product: 6132504930010
+Name: famelio, Code Product: 6132500152973
+Name: garrido pate, Code Product: 6130492000654
+Name: porte savon kibex, Code Product: 6132171300604
+Name: garrido pate, Code Product: 6130492000630
+Name: porte savon kibex, Code Product: 6132171300598
+Name: amazone soda, Code Product: 6134318001528
+Name: mars, Code Product: 2222
+Name: kitkat, Code Product: 40052106
+Name: le jardinier, Code Product: 6134196000392
+Name: savon liquide lux, Code Product: 6132154700056
+Name: ricamar thon sauce piquante, Code Product: 6130816011526
+Name: savon liquide lux, Code Product: 6132154700032
+Name: sidhoum javel moussant 1l, Code Product: 6132504930140
+Name: eau de fleur, Code Product: 6131131000332
+Name: chouchou ponge, Code Product: 501
+Name: frotoir aigle, Code Product: 6132500255445
+Name: mars, Code Product: 5000159407236
+Name: bahar adoucissant parfume, Code Product: 6132508181258
+Name: sac maquillage, Code Product: 45660000
+Name: tchina-dor, Code Product: 6132011800370
+Name: tchina-dor, Code Product: 6132011800387
+Name: kitkat, Code Product: 40345116
+Name: ail moulu, Code Product: 6132139200021
+Name: brilex, Code Product: 6132505791061
+Name: bd dorco, Code Product: 6133605347752
+Name: brosse mr star, Code Product: 6136055454056
+Name: chouchou, Code Product: 6928057800395
+Name: dorco brosse, Code Product: 6928158550113
+Name: brosse lotus, Code Product: 6934985787066
+Name: chouchou, Code Product: 6256589102589
+Name: fabro manche 130m, Code Product: 6134673000495
+Name: fabro manche 130m, Code Product: 6134673000310
+Name: fondelice, Code Product: 6132507371346
+Name: venus gel douche, Code Product: 6130024165950
+Name: jus el arabi, Code Product: 6132507020916
+Name: jus el arabi, Code Product: 6132507020909
+Name: el arabi, Code Product: 6132507020404
+Name: el bahdja machine 500 gr, Code Product: 6130396000453
+Name: el bahdja machine 500 gr, Code Product: 6130396001894
+Name: hachfa menage, Code Product: 6132504960536
+Name: ricamar thon sauce piquante, Code Product: 6130816011496
+Name: briquet, Code Product: 13546464
+Name: garrido lentilles 500g, Code Product: 6132004900070
+Name: dorex gel douche, Code Product: 6130520004098
+Name: dorex gel douche, Code Product: 6130520004012
+Name: dorex shampo 250ml, Code Product: 6130520003800
+Name: dorex shampo 250ml, Code Product: 6130520003787
+Name: ail moulu, Code Product: 6132501230151
+Name: poivre noir, Code Product: 6132501230090
+Name: briquet, Code Product: 1000650000008
+Name: fanta 2l, Code Product: 5449000003768
+Name: sprite 2l, Code Product: 5449000004864
+Name: rouiba, Code Product: 6130002003649
+Name: garrido lentilles 500g, Code Product: 6132004900834
+Name: ceregal, Code Product: 6130777001277
+Name: ceregal, Code Product: 6130777001253
+Name: ceregal, Code Product: 6130777001246
+Name: mirinda, Code Product: 6130743004264
+Name: pepsi 2l, Code Product: 6130743001263
+Name: wafa serviettes 80 pieces, Code Product: 6130649001237
+Name: signal 50ml, Code Product: 6130601006003
+Name: signal 50ml, Code Product: 6130601004771
+Name: rosa creme patissiere, Code Product: 6133291000740
+Name: rosa creme patissiere, Code Product: 6133291000726
+Name: tazej 1.25l, Code Product: 6132504570711
+Name: tazej 1.25l, Code Product: 6132504570582
+Name: twix, Code Product: 33333
+Name: tazej 1.25l, Code Product: 6132504570551
+Name: tazej 1.25l, Code Product: 6132504570452
+Name: stic lave sols 1l, Code Product: 6133451004601
+Name: stic lave sols 1l, Code Product: 6133451004618
+Name: kit kat, Code Product: 40052458
+Name: cleantex pastilles, Code Product: 6133871222319
+Name: cleantex pastilles, Code Product: 6133871222333
+Name: seilver chocolat, Code Product: 6135073000085
+Name: seilver chocolat, Code Product: 6135073000047
+Name: hacker, Code Product: 6926313588544
+Name: hacker, Code Product: 6926313588506
+Name: life lave sol, Code Product: 6134598001997
+Name: action gel wc, Code Product: 6130656001299
+Name: etia cookies 140gr, Code Product: 6139474000781
+Name: barari.the.vert, Code Product: 6111252940014
+Name: vermicelle, Code Product: 6132163300674
+Name: brosse formula, Code Product: 6136053948342
+Name: brosse lotus, Code Product: 6946357114912
+Name: etia cookies 140gr, Code Product: 6139474000767
+Name: vermicelle, Code Product: 6132163300667
+Name: aigle, Code Product: 6132500252178
+Name: frotoir aigle, Code Product: 6132500255438
+Name: amir lave sol, Code Product: 6133630000226
+Name: chaussette lacoste, Code Product: 8045301106565
+Name: orangina 2l, Code Product: 6132007100347
+Name: orangina 2l, Code Product: 6132007100118
+Name: chaussette tommy, Code Product: 8692706225546
+Name: isis 800g, Code Product: 6130430004775
+Name: isis 800g, Code Product: 6130430005475
+Name: savon marseille, Code Product: 6132207300110
+Name: brosse jouet, Code Product: 6971667823391
+Name: brosse jouet, Code Product: 6971667823384
+Name: brosse jouet, Code Product: 6971667823377
+Name: brosse jouet, Code Product: 6954842276656
+Name: brosse enfant, Code Product: 6954842276618
+Name: brosse dorco, Code Product: 6928158550182
+Name: brosse enfant, Code Product: 6928158521076
+Name: narrak sucette, Code Product: 6951835310441
+Name: ariel.330g, Code Product: 4084500647169
+Name: brosse lotus, Code Product: 6946357115278
+Name: chamia el aksa 200g, Code Product: 6131508000446
+Name: chamia el aksa 200g, Code Product: 6131508000583
+Name: dorco brosse, Code Product: 6928158586297
+Name: brosse dorco, Code Product: 6928158586211
+Name: dorco brosse, Code Product: 6928158551080
+Name: dorilflor lave sole 1l, Code Product: 6132503463663
+Name: fondelice, Code Product: 6132507371490
+Name: fondelice, Code Product: 6132507371513
+Name: dorilflor lave sole 1l, Code Product: 6132503465599
+Name: mas+ gel wc, Code Product: 6132503466329
+Name: mas+ gel wc, Code Product: 6132503466350
+Name: jufre 2l, Code Product: 6130813608514
+Name: ariel.330g, Code Product: 8001841529677
+Name: amir lave sol, Code Product: 6133630000486
+Name: lave sol amir, Code Product: 6133630000240
+Name: lave sol amir, Code Product: 6133630000325
+Name: lave sol amir, Code Product: 6133630000455
+Name: isis 800g, Code Product: 6130430005055
+Name: lave sol amir, Code Product: 6133630000233
+Name: lave sol amir, Code Product: 6133630000219
+Name: action gel wc, Code Product: 6130656001626
+Name: brosse mr star, Code Product: 6946357124270
+Name: tartino slices, Code Product: 6130413000695
+Name: m&m's, Code Product: 40111490
+Name: m&m's, Code Product: 40111445
+Name: amazone jus, Code Product: 6134318002242
+Name: rouiba jus 2l, Code Product: 6130002003878
+Name: rouiba jus 2l, Code Product: 6130002003908
+Name: rouiba 2l, Code Product: 6130002003946
+Name: rouiba 2l, Code Product: 6130002005216
+Name: ifruit jus 2l, Code Product: 6130093064413
+Name: ifruit jus 2l, Code Product: 6130093059051
+Name: ifruit jus 2l, Code Product: 6130093057040
+Name: ifruit, Code Product: 6130093057033
+Name: amazone jus, Code Product: 6134318000361
+Name: tartino slices, Code Product: 6130413000886
+Name: mister potato, Code Product: 9557062321129
+Name: brosse bouteille, Code Product: 8695122001527
+Name: force xpress, Code Product: 6130216051306
+Name: l'orage desodorisant wc, Code Product: 6130272004841
+Name: l'orage desodorisant wc, Code Product: 6130272004827
+Name: mister potato, Code Product: 9557062321136
+Name: mister potato, Code Product: 9557062321150
+Name: ramy jus 2l, Code Product: 3142542916665
+Name: ramy 2l, Code Product: 6132502916641
+Name: bd dorco, Code Product: 6928158586259
+Name: jus.ramy.2l, Code Product: 6134091001722
+Name: jus.ramy.2l, Code Product: 6134091001715
+Name: lentille, Code Product: 2501059
+Name: colgate 50ml, Code Product: 88105007933
+Name: brosse lotus, Code Product: 6136055454094
+Name: poivre noir, Code Product: 6132501230021
+Name: colgate 50ml, Code Product: 7501035911567
+Name: seatuna, Code Product: 6135704000293
+Name: ramy jus 2l, Code Product: 6132502917419
+Name: ramy 2l, Code Product: 6132502918195
+Name: deso wc odoris, Code Product: 6132503464288
+Name: deso wc odoris, Code Product: 6132503465803
+Name: mozarella, Code Product: 6132507370189
+Name: ramy jus 2l, Code Product: 6132502918201
+Name: brosse formula, Code Product: 6931428200304
+Name: krosti tableau de bord, Code Product: 6130445001257
+Name: chaussette tommy, Code Product: 8692706583769
+Name: dolle, Code Product: 6130640008006
+Name: krosti tableau de bord, Code Product: 6130445000410
+Name: force xpress, Code Product: 6130216050712
+Name: assiettes, Code Product: 6130000845029
+Name: test 500g, Code Product: 6130793007277
+Name: brosse mr star, Code Product: 6136059483106
+Name: krosti tableau de bord, Code Product: 6130445002148
+Name: krosti tableau de bord, Code Product: 6130445002124
+Name: amazone soda, Code Product: 1000470000004
+Name: ngaous 33, Code Product: 1000480000001
+Name: cheezy 4b, Code Product: 6130413000558
+Name: president 8pc, Code Product: 1000490000008
+Name: lubrex desodorisant auto, Code Product: 6132502272044
+Name: lubrex desodorisant auto, Code Product: 6132502272020
+Name: desodorisant ambition 750ml, Code Product: 6134223000463
+Name: titiz brosse, Code Product: 8695122001022
+Name: desodorisant ambition 750ml, Code Product: 6134223001569
+Name: desodorisant ambition 750ml, Code Product: 6134223000487
+Name: krosti deso auto, Code Product: 6130445002940
+Name: krosti deso auto, Code Product: 6130445003152
+Name: krosti deso auto, Code Product: 6130445002957
+Name: krosti deso auto, Code Product: 6130445002964
+Name: s-liquide force xpress, Code Product: 6130216051825
+Name: s-liquide force xpress, Code Product: 6130216051948
+Name: toudja jus 2l, Code Product: 6130720000272
+Name: chaussette polo, Code Product: 6931748896522
+Name: toudja jus 2l, Code Product: 6130720000128
+Name: abellia savon, Code Product: 6132207300301
+Name: stic gel nettoyant 500g, Code Product: 6133451004540
+Name: chaussette adidas, Code Product: 4048189146412
+Name: chaussette polo, Code Product: 8695874585252
+Name: isser delice, Code Product: 6130606000235
+Name: lorage, Code Product: 6130272003202
+Name: micro fibre, Code Product: 8034048225776
+Name: brie, Code Product: 6133314000047
+Name: isser delice, Code Product: 6130606000297
+Name: ambi sens deso, Code Product: 6130445002384
+Name: choco dada, Code Product: 6131680000081
+Name: fondelice, Code Product: 6132507370974
+Name: fondelice, Code Product: 6132507370981
+Name: fondelice, Code Product: 6132507370998
+Name: boukhari.expresso, Code Product: 6130080004903
+Name: savon flux, Code Product: 3662742000136
+Name: boukhari.expresso, Code Product: 6130080004927
+Name: brosse suree, Code Product: 8858870256605
+Name: sunsilk, Code Product: 6192000753162
+Name: sunsilk, Code Product: 6192000753179
+Name: sunsilk 180ml, Code Product: 6192000753186
+Name: deo. malizia bebe, Code Product: 8003510009701
+Name: deo. malizia bebe, Code Product: 8003510006465
+Name: lorage, Code Product: 6130272003196
+Name: lorage, Code Product: 6130272003295
+Name: sunsilk pm, Code Product: 6130601004450
+Name: ambi sens deso, Code Product: 6130445002551
+Name: sunsilk pm, Code Product: 6130601004474
+Name: mister potato 75g, Code Product: 9557062301145
+Name: mister potato 75g, Code Product: 9557062301152
+Name: mister potato 75g, Code Product: 9557062301169
+Name: mister potato 75g, Code Product: 9557062301176
+Name: mister potato, Code Product: 9557062301244
+Name: tartino, Code Product: 6130413000534
+Name: deo. malizia bebe, Code Product: 8003510006458
+Name: brosse suree, Code Product: 8858870256810
+Name: elephanto tizane, Code Product: 6132009657054
+Name: elephanto tizane, Code Product: 6132009657672
+Name: elephanto tizane, Code Product: 6132009657177
+Name: lorage, Code Product: 6130272003165
+Name: bross sensodyne, Code Product: 3094901410003
+Name: narrak sucette, Code Product: 6951783061112
+Name: nivea roll-on pearl& beauty, Code Product: 1000540000002
+Name: dulceplus bonbon, Code Product: 8436574493771
+Name: dulceplus bonbon, Code Product: 8436574493863
+Name: liquide dorex 2p, Code Product: 6130520003725
+Name: andrea dotti, Code Product: 6132001604773
+Name: liquide dorex 2p, Code Product: 6130520003732
+Name: milka caramel, Code Product: 7622201103064
+Name: liquide dorex 2p, Code Product: 6130520003701
+Name: liquide dorex 2p, Code Product: 6130520003695
+Name: liquide dorex 2p, Code Product: 6130520003688
+Name: milka noisette, Code Product: 7622210999597
+Name: milka dessert, Code Product: 7622210999610
+Name: pouere d'avoine ollagro, Code Product: 6052018198556
+Name: pouere d'avoine ollagro, Code Product: 6052018198518
+Name: pouere d'avoine ollagro, Code Product: 6052018198532
+Name: lp gel wc, Code Product: 3263854169522
+Name: halawa tahinia nature shehrazad, Code Product: 6134446000035
+Name: president 8pc, Code Product: 6191513502021
+Name: energizer alkaline power, Code Product: 8888021205077
+Name: pois chiche, Code Product: 2501061
+Name: wax gel hair, Code Product: 6958239301709
+Name: cheezy 450g, Code Product: 6130413001111
+Name: wax gel hair, Code Product: 6958239301716
+Name: wax gel hair, Code Product: 6958239301730
+Name: titiz brosse, Code Product: 8695122001107
+Name: elio 2 l, Code Product: 5130730001024
+Name: brilex, Code Product: 6135053000579
+Name: signal, Code Product: 8413300284803
+Name: elio 2 l, Code Product: 6130234001024
+Name: energizer alkaline power, Code Product: 8888021205398
+Name: mayonnaise, Code Product: 6130234005848
+Name: snonas laque, Code Product: 8410757957533
+Name: snonas laque, Code Product: 8410757957526
+Name: sac maquillage, Code Product: 45880000
+Name: molfix 6, Code Product: 6130793004108
+Name: wax gel hair, Code Product: 6958239301686
+Name: cleantex tete de loup, Code Product: 6256589560211
+Name: brosse bouteille, Code Product: 8695122003330
+Name: cleantex tete de loup, Code Product: 6133871001792
+Name: colgate total 75ml, Code Product: 8850006326176
+Name: air wick deso, Code Product: 3059943019614
+Name: head shoulders, Code Product: 5011321656352
+Name: nettoyant visage k-filou, Code Product: 6131847110004
+Name: nettoyant visage k-filou, Code Product: 6131847120003
+Name: marini.savoiardi, Code Product: 8015997000607
+Name: palmolive, Code Product: 6111056005773
+Name: haricot, Code Product: 2501060
+Name: palmolive, Code Product: 6111056005612
+Name: acord, Code Product: 8690245200932
+Name: bon bons, Code Product: 8003510015757
+Name: bon bons, Code Product: 8003510015771
+Name: bon bons, Code Product: 8003510018536
+Name: palmolive, Code Product: 6111056005698
+Name: colgate total 75ml, Code Product: 8718951228474
+Name: macaron, Code Product: 64544541
+Name: signal, Code Product: 8710908845345
+Name: sham gliss, Code Product: 3178040429628
+Name: top magic, Code Product: 6132507231152
+Name: top magic, Code Product: 6132507231169
+Name: top magic, Code Product: 6132507231183
+Name: top magic, Code Product: 6132507231381
+Name: top magic, Code Product: 6132507231398
+Name: sham gliss, Code Product: 3178041307345
+Name: choco dada, Code Product: 6131680000142
+Name: bross sensodyne, Code Product: 8016825970611
+Name: abousaad sh-500ml, Code Product: 6131645002327
+Name: abousaad apres-sh 500ml, Code Product: 6131645003249
+Name: serum andrea dotti, Code Product: 6132001603516
+Name: serum andrea dotti, Code Product: 6132001603547
+Name: serum andrea dotti, Code Product: 6132001603554
+Name: serum andrea dotti, Code Product: 6132001603561
+Name: serum andrea dotti, Code Product: 6132001603578
+Name: serum andrea dotti, Code Product: 6132001603585
+Name: abousaad apres-sh 500ml, Code Product: 6131645002402
+Name: macaron, Code Product: 69
+Name: nivea creme douche, Code Product: 4005900384294
+Name: abousaad apres-sh 500ml, Code Product: 6131645002372
+Name: abousaad apres-sh 500ml, Code Product: 6131645002365
+Name: malizia, Code Product: 8003510020492
+Name: abousaad sh-500ml, Code Product: 6131645002341
+Name: abousaad sh-500ml, Code Product: 6131645002334
+Name: abousaad sh-500ml, Code Product: 6131645002310
+Name: brait.polish, Code Product: 5908241708660
+Name: air wick deso, Code Product: 3059943019621
+Name: riz basmati, Code Product: 6132503570699
+Name: macaron, Code Product: 65
+Name: abousaad apres-sh 500ml, Code Product: 6131645002389
+Name: bahar adoucissant parfume, Code Product: 6132508181265
+Name: micro fibre, Code Product: 9555864808596
+Name: dentifrice denivit, Code Product: 3050070007024
+Name: malizia, Code Product: 8003510016846
+Name: signal, Code Product: 8710447363812
+Name: signal, Code Product: 8710908455032
+Name: signal, Code Product: 8710908455377
+Name: sunsilk, Code Product: 6192000752967
+Name: lindor 100gr, Code Product: 7610400014632
+Name: dentifrice denivit, Code Product: 3178040698154
+Name: lp gel wc, Code Product: 5410306882470
+Name: lays, Code Product: 3168930000679
+Name: sham gliss, Code Product: 3178040683167
+Name: sham gliss, Code Product: 3178040696433
+Name: nivea gel douche, Code Product: 4005900122063
+Name: higeen kids shampoo 250ml, Code Product: 6135147003394
+Name: vatika, Code Product: 6291069651072
+Name: higeen kids shampoo 250ml, Code Product: 6135147003363
+Name: abusaad gel douche, Code Product: 6131645002518
+Name: deo axe, Code Product: 8710447249017
+Name: nivea gel douche, Code Product: 4005900257352
+Name: nivea creme douche, Code Product: 4005900257383
+Name: signal white now, Code Product: 8710908147388
+Name: abousaad gel douch 500ml, Code Product: 6131645002495
+Name: abousaad gel douch 500ml, Code Product: 6131645002549
+Name: abusaad gel douche, Code Product: 6131645002525
+Name: abousaad gel douch 500ml, Code Product: 6131645002501
+Name: abousaad gel douch 500ml, Code Product: 6131645002556
+Name: le petit marseillais gel douche, Code Product: 3574661347424
+Name: sunsilk champooing, Code Product: 6192000752936
+Name: le petit marseillais gel douche, Code Product: 3574661148441
+Name: higeen kids shampoo 250ml, Code Product: 6135147003400
+Name: sunsilk champooing, Code Product: 6192000752905
+Name: petit pois 1kg, Code Product: 5411361134870
+Name: petit pois 1kg, Code Product: 5411361032077
+Name: colgate 100ml, Code Product: 8850006324189
+Name: deo udv, Code Product: 3326240043568
+Name: deo udv, Code Product: 3326240043544
+Name: brait.polish, Code Product: 5908241708653
+Name: colgate 100ml, Code Product: 8850006343012
+Name: venus gel nettoyant, Code Product: 6130024162706
+Name: aroma espresso, Code Product: 6130194000624
+Name: venus gel nettoyant, Code Product: 6130024165288
+Name: bentoumia, Code Product: 6134495000888
+Name: bentoumia, Code Product: 6134495000383
+Name: aroma espresso, Code Product: 6130194000556
+Name: savon palmolive 4pcs, Code Product: 8693495051194
+Name: palmolive, Code Product: 8693495051132
+Name: savon palmolive 4pcs, Code Product: 8693495051118
+Name: mozarella, Code Product: 6134557000047
+Name: higeen stick, Code Product: 6135147004483
+Name: abussad 4pcs, Code Product: 6131645004789
+Name: higeen stick, Code Product: 6135147004513
+Name: nivea roll-on b&w fresh, Code Product: 4005900372185
+Name: nivea stick, Code Product: 4005808881918
+Name: choco dada 1kg, Code Product: 6131680000098
+Name: stick nivea, Code Product: 4005900035295
+Name: nivea stick, Code Product: 4005900036162
+Name: nivea roll-on b&w fresh, Code Product: 4005900371966
+Name: choco dada 1kg, Code Product: 6131680000036
+Name: le petit marseillais gel douche, Code Product: 3574661065359
+Name: le petit marseillais gel douche, Code Product: 3574661065380
+Name: le petit marseillais gel douche, Code Product: 3574661192871
+Name: signal white now, Code Product: 8710447232767
+Name: deo axe, Code Product: 8710447435809
+Name: deo axe, Code Product: 8710447448199
+Name: deo axe 150ml, Code Product: 8712561252843
+Name: axe deo, Code Product: 8712561249638
+Name: rexona deo, Code Product: 8710908293535
+Name: axe deo, Code Product: 8712561249393
+Name: deo axe 150ml, Code Product: 8712561249232
+Name: serum andrea dotti, Code Product: 6132001603530
+Name: stick, Code Product: 50076598
+Name: rexona stick, Code Product: 96086230
+Name: stick, Code Product: 54024502
+Name: rexona, Code Product: 8710447492178
+Name: rexona, Code Product: 8710447492185
+Name: rexona deo, Code Product: 8710447492222
+Name: rexona stick, Code Product: 30056640
+Name: savon palmolive 4pcs, Code Product: 8693495051057
+Name: deo axe, Code Product: 8712561195218
+Name: dove stick, Code Product: 96123409
+Name: dove stick, Code Product: 80466437
+Name: stick dove, Code Product: 30056671
+Name: stick dove, Code Product: 50285662
+Name: dove, Code Product: 96066836
+Name: signal white now, Code Product: 8710908734236
+Name: cafe.expresso.many, Code Product: 6133566000086
+Name: cafe.expresso.many, Code Product: 6133566000147
+Name: cafe.expresso.many, Code Product: 6133566000093
+Name: rexona, Code Product: 96086223
+Name: oral-b 3d white, Code Product: 8001090127808
+Name: oral-b 3d white, Code Product: 8001090128881
+Name: cream fem, Code Product: 8901103033013
+Name: cream fem, Code Product: 8901103016047
+Name: cream fem, Code Product: 8901103009049
+Name: oral-b, Code Product: 8001841548531
+Name: oral-b 3d white, Code Product: 8001841548579
+Name: action liquide a main 5l, Code Product: 6130656000728
+Name: le petit marseillais apres sham coco 200ml, Code Product: 3574661460468
+Name: veet 100ml, Code Product: 5000309002755
+Name: veet 100ml, Code Product: 5000309002601
+Name: action liquide a main 5l, Code Product: 6130656000759
+Name: veet 100ml, Code Product: 5000146980353
+Name: abusaad gel douche, Code Product: 6131645005014
+Name: olive noir, Code Product: 85285852
+Name: surf, Code Product: 6130601005709
+Name: le petit marseillais apres sham coco 200ml, Code Product: 3574661479675
+Name: dove go fresh, Code Product: 6130601005075
+Name: deo nivea stress protect, Code Product: 4005808718177
+Name: dove go fresh, Code Product: 8717163004869
+Name: deo nivea stress protect, Code Product: 4005808718054
+Name: dove go fresh, Code Product: 8717644308998
+Name: dove go fresh, Code Product: 8711600786257
+Name: stick nivea, Code Product: 42097518
+Name: deo nivea men, Code Product: 4005900243485
+Name: deo.dove.250ml, Code Product: 8711600533806
+Name: deo nivea men, Code Product: 4005900523174
+Name: oral-b, Code Product: 8001841180106
+Name: freedent, Code Product: 4009900485708
+Name: deo dove, Code Product: 8710447244647
+Name: deo.dove.250ml, Code Product: 8710908325823
+Name: deo dove, Code Product: 8710908559204
+Name: freedent, Code Product: 4009900491242
+Name: nivea roll-on pearl& beauty, Code Product: 4005808837359
+Name: super kleen lave main 5l, Code Product: 6140078900100
+Name: super kleen lave main 5l, Code Product: 6140072900090
+Name: deo le petit marsellais, Code Product: 3574661261065
+Name: deo le petit marsellais, Code Product: 3574661247694
+Name: halawa tahinia nature shehrazad, Code Product: 6134446000042
+Name: lp bloc cuvette, Code Product: 3263853403610
+Name: lp bloc cuvette, Code Product: 3263853403719
+Name: wc net bloc 3p, Code Product: 3346028787491
+Name: wc net bloc 3p, Code Product: 3346028787484
+Name: syoss shampo 500ml, Code Product: 6281031267158
+Name: freedent, Code Product: 4009900359221
+Name: syoss shampo 500ml, Code Product: 6192430010897
+Name: air wick, Code Product: 5997321754581
+Name: air wick, Code Product: 3059943015050
+Name: piacelli chocolat a tartiner 300g, Code Product: 6134888000754
+Name: piacelli chocolat a tartiner 300g, Code Product: 6134888000815
+Name: ultra doux shampo, Code Product: 3610340232404
+Name: ultra doux shampo, Code Product: 3610340232411
+Name: ultra doux shampo, Code Product: 3610340262418
+Name: ultra doux shampo, Code Product: 3610340370380
+Name: ultra doux apres shampo 200ml, Code Product: 3610340584381
+Name: ultra doux apres shampo 200ml, Code Product: 3610340584404
+Name: syoss apres shampo 500ml, Code Product: 4015001014549
+Name: hertib demi manche, Code Product: 2501201525012
+Name: hertib demi manche, Code Product: 8698771045423
+Name: clear, Code Product: 6130601004368
+Name: anit, Code Product: 8699114085120
+Name: dorea, Code Product: 8690000100170
+Name: prestige, Code Product: 8695221478145
+Name: jb talc 200g, Code Product: 3574661458755
+Name: narta deo, Code Product: 3600550124804
+Name: mixa bebe, Code Product: 3600550845884
+Name: deo narta, Code Product: 3600550578058
+Name: gloria junior, Code Product: 7613034195524
+Name: narta deo, Code Product: 3600550288544
+Name: mixa bebe, Code Product: 3600550454048
+Name: deo narta, Code Product: 3058320021028
+Name: mixa bebe, Code Product: 3600550245868
+Name: dorea, Code Product: 8690000100644
+Name: ultra doux shampo, Code Product: 3600541480025
+Name: air wick recharge, Code Product: 3059943018303
+Name: air wick recharge, Code Product: 3059943012646
+Name: anit boxer 1114, Code Product: 8699114001328
+Name: anit boxer 1114, Code Product: 8699114001281
+Name: anit, Code Product: 8699114200509
+Name: carolin degraissant, Code Product: 5415087003939
+Name: anit, Code Product: 8699114200141
+Name: anit, Code Product: 8699114200127
+Name: anit, Code Product: 8699114121385
+Name: anit, Code Product: 8699114121378
+Name: anit boxer, Code Product: 8699114119962
+Name: anit boxer, Code Product: 8699114110754
+Name: anit boxer 1114, Code Product: 8699114110723
+Name: boxer anit, Code Product: 8699114085823
+Name: anit, Code Product: 8699114059091
+Name: anit, Code Product: 8699114057042
+Name: anit, Code Product: 8699114057011
+Name: anit boxer, Code Product: 8699114057004
+Name: marini.savoiardi, Code Product: 8015997000614
+Name: boxer anit, Code Product: 8699114056977
+Name: anit, Code Product: 8699114033305
+Name: carolin degraissant, Code Product: 5415087003922
+Name: head shoulders, Code Product: 5011321986794
+Name: doria, Code Product: 8690000103447
+Name: doria, Code Product: 8690000103478
+Name: lays, Code Product: 3168930003366
+Name: lays, Code Product: 3168930005643
+Name: lays, Code Product: 3168930005650
+Name: jumbo, Code Product: 6133320000024
+Name: lindor 100gr, Code Product: 7610400074155
+Name: synsodyne soin gensives, Code Product: 5054563026439
+Name: air wick pure, Code Product: 3059943021709
+Name: air wick pure, Code Product: 3059943023161
+Name: synsodyne soin gensives, Code Product: 5054563026392
+Name: sanex deo, Code Product: 8714789763620
+Name: sanex deo, Code Product: 8714789763316
+Name: uniross rechargeable, Code Product: 4895122315707
+Name: lindt creation, Code Product: 3046920042567
+Name: cote d'or, Code Product: 7622210995087
+Name: afia 5l, Code Product: 6133136000034
+Name: doria, Code Product: 8690000104079
+Name: elothmania manche l blanc, Code Product: 181216100007
+Name: doria, Code Product: 8690000104048
+Name: b-bouche signal gel, Code Product: 8712561758475
+Name: b-bouche signal gel, Code Product: 8712561758598
+Name: doria, Code Product: 8690000104130
+Name: elothmania manche l blanc, Code Product: 181216100003
+Name: doria, Code Product: 8690000104147
+Name: afia 5l, Code Product: T019
+Name: afia 5l, Code Product: 6133136000201
+Name: elio 5l, Code Product: T014
+Name: elio 5l, Code Product: 6130234001031
+Name: merlan 1kg, Code Product: 7509997006970
+Name: jb talc 200g, Code Product: 3574669909693
+Name: aigle matic 3kg, Code Product: 6132500252185
+Name: lindt grand plaisir, Code Product: 7610400084215
+Name: aigle matic 3kg, Code Product: 6132500252192
+Name: aptamil 2, Code Product: 3041091555953
+Name: merlan 1kg, Code Product: 7751722001198
+Name: lindt creation, Code Product: 3046920047364
+Name: lindt creation, Code Product: 3046920045407
+Name: daluxe housse machine a laver, Code Product: 32291900289
+Name: aigle matic 3kg, Code Product: 6132500255087
+Name: bebem 5*40, Code Product: 6130793004504
+Name: siplait, Code Product: 6130413000121
+Name: nivea body lotion, Code Product: 4005900388155
+Name: nivea body lotion, Code Product: 4005900388278
+Name: cheezy, Code Product: 6130413000268
+Name: lindt grand plaisir, Code Product: 7610400084239
+Name: neutrogena visibly clear, Code Product: 3574661332529
+Name: le petit marseillais masque, Code Product: 3251241047010
+Name: le petit marseillais masque, Code Product: 3574661479613
+Name: neutrogena visibly clear, Code Product: 3574661336411
+Name: nespresso, Code Product: 7630054474767
+Name: nespresso, Code Product: 7630054474644
+Name: rouina 500g, Code Product: 6130472125476
+Name: nutella 600g, Code Product: 8000500179864
+Name: nutella 600g, Code Product: 800050017986425
+Name: milka noisette, Code Product: 7622200000111
+Name: uniross rechargeable, Code Product: 4895122320367
+Name: milka noisette, Code Product: 3045140118502
+Name: milka dessert, Code Product: 7622300026752
+Name: milka caramel, Code Product: 7622201050757
+Name: stic gel nettoyant 500g, Code Product: 6133451004687
+Name: hachfa menage, Code Product: 6132319800010
+Name: caraibe pate a tartiner, Code Product: 6135728000132
+Name: caraibe pate a tartiner, Code Product: 6135728000163
+Name: brino, Code Product: 6132501541462
+Name: colgate max fresh, Code Product: 8850006326282
+Name: colgate max fresh, Code Product: 8850006326299
+Name: dunaroll, Code Product: 6132501540779
+Name: syoss apres shampo 500ml, Code Product: 4015000991483
+Name: uniross max power, Code Product: 4895122318326
+Name: uniross max power, Code Product: 4895122315608
+Name: uniross power plus, Code Product: 4895122316162
+Name: uniross power plus, Code Product: 4895122314717
+Name: uniross extra heavy duty, Code Product: 4895122319002
+Name: uniross extra heavy duty, Code Product: 4895122318890
+Name: 2mix, Code Product: 6132501544487
+Name: dialna, Code Product: 6130760002410
+Name: sel, Code Product: 6133900000024
+Name: amazone, Code Product: 6134318002341
+Name: cumin, Code Product: 6132158300146
+Name: pois chihes, Code Product: 6132077700485
+Name: lentille, Code Product: 6132077701628
+Name: rondo cake, Code Product: 6132501543046
+Name: elitta, Code Product: 6132501545439
+Name: nige plus, Code Product: 6133282003446
+Name: nouara 800g, Code Product: 6130763000383
+Name: nouara 800g, Code Product: 6130763000376
+Name: nouara, Code Product: 6130763000369
+Name: rouina 500g, Code Product: 6132158300030
+Name: force xpress, Code Product: 6130216052105
+Name: molfix 5, Code Product: 6130793004092
+Name: kouisel, Code Product: 6132504090233
+Name: savon liouide, Code Product: 6132502881000
+Name: savon liquide, Code Product: 6132502890002
+Name: sanibon rosa 1l, Code Product: 6132230400061
+Name: bent arabi 1l, Code Product: 6132062500137
+Name: bent arabi 1l, Code Product: 6132062500144
+Name: bent arabi 1l, Code Product: 6132062500038
+Name: sanibon rosa 1l, Code Product: 6132230400221
+Name: sanibon bent arabi 3l, Code Product: 6132062500182
+Name: sanibon bent arabi 3l, Code Product: 6132062500236
+Name: akram, Code Product: 6131708400428
+Name: vaseline, Code Product: 6130480001069
+Name: flux, Code Product: 3662742000037
+Name: ezzed, Code Product: 6134897000042
+Name: sel, Code Product: 6132203500019
+Name: nchafa, Code Product: 6135566000066
+Name: balai, Code Product: 8001094320984
+Name: serviettes walvex, Code Product: 6135606000018
+Name: clean, Code Product: 6133559000932
+Name: serviettes walvex, Code Product: 6135606000025
+Name: el ihsane, Code Product: 6135011000061
+Name: ezzed, Code Product: 6134897000011
+Name: ezzed, Code Product: 6134897000035
+Name: lingettes ultra, Code Product: 6134102000065
+Name: film transbarent, Code Product: 6134123000174
+Name: papier aluminium, Code Product: 6131771000136
+Name: mayonnaise, Code Product: 6134905000231
+Name: bukarbounat, Code Product: 6132158300696
+Name: bukarbounat, Code Product: 6132158300016
+Name: amandes, Code Product: 6132501840053
+Name: omo, Code Product: 6130601007611
+Name: ramy 125l, Code Product: 6132502910571
+Name: ezzed, Code Product: 6134897000028
+Name: papier cuisson, Code Product: 6131771000280
+Name: victoria, Code Product: 54061088
+Name: life, Code Product: 6134598001751
+Name: laser, Code Product: 6971772460788
+Name: amazone, Code Product: 6134318000385
+Name: ramy, Code Product: 6132502912315
+Name: slim, Code Product: 6130695113090
+Name: aigle 650ml, Code Product: 6135533002291
+Name: halwa turk, Code Product: 6131508001412
+Name: flano rabha, Code Product: 6130049000045
+Name: lilas extra, Code Product: 6133559001878
+Name: slim 1l, Code Product: 6130695111362
+Name: slim 1l, Code Product: 6130695111355
+Name: rouiba 1l, Code Product: 6130002005230
+Name: rouiba 2l, Code Product: 6130002005247
+Name: flan, Code Product: 6130619002943
+Name: yog, Code Product: 6130646004828
+Name: lesieur, Code Product: 3265470028504
+Name: mayonnaise, Code Product: 6134672000304
+Name: maxon, Code Product: 6133414001593
+Name: elitta, Code Product: 6132501545699
+Name: loukoum, Code Product: 6132501332688
+Name: loukoum, Code Product: 6132501335054
+Name: flan, Code Product: 6130763000642
+Name: riz etuve, Code Product: 6132077700416
+Name: halwa, Code Product: 6130630000843
+Name: film transbarent, Code Product: 6132500847015
+Name: spaghetti, Code Product: 6130837000561
+Name: ifruit 1l, Code Product: 6130093056968
+Name: bms muni, Code Product: 6130490002728
+Name: bms muni, Code Product: 6130490002704
+Name: fraise, Code Product: 6130490002193
+Name: vanille, Code Product: 6130490002186
+Name: poivre noir, Code Product: 6132077700355
+Name: maxon, Code Product: 6133414002330
+Name: casbah, Code Product: 6130632001503
+Name: flukx, Code Product: 3662742000990
+Name: flukx, Code Product: 3662742001003
+Name: gel douche venus, Code Product: 6130024165844
+Name: mais doux, Code Product: 6935897609477
+Name: jnina, Code Product: 6130760005985
+Name: balai, Code Product: 3880012345675
+Name: lovely, Code Product: 6133535000109
+Name: zid, Code Product: 6133043000394
+Name: savon liquide, Code Product: 6130024166063
+Name: vatika, Code Product: 5022496001946
+Name: tazej 33cl, Code Product: 6132504574313
+Name: sunsilk, Code Product: 6192000752899
+Name: savon liquide aigle, Code Product: 6132500255216
+Name: dossy, Code Product: 6135342000440
+Name: scour power, Code Product: 6112000045128
+Name: bona 1l, Code Product: 6133218002574
+Name: biscuit fourre, Code Product: 6133414003450
+Name: zid, Code Product: 6133043000400
+Name: gel douche venus, Code Product: 6130024165967
+Name: milka, Code Product: 7622210371706
+Name: serviettes de table, Code Product: 6133303000034
+Name: ramy 125, Code Product: 6132502911363
+Name: bona 1l, Code Product: 6133218000594
+Name: savon liouide, Code Product: 6130024166049
+Name: flux, Code Product: 3662742000075
+Name: pois chiches, Code Product: 6134897000059
+Name: bingo, Code Product: 6133886000087
+Name: tymo, Code Product: 6132501546818
+Name: tymo, Code Product: 6132501543442
+Name: dorex, Code Product: 6130520004579
+Name: clean, Code Product: 6133559000628
+Name: aqua fine, Code Product: 6132504574498
+Name: aqua fine, Code Product: 6132504572173
+Name: bingo, Code Product: 6130793007987
+Name: sabone, Code Product: 6132207300011
+Name: sabone, Code Product: 6132207300097
+Name: louiza, Code Product: 6134428000220
+Name: maxon, Code Product: 6133414005928
+Name: fruit dor, Code Product: 6133428000261
+Name: bouka 1l, Code Product: 6133087000466
+Name: sunny 1l, Code Product: 6130752001889
+Name: sunny 1l, Code Product: 6130752003005
+Name: test, Code Product: 6130793004634
+Name: danao, Code Product: 6130646005160
+Name: hamoud cola, Code Product: 6130695113526
+Name: slim orange, Code Product: 6130695111416
+Name: sunsilk, Code Product: 6130601006348
+Name: sunsilk, Code Product: 6130601006324
+Name: sunsilk, Code Product: 6130601006317
+Name: sunsilk, Code Product: 6130601006386
+Name: clear, Code Product: 6130601006294
+Name: palmolive, Code Product: 8693495052030
+Name: flux, Code Product: 3662742000044
+Name: abusaad savon, Code Product: 6131645004475
+Name: dadey, Code Product: 6132501546160
+Name: famelio, Code Product: 6132501547600
+Name: famelio, Code Product: 6132501547723
+Name: jnina, Code Product: 6130760006296
+Name: bebem 5*40, Code Product: 6130793007543
+Name: lorage, Code Product: 6130272005251
+Name: frottoir, Code Product: 1234567890005
+Name: gloria junior, Code Product: 7613287370624
+Name: gloria, Code Product: 6130137001268
+Name: laser, Code Product: 6971772463789
+Name: zid, Code Product: 6133043000882
+Name: lagratania, Code Product: 6135231000841
+Name: dulcesol, Code Product: 6134961000305
+Name: poivre noir, Code Product: 6133776119219
+Name: biscwik, Code Product: 6134211000246
+Name: rouiba 2l, Code Product: 6130002005360
+Name: safran, Code Product: 6132023302145
+Name: lait aroma, Code Product: 6130807000089
+Name: sunsilk, Code Product: 6130601006423
+Name: sunsilk, Code Product: 6130601006393
+Name: sunsilk, Code Product: 6130601006416
+Name: ambition, Code Product: 6134223002368
+Name: ramy 2l, Code Product: 6132502913473
+Name: ramy 2l, Code Product: 6132502911592
+Name: ifri gazouz, Code Product: 6130093059686
+Name: ifri gazouz, Code Product: 6130093059921
+Name: ifri gazouz, Code Product: 6130093059778
+Name: ifri gazouz 2l, Code Product: 6130093059693
+Name: ifri gazouz 2l, Code Product: 6130093059907
+Name: matino, Code Product: 6130451000718
+Name: eau de fleur, Code Product: 6133837000104
+Name: trida, Code Product: 6130403000377
+Name: gel douche, Code Product: 6130738000011
+Name: talent, Code Product: 6132501543602
+Name: tiorella, Code Product: 8695504168435
+Name: tiorella, Code Product: 8695504168459
+Name: talent, Code Product: 6132501544616
+Name: chocolat au lait, Code Product: 6132092000096
+Name: chocola cocoaty, Code Product: 6135275000241
+Name: chocola cocoaty, Code Product: 6135275000036
+Name: rouiba 1l, Code Product: 6130002005384
+Name: rouiba 1l, Code Product: 6130002005353
+Name: rouiba 1l, Code Product: 6130002005414
+Name: rouiba 1l, Code Product: 6130002005261
+Name: mio bebe, Code Product: 6132500078525
+Name: cookies, Code Product: 6130606002017
+Name: dove, Code Product: 8710447289327
+Name: binko, Code Product: 6130793007918
+Name: tartino 4b, Code Product: 6130413001418
+Name: dove, Code Product: 8717163607268
+Name: dove, Code Product: 8710908471667
+Name: pois chiches, Code Product: 6132310800019
+Name: savon likuide amir, Code Product: 6133630000561
+Name: savon likuide amir, Code Product: 6133630000547
+Name: ambi sens, Code Product: 6130445003749
+Name: ambi sens, Code Product: 6130445003763
+Name: ambi sens, Code Product: 6130445003718
+Name: savon liouide, Code Product: 6135533002161
+Name: savon liouide, Code Product: 6135533002147
+Name: fendjel 1l, Code Product: 6135382000196
+Name: rouiba 20cl, Code Product: 6130002002741
+Name: gosti, Code Product: 6132501547877
+Name: talent, Code Product: 6132501544371
+Name: rondo cake, Code Product: 6132501547983
+Name: petit beurre, Code Product: 6132501547334
+Name: thon marinara, Code Product: 6135704000217
+Name: thon marinara, Code Product: 6135704000200
+Name: macarona mahbouba, Code Product: 6130403000032
+Name: moutarde, Code Product: 6132503572853
+Name: danone, Code Product: 6130646005344
+Name: sunsilk, Code Product: 6130601006287
+Name: costa, Code Product: 6134606000172
+Name: nige plus, Code Product: 6133282000612
+Name: belie delice, Code Product: 6134788000434
+Name: belie delice, Code Product: 6134788000915
+Name: belie delice, Code Product: 6134788000601
+Name: wippy, Code Product: 6134788000816
+Name: wippy, Code Product: 6134788000830
+Name: catoya, Code Product: 6132277200136
+Name: catoya, Code Product: 6132277200099
+Name: catoya, Code Product: 6132277200112
+Name: catoya, Code Product: 6132277200150
+Name: papier cuisson, Code Product: elbaraka
+Name: ifri gazouz 330ml, Code Product: 6130093059679
+Name: ifri gazouz 330ml, Code Product: 6130093059709
+Name: ifruit 1l, Code Product: 6130093056951
+Name: ifruit 1l, Code Product: 6130093057002
+Name: louiza, Code Product: 6133776909056
+Name: clear 360ml, Code Product: 6130601006140
+Name: sunsilk 180ml, Code Product: 6130601006379
+Name: sunsilk 180ml, Code Product: 6130601006409
+Name: sunsilk 350ml, Code Product: 6130601006331
+Name: sunsilk 350ml, Code Product: 6130601006362
+Name: trefle, Code Product: 6130646005214
+Name: shampooing dove, Code Product: 6130601006775
+Name: shampooing dove, Code Product: 6130601006621
+Name: ambi sens, Code Product: 6130445003794
+Name: ambi sens, Code Product: 6130445003770
+Name: savon liquide aigle, Code Product: 6135533002154
+Name: rouiba 33ml, Code Product: 6130002005254
+Name: rouiba 33ml, Code Product: 6130002005285
+Name: pure, Code Product: 6132507022040
+Name: pure, Code Product: 6132507021593
+Name: lait aroma, Code Product: 6130807000096
+Name: goeur fruite, Code Product: 6132501945659
+Name: gosti, Code Product: 6132501547853
+Name: tagliatelles, Code Product: 6130403001268
+Name: dentist, Code Product: 6133151002006
+Name: goeur fruite, Code Product: 6132501944386
+Name: activia, Code Product: 6130646004927
+Name: el ihsane, Code Product: 6135011000085
+Name: cacahuetes, Code Product: 6135454002349
+Name: cacahuetes, Code Product: 6135454002325
+Name: test 1l, Code Product: 6130793008380
+Name: cooki days, Code Product: 6134788000489
+Name: cooki days, Code Product: 6134788000526
+Name: sunsilk, Code Product: 6130601006430
+Name: thon hibbone, Code Product: 6135912000306
+Name: thon hibbone, Code Product: 6135912000290
+Name: le chat 3l, Code Product: 6130430005857
+Name: lingettes islak, Code Product: 6136126000168
+Name: lingettes islak, Code Product: 6136126000151
+Name: lingettes islak, Code Product: 6136126000199
+Name: rouiba 2l, Code Product: 6130002005308
+Name: rouiba 2l, Code Product: 6130002005278
+Name: rouiba 1l, Code Product: 6130002005292
+Name: le chat 3l, Code Product: 6130430005956
+Name: thon lescale, Code Product: 6135912000177
+Name: hodna fruite, Code Product: 6132501945666
+Name: hodna fruite, Code Product: 6132501945673
+Name: mayonnaise, Code Product: 6133311000293
+Name: amir clean, Code Product: 6133630000684
+Name: tartino 4b, Code Product: 6130413002408
+Name: tartino 4b, Code Product: 6130413002453
+Name: cheezy 4b, Code Product: 6130413002422
+Name: ramy 1l, Code Product: 6132502913701
+Name: bouka 1l, Code Product: 6133087000411
+Name: bouka 1l, Code Product: 6133087000428
+Name: matino, Code Product: 6135263000093
+Name: binko, Code Product: 6133886000100
+Name: omo, Code Product: 6130601008908
+Name: le jardinier, Code Product: 6134196000552
+Name: thon la hisbana, Code Product: 6130504000139
+Name: thon la hisbana, Code Product: 6130504000924
+Name: amazone 2l, Code Product: 6134318003812
+Name: cherbet, Code Product: 6130361000716
+Name: amazone 2l, Code Product: 6134318002327
+Name: amazone 2l, Code Product: 6134318005106
+Name: amazone 1l, Code Product: 6134318006349
+Name: amazone 1l, Code Product: 6134318006387
+Name: amazone 1l, Code Product: 6134318006462
+Name: mais doux, Code Product: 6135231000285
+Name: ariane, Code Product: 6132500140208
+Name: falco dzair, Code Product: 6134499002291
+Name: falco dzair, Code Product: 6134499002321
+Name: falco loukoum, Code Product: 6132501330790
+Name: falco loukoum, Code Product: 6134499010074
+Name: fanta 1l, Code Product: 6133166000219
+Name: danone, Code Product: 6130646005092
+Name: danao, Code Product: 6130646005313
+Name: isis machine 3l, Code Product: 6130430005888
+Name: isis 750g, Code Product: 6130430005635
+Name: nachafa, Code Product: 6134129000024
+Name: shambooing dove, Code Product: 6130601006713
+Name: shambooing dove, Code Product: 6130601006744
+Name: fendjel, Code Product: 6135382000172
+Name: ramy extra, Code Product: 6134091000015
+Name: ramy milky, Code Product: 6134091914275
+Name: ramy, Code Product: 6132502910823
+Name: ramy, Code Product: 6134091914350
+Name: nouara, Code Product: 6130763000802
+Name: nouara, Code Product: 61302938
+Name: halwa, Code Product: 6134802000693
+Name: le berbere, Code Product: 6008155018196
+Name: atun 1, Code Product: 6130504001914
+Name: atun 1, Code Product: 6130504001938
+Name: mais doux, Code Product: 6133213000018
+Name: halwa turk, Code Product: 6131418000086
+Name: riz elihsane, Code Product: 6135011000108
+Name: test 1l, Code Product: 6130793005471
+Name: thon lescale, Code Product: 6135912000153
+Name: thon lescale, Code Product: 6135912000160
+Name: dorex, Code Product: 6130520001745
+Name: dorx, Code Product: 6130520000793
+Name: dorx, Code Product: 6130520001417
+Name: yago, Code Product: 6130760006579
+Name: halwa turc djemil, Code Product: 6134802000969
+Name: halwa turc djemil, Code Product: 6134802000945
+Name: halwa el cham, Code Product: 6130557000100
+Name: halwa el cham, Code Product: 6130557000070
+Name: mais doux, Code Product: 5998483720735
+Name: sucre clace, Code Product: 6131051000016
+Name: maram tolga, Code Product: 6131843000040
+Name: optilla, Code Product: 6133337003711
+Name: maram tolga, Code Product: 6131843000033
+Name: dada 200g, Code Product: 6131680000630
+Name: dada 200g, Code Product: 6131680000623
+Name: savon liguide, Code Product: 6133630000516
+Name: bonus, Code Product: 6131697000159
+Name: amazon 2l, Code Product: 6134318006790
+Name: amazone 2l, Code Product: 6134318005373
+Name: amazon 2l, Code Product: 6134318002884
+Name: amazon 2l, Code Product: 6134318006172
+Name: ramy, Code Product: 6134091914381
+Name: ramy, Code Product: 6134091913780
+Name: ambi sens, Code Product: 6130445003640
+Name: ambi sens, Code Product: 6130445003787
+Name: coca cola, Code Product: 6133166000745
+Name: dunaroll, Code Product: 6132501549833
+Name: rondo cake, Code Product: 6132501549901
+Name: sardines, Code Product: 6135535000202
+Name: clear 360ml, Code Product: 6130601006096
+Name: shampooing dove 400ml, Code Product: 6130601006690
+Name: shampooing dove 400ml, Code Product: 6130601004627
+Name: shampooing dove, Code Product: 6130601006683
+Name: shampooing dove, Code Product: 6130601006652
+Name: one ex, Code Product: 6130640000505
+Name: love, Code Product: 6130730000101
+Name: lovely, Code Product: 6130024166520
+Name: love, Code Product: 6130730003430
+Name: chairman, Code Product: 6130730000521
+Name: chairman, Code Product: 6130730000248
+Name: incidence, Code Product: 6130730000347
+Name: chairman, Code Product: 6130730000354
+Name: abusaad, Code Product: 6131645004543
+Name: abusaad, Code Product: 6131645004512
+Name: signal, Code Product: 6130601005990
+Name: acord, Code Product: 8692730501364
+Name: rondo cake, Code Product: 6132501549918
+Name: lilas extra, Code Product: 6133559002066
+Name: rouiba 2l, Code Product: 6130002005421
+Name: surf 16, Code Product: 6130601008090
+Name: surf 16, Code Product: 6130601008106
+Name: bsissa, Code Product: 6130866000112
+Name: bingo 3l, Code Product: 6130793007963
+Name: geane, Code Product: 6130337000047
+Name: ramy extra, Code Product: 6134091913698
+Name: iam pack, Code Product: 6134737000041
+Name: la vache kuirit, Code Product: 6134261000173
+Name: schweppes, Code Product: 5449000224385
+Name: jufre 2l, Code Product: 6130813602376
+Name: bona 1l, Code Product: 6133218000556
+Name: amazone 2l, Code Product: 6134318006820
+Name: wouroud, Code Product: 6135849130077
+Name: wouroud, Code Product: 6135849100025
+Name: costa, Code Product: 6134606000127
+Name: fendjel 1l, Code Product: 6135382000219
+Name: test, Code Product: 6130793008458
+Name: le chat 3l, Code Product: 6130430006069
+Name: dadey, Code Product: 6132501548744
+Name: mirinda, Code Product: 6130743016519
+Name: mirinda, Code Product: 6130743016502
+Name: mirinda, Code Product: 6130743017158
+Name: sunsilk, Code Product: 6130601006454
+Name: vinaigre, Code Product: 6134316000028
+Name: elarabi, Code Product: 6132507022057
+Name: forex, Code Product: 6132068200086
+Name: water fruits, Code Product: 6134091914312
+Name: water fruits, Code Product: 6134091914138
+Name: water fruits, Code Product: 6134091914084
+Name: casbah, Code Product: 6130632000032
+Name: papier aluminium, Code Product: 725765295521
+Name: safari, Code Product: 6132175400232
+Name: gloria, Code Product: 6130137000278
+Name: ambition, Code Product: 6134223002474
+Name: muesli, Code Product: 6132108100376
+Name: muesli, Code Product: 6132108100413
+Name: baradice, Code Product: 6130490003091
+Name: baradice, Code Product: 6130490002919
+Name: ramy, Code Product: 6132502913572
+Name: loribelle, Code Product: 6132080000077
+Name: loribelle, Code Product: 6132080000114
+Name: loribelle, Code Product: 6132080000084
+Name: dorex, Code Product: 6130520001738
+Name: dorex, Code Product: 6130520000700
+Name: dorex, Code Product: 6130520001400
+Name: venus, Code Product: 6130024165936
+Name: danette, Code Product: 6130646005641
+Name: activia, Code Product: 6130646005511
+Name: pril isis, Code Product: 6130430006021
+Name: fendjel, Code Product: 6135382000226
+Name: sani top, Code Product: 6135533001096
+Name: biscuit fourre, Code Product: 6134788000243
+Name: la vache kuirit, Code Product: 6134261000180
+Name: savon liqude, Code Product: 6135754000090
+Name: savon liqude, Code Product: 6135754000144
+Name: dossy, Code Product: 6135342000761
+Name: miswak, Code Product: 6133151000590
+Name: dove, Code Product: 6130601006768
+Name: dove, Code Product: 6130601006782
+Name: dove, Code Product: 6130601006676
+Name: thon lescale, Code Product: 6135912000146
+Name: cotiflex, Code Product: 6132004300047
+Name: cotiflex, Code Product: 6132004300030
+Name: selecto 33cl, Code Product: 6130695111270
+Name: forex, Code Product: 6132068200062
+Name: bona 1l, Code Product: 6133218000549
+Name: bona 2l, Code Product: 6133218001188
+Name: lampe, Code Product: 6139869502357
+Name: trida, Code Product: 701197933781
+Name: tagliatelles, Code Product: 6130403000193
+Name: coca cola, Code Product: 6133166000011
+Name: la vache guirit, Code Product: 6134261000357
+Name: confiture, Code Product: 6135064000230
+Name: ramy 1l, Code Product: 6132502919550
+Name: papier cuisson, Code Product: 6131299910863
+Name: twinki, Code Product: 6132501549697
+Name: spaghetti, Code Product: 6134971000326
+Name: cookies, Code Product: 6132501543572
+Name: ngaous, Code Product: 6133018004136
+Name: ngaous, Code Product: 6133018004198
+Name: lorage, Code Product: 6130272001444
+Name: ramy extra, Code Product: 6134091000664
+Name: selecto 33cl, Code Product: 6130695113076
+Name: menko, Code Product: 6131240500013
+Name: menko, Code Product: 6132601930012
+Name: lina 3l, Code Product: 6133598001037
+Name: lina 3l, Code Product: 6132356200156
+Name: petit beurre, Code Product: 6135869000114
+Name: test, Code Product: 6130793008540
+Name: salade mechouia, Code Product: 6135505000492
+Name: salade mechouia, Code Product: 6133700000118
+Name: poivre noir, Code Product: 6132023300028
+Name: pince a linge, Code Product: 6130261190210
+Name: dentist, Code Product: 6133151002020
+Name: activia, Code Product: 6130646005504
+Name: mouzaia, Code Product: 6130732003353
+Name: mouzaia, Code Product: 6130732003377
+Name: mouzaia, Code Product: 6130732003360
+Name: mouzaia, Code Product: 6130732003292
+Name: mouzaia, Code Product: 6130732003315
+Name: mouzaia, Code Product: 6130732003308
+Name: extra, Code Product: 613211800297
+Name: extra, Code Product: 6132118800082
+Name: ramy 125, Code Product: 6134091914374
+Name: sucre clace, Code Product: 6132023300516
+Name: prosafe, Code Product: 6130520005798
+Name: flux, Code Product: 3662742000020
+Name: loribelle, Code Product: 6132080000060
+Name: loribelle, Code Product: 6132080000107
+Name: sardines, Code Product: 6191485000280
+Name: dove, Code Product: 6130601006669
+Name: dove, Code Product: 6130601006829
+Name: dove, Code Product: 6130601006737
+Name: clear, Code Product: 6130601006256
+Name: clear, Code Product: 6130601006478
+Name: haricot, Code Product: 6132503150310
+Name: danone, Code Product: 6130646005580
+Name: la vache kuirit, Code Product: 6134261000364
+Name: bingo, Code Product: 6130793008878
+Name: dossy, Code Product: 6135342000457
+Name: test 750g, Code Product: 6130793008557
+Name: wouroud, Code Product: 6135849120047
+Name: wouroud, Code Product: 6135849000431
+Name: flux, Code Product: 3662742000006
+Name: isis 750g, Code Product: 6130430006151
+Name: couscous amour, Code Product: 6133690000709
+Name: ultra joy, Code Product: 6134843000270
+Name: ultra joy, Code Product: 6134843000317
+Name: ultra joy, Code Product: 6134843000461
+Name: abellia, Code Product: 6132207200359
+Name: vinaigre, Code Product: 6134316000059
+Name: lilas extra, Code Product: 6133559002011
+Name: thon, Code Product: 6130816010680
+Name: story, Code Product: 6132501549178
+Name: dorex, Code Product: 6130520005101
+Name: dorex, Code Product: 6130520005095
+Name: forex, Code Product: 6132068200116
+Name: tisane, Code Product: 6132201490107
+Name: el mordjene, Code Product: 6132509190105
+Name: liguid vaisselle, Code Product: 6132118800075
+Name: jnina, Code Product: 6130760004643
+Name: papier aluminium, Code Product: 6132244900021
+Name: test, Code Product: 6130793008496
+Name: binko, Code Product: 6130793008861
+Name: bingo, Code Product: 6130793008847
+Name: dadilait, Code Product: 6134521000011
+Name: le chat, Code Product: 6130430006052
+Name: bsissa, Code Product: 6132515950540
+Name: mio bebe, Code Product: 6132500078723
+Name: mio bebe, Code Product: 6132500078747
+Name: mio bebe, Code Product: 6132500078716
+Name: mio bebe, Code Product: 6132500078730
+Name: mio bebe, Code Product: 6132500078754
+Name: bingo, Code Product: 6130793008809
+Name: bingo, Code Product: 6130793008083
+Name: life gel machine, Code Product: 6134598002253
+Name: hamoud cola, Code Product: 6130695113649
+Name: prestige, Code Product: 6131301000223
+Name: raib, Code Product: 6135309000346
+Name: ramy 125l, Code Product: 6134091913797
+Name: frutty, Code Product: 6132502919215
+Name: goldex, Code Product: 6130520003282
+Name: palmedor, Code Product: 6135485575652
+Name: palmedor, Code Product: 6130756001205
+Name: palmedor, Code Product: 6130756001373
+Name: dulcesol, Code Product: 6134961001104
+Name: dulcesol, Code Product: 6134961001111
+Name: brosse de lest, Code Product: 5012345678900
+Name: casa air, Code Product: 6133834008691
+Name: casa air, Code Product: 6133834008707
+Name: casa air, Code Product: 6133834008714
+Name: casa air, Code Product: 6133834008660
+Name: casa air, Code Product: 6133834008646
+Name: casa air, Code Product: 6133834008653
+Name: casa air, Code Product: 6133834008677
+Name: casa air, Code Product: 6133834008684
+Name: casa air, Code Product: 6133834008721
+Name: xforce, Code Product: 6135050654324
+Name: xforce, Code Product: 6135050000329
+Name: madeleine, Code Product: 6134426000567
+Name: pamla, Code Product: 6145523110288
+Name: pamla, Code Product: 6132880004503
+Name: clear, Code Product: 6130601009790
+Name: tomate sim, Code Product: 6133106000415
+Name: wafa, Code Product: 6130649000278
+Name: ambi sens, Code Product: 6130445003756
+Name: lessive aigle, Code Product: 6135533002895
+Name: lessive aigle, Code Product: 6135533002901
+Name: ramy milky, Code Product: 6134091914879
+Name: ramy milky, Code Product: 6134091914268
+Name: danette, Code Product: 6130646005375
+Name: danette, Code Product: 6130646005689
+Name: danette, Code Product: 6130646005665
+Name: danao, Code Product: 6130646005306
+Name: essuie tout, Code Product: 6133157000754
+Name: essuie tout, Code Product: 6133157000815
+Name: confiture, Code Product: 6130766703588
+Name: confiture, Code Product: 6130766703571
+Name: miswak, Code Product: 6192452700035
+Name: soumado, Code Product: 6136125000053
+Name: scour power, Code Product: 6130863000092
+Name: seatuna, Code Product: 6130504002133
+Name: savon liguide, Code Product: 6135533003212
+Name: savon liguide, Code Product: 6135533003014
+Name: flux, Code Product: 6130548015328
+Name: flux, Code Product: 6130548015083
+Name: kouisel, Code Product: 6132504090165
+Name: coca cola, Code Product: 6130003000029
+Name: choco leos, Code Product: 6132269300066
+Name: choco leos, Code Product: 6132269300042
+Name: ketchup, Code Product: 6135414000408
+Name: vinaigre, Code Product: 6135414000705
+Name: vinaigre, Code Product: 6135414000682
+Name: force xpress, Code Product: 6130216052761
+Name: alama 5k, Code Product: 6134198000024
+Name: sardines, Code Product: 6135535000196
+Name: vanille, Code Product: liliane11
+Name: tymo, Code Product: 6132501544500
+Name: sandwich, Code Product: 6132175400225
+Name: gheezy, Code Product: 6130413002392
+Name: tartino, Code Product: 6130413002415
+Name: cooki days, Code Product: 6134788000502
+Name: chocolat au lait, Code Product: 6135275001569
+Name: hawaii, Code Product: 6133018005713
+Name: hawaii, Code Product: 6131252000013
+Name: life machine, Code Product: 6134598002925
+Name: life, Code Product: 6134598001737
+Name: chambignons, Code Product: 6982019032224
+Name: gel douche, Code Product: 6130271006235
+Name: gel douche, Code Product: 6130271006693
+Name: wouroud, Code Product: 6135849000417
+Name: wouroud, Code Product: 6135849000486
+Name: dorex, Code Product: 6130520006061
+Name: flux, Code Product: 3662742000051
+Name: halwa atork, Code Product: 6131508001160
+Name: soumy, Code Product: 6130760006272
+Name: matino, Code Product: 6135263000284
+Name: ifri gazouz, Code Product: 6130093059952
+Name: ifri gazouz, Code Product: 6130093059716
+Name: ifri gazouz, Code Product: 6130093059891
+Name: test 750g, Code Product: 6130793008502
+Name: balais brosses, Code Product: 6132300600063
+Name: balais brosses, Code Product: 6141638000599
+Name: kazamie, Code Product: 6135603000080
+Name: tuna viva, Code Product: 6135535000547
+Name: king top, Code Product: 6133157000518
+Name: dadilait, Code Product: 6134521000035
+Name: cheezy, Code Product: 6130413002897
+Name: jnina, Code Product: 6130760006159
+Name: trefle, Code Product: 6130646005221
+Name: dulcesol, Code Product: 6134961000961
+Name: tomate sim, Code Product: 6133106000842
+Name: harissa sim, Code Product: 6133106001061
+Name: isser, Code Product: 6130606001096
+Name: dadilait, Code Product: 6134521000042
+Name: wafa, Code Product: 6135873000377
+Name: fraise, Code Product: 6135414002631
+Name: tisane, Code Product: 6132033023672
+Name: shehrazad 200g, Code Product: 6134446000240
+Name: shehrazad 200g, Code Product: 6134446000226
+Name: serviettes de table, Code Product: 6133157001027
+Name: yago, Code Product: 6130760006395
+Name: cuisto 4b, Code Product: 6130413002378
+Name: cuisto 4b, Code Product: 6130413003009
+Name: cuisto 4b, Code Product: 6130413002491
+Name: test 300g, Code Product: 6130793009011
+Name: test 750g, Code Product: 6130793009035
+Name: sacs poubelle, Code Product: 6133228000096
+Name: el arabi, Code Product: 6132507022064
+Name: ifruit, Code Product: 6130093066141
+Name: ifruit, Code Product: 6130093066042
+Name: doublo, Code Product: 6132175400218
+Name: donuts, Code Product: 6132501541288
+Name: magdalenas, Code Product: 6132501549062
+Name: dunaroll, Code Product: 6132501549826
+Name: magdalenas, Code Product: 6132501541523
+Name: ifruit, Code Product: 6130093066202
+Name: cerise, Code Product: 6132130500519
+Name: cerise, Code Product: 6132130502704
+Name: harissa, Code Product: 6130382001341
+Name: halwa atork, Code Product: 6134802001133
+Name: halwa atork, Code Product: 6134802000068
+Name: halkome, Code Product: 6132501330349
+Name: prosafe, Code Product: 6130520005125
+Name: joobny, Code Product: 6132500775134
+Name: joobny, Code Product: 6132500775196
+Name: lorage, Code Product: 6132356300139
+Name: lorage, Code Product: 6132356300146
+Name: ramy, Code Product: 6132502912278
+Name: lilas extra, Code Product: 6133559002028
+Name: nabbes de table, Code Product: 6132230600010
+Name: savon, Code Product: 6134860000383
+Name: el bahdja, Code Product: 6130396001153
+Name: test machine, Code Product: 6130793008106
+Name: deboucheur, Code Product: 6130460000068
+Name: deboucheur, Code Product: 6134270000881
+Name: yorty, Code Product: 6132501944959
+Name: test, Code Product: 6130793009219
+Name: test, Code Product: 6130793010000
+Name: thon, Code Product: 6132336300319
+Name: thon, Code Product: 6132336300234
+Name: ezzed, Code Product: 6134897000882
+Name: fanta, Code Product: 6133166000110
+Name: fanta, Code Product: 6133166000264
+Name: bona 2l, Code Product: 6133218002550
+Name: ifruit, Code Product: 6130093066233
+Name: ifruit, Code Product: 6130093066103
+Name: cheezy, Code Product: 6130413002859
+Name: siblait, Code Product: 6130413002866
+Name: donuts, Code Product: 6132501546665
+Name: twinki, Code Product: 6132501549673
+Name: casbah, Code Product: 6130632000049
+Name: casbah, Code Product: 6130632000025
+Name: al amira, Code Product: 6132020200352
+Name: al amira, Code Product: 6132020200369
+Name: al amira, Code Product: 6132020200345
+Name: al amira, Code Product: 6132020200031
+Name: flux, Code Product: 6130548015182
+Name: dorex, Code Product: 6130520000687
+Name: abusaad, Code Product: 6131645005366
+Name: wouroud, Code Product: 6135849000547
+Name: savon bio, Code Product: 6132207300318
+Name: savon bio, Code Product: 6132207300363
+Name: savon bio, Code Product: 6132207300325
+Name: sunsilk, Code Product: 6130601010673
+Name: sunsilk, Code Product: 6130601010666
+Name: dialna, Code Product: 6130760002427
+Name: la gazelle, Code Product: 6130000001593
+Name: la gazelle, Code Product: 6130000001586
+Name: la gazelle, Code Product: 6130000001647
+Name: la gazelle, Code Product: 6130000001692
+Name: la gazelle, Code Product: 6130000001654
+Name: cherbet, Code Product: 6131686002201
+Name: green tob, Code Product: 6132238300028
+Name: green tob, Code Product: 6132238300578
+Name: petit pois, Code Product: 6132238300646
+Name: life gel machine, Code Product: 6134598002932
+Name: gheezy, Code Product: 6130413001258
+Name: le berbere, Code Product: 6008155017922
+Name: papier cuisson, Code Product: 6131195000071
+Name: alama 5k, Code Product: 6134198000154
+Name: lagratania, Code Product: 6135231000575
+Name: siplait, Code Product: 6130413003047
+Name: goldex, Code Product: 6130520003305
+Name: goldex, Code Product: 6130520003251
+Name: pepsi, Code Product: 6130743018322
+Name: pepsi, Code Product: 6130743017103
+Name: essuie tout, Code Product: 6133157001034
+Name: maxon pate a clacer, Code Product: 6133414005409
+Name: maxon pate a clacer, Code Product: 6133414002309
+Name: cheezy 450g, Code Product: 6130413003023
+Name: cherbet, Code Product: 6132501946229
+Name: vinaigre, Code Product: 6134316000103
+Name: schweppes, Code Product: 6133166000585
+Name: tchina, Code Product: 6130234004032
+Name: tchina, Code Product: 6130234004056
+Name: tchina, Code Product: 6130234004100
+Name: tchina, Code Product: 6130234004193
+Name: tchina, Code Product: 6130234004155
+Name: tchina, Code Product: 6130234004124
+Name: vermicelles, Code Product: 6133080001637
+Name: vermicelles, Code Product: 6133080000047
+Name: vermicelles, Code Product: 6133080000333
+Name: la vache guirit, Code Product: 6134261000784
+Name: bona 2l, Code Product: 6133218001140
+Name: nabbes de table, Code Product: 6132950444017
+Name: test, Code Product: 6130793010253
+Name: bingo, Code Product: 6130793007635
+Name: siblait, Code Product: 6130413002828
+Name: optilla, Code Product: 6133337004060
+Name: mayonnaise, Code Product: 6130234006531
+Name: milka, Code Product: 7622210544926
+Name: laureate, Code Product: 6133120000231
+Name: laureate, Code Product: 6133120000057
+Name: laureate, Code Product: 6133120000156
+Name: laureate, Code Product: 6133120000064
+Name: laureate, Code Product: 6133120000118
+Name: laureate, Code Product: 6133120000088
+Name: laureate, Code Product: 6133120000200
+Name: laureate, Code Product: 6133120000330
+Name: laureate, Code Product: 6133120000415
+Name: laureate, Code Product: 6133120000095
+Name: laureate, Code Product: 6133120000071
+Name: laureate, Code Product: 6133120000255
+Name: laureate, Code Product: 6133120000385
+Name: laureate, Code Product: 6133120001689
+Name: laureate, Code Product: 6133120000026
+Name: laureate, Code Product: 6133120000033
+Name: laureate, Code Product: 6133120000378
+Name: andrea dotti, Code Product: 6132001604384
+Name: andrea dotti, Code Product: 6132001604391
+Name: laureate, Code Product: 6133120001047
+Name: andrea dotti, Code Product: 6132001604087
+Name: andrea dotti, Code Product: 6132001604100
+Name: andrea dotti, Code Product: 6132001604322
+Name: andrea dotti, Code Product: 6132001604162
+Name: andrea dotti, Code Product: 6132001604315
+Name: andrea dotti, Code Product: 6132001604117
+Name: andrea dotti, Code Product: 6132001604179
+Name: andrea dotti, Code Product: 6132001604308
+Name: andrea dotti, Code Product: 6132001604148
+Name: andrea dotti, Code Product: 6132001604124
+Name: andrea dotti, Code Product: 6132001604155
+Name: andrea dotti, Code Product: 6132001604131
+Name: amir clean, Code Product: 6133630000615
+Name: loya, Code Product: 6008155016680
+Name: test 750g, Code Product: 6130793009073
+Name: tuna viva, Code Product: 6135535000509
+Name: ramy milky, Code Product: 6134091915111
+Name: ramy milky, Code Product: 6134091914282
+Name: geane, Code Product: 6130337000030
+Name: chambignons, Code Product: 6135231000162
+Name: thym, Code Product: 6132515950199
+Name: doublo, Code Product: 6132501549949
+Name: gosti, Code Product: 6132501549437
+Name: signal, Code Product: 6130601008632
+Name: signal, Code Product: 6130601008687
+Name: frottoir, Code Product: 6132319800256
+Name: frottoir, Code Product: 6132319800249
+Name: topsil power gel, Code Product: 6134598003328
+Name: topsil power gel, Code Product: 6134598003106
+Name: topsil power gel, Code Product: 6134598003311
+Name: palermo, Code Product: 6234567880001
+Name: lentilles, Code Product: 6134897000134
+Name: nejma, Code Product: 6132518290100
+Name: nejma, Code Product: 6132518290070
+Name: nejma, Code Product: 6132518290056
+Name: nejma, Code Product: 6132518290094
+Name: ifruit 20cl, Code Product: 6130093066288
+Name: ifruit 20cl, Code Product: 6130093066172
+Name: ifruit 1l, Code Product: 6130093066066
+Name: ifri 33ml, Code Product: 6130093059884
+Name: lorage, Code Product: 6130272005480
+Name: optilla, Code Product: 6133337001519
+Name: optilla, Code Product: 6133337001540
+Name: optilla, Code Product: 6133337001571
+Name: tifra lait, Code Product: 6130784000911
+Name: magdalenas, Code Product: 6132501549055
+Name: fiesta, Code Product: 6132501549352
+Name: greg, Code Product: 6130760005930
+Name: greg, Code Product: 6130760005978
+Name: ramy 2l, Code Product: 6134091915210
+Name: raib, Code Product: 6131544000806
+Name: fruit dor, Code Product: 6133428000162
+Name: slim orange, Code Product: 6130695113083
+Name: bingo, Code Product: 6130793010475
+Name: story, Code Product: 6132501549130
+Name: flux, Code Product: 6130548015168
+Name: goldex, Code Product: 6130520003268
+Name: goldex, Code Product: 6130520003244
+Name: miswak, Code Product: 6135204001936
+Name: savon liguide, Code Product: 6135533002970
+Name: aigle 650ml, Code Product: 6135533003403
+Name: tchina, Code Product: 6130234007682
+Name: tchina, Code Product: 6130234004063
+Name: ambi sens, Code Product: 6130445003619
+Name: ambi sens, Code Product: 6130445003664
+Name: bouglez, Code Product: 6130576000044
+Name: mayonnaise, Code Product: 6130234004964
+Name: bsissa, Code Product: 6132524280027
+Name: coca cola, Code Product: 6133166000707
+Name: tazej 33cl, Code Product: 6132504574276
+Name: sunsilk 350ml, Code Product: 6130601010741
+Name: sunsilk 350ml, Code Product: 6130601010789
+Name: sunsilk 350ml, Code Product: 6130601010772
+Name: sunsilk 180ml, Code Product: 6130601010697
+Name: sunsilk 180ml, Code Product: 6130601010680
+Name: moment, Code Product: 6133414007045
+Name: bingo 3l, Code Product: 6130793008854
+Name: ramy milky, Code Product: 6134091915234
+Name: ifruit, Code Product: 6130093066318
+Name: riz etuve, Code Product: 6134897000608
+Name: matino, Code Product: 6130234006692
+Name: poiure noir, Code Product: 6132158300139
+Name: taa one, Code Product: 6135737000352
+Name: test 300g, Code Product: 6130793009080
+Name: surf, Code Product: 6130601005730
+Name: bono 2l, Code Product: 6132081500255
+Name: test, Code Product: 6130793010260
+Name: essuie tout, Code Product: 6133157000808
+Name: sandwigh, Code Product: 6132501549215
+Name: rondo cake, Code Product: 6132501549659
+Name: sandwigh, Code Product: 6132175400317
+Name: sandwich, Code Product: 6132501549239
+Name: sandwigh, Code Product: 6132501549222
+Name: oum lekhakhel, Code Product: 6134999000186
+Name: oum lekhakhel, Code Product: 6134999000179
+Name: bugles, Code Product: 6130336002448
+Name: bugles, Code Product: 6130336003513
+Name: sprite 2l, Code Product: 6133166000547
+Name: fanta 2l, Code Product: 6133166000257
+Name: amazone, Code Product: 6134318005113
+Name: el bahdja, Code Product: 6130396002242
+Name: el bahdja, Code Product: 6130396001726
+Name: el bahdja, Code Product: 6130396001016
+Name: el bahdja, Code Product: 6130396001719
+Name: shampooing, Code Product: 6133151007605
+Name: shampooing, Code Product: 6133151007599
+Name: shampooing, Code Product: 6133151007612
+Name: iam pack, Code Product: 6132400200101
+Name: ramy extreme, Code Product: 6134091914596
+Name: ramy extreme, Code Product: 6134091914589
+Name: gel douche, Code Product: 6133151007728
+Name: gel douche, Code Product: 6133151007742
+Name: gel douche, Code Product: 6133151007735
+Name: abellia, Code Product: 6132316200363
+Name: abellia, Code Product: 6132316200318
+Name: abellia, Code Product: 6132316200301
+Name: palermo, Code Product: 6234567890222
+Name: paradice, Code Product: 6130490003084
+Name: lessive p4, Code Product: 6134109000693
+Name: lessive p4, Code Product: 6134109000709
+Name: lessive p4, Code Product: 6134109000686
+Name: witch sodp, Code Product: 6132520150348
+Name: abusaad, Code Product: 6131645004611
+Name: dossy, Code Product: 6135342000631
+Name: bou, Code Product: 6130490002926
+Name: bou, Code Product: 6130490002315
+Name: major, Code Product: 6130451000350
+Name: lorage, Code Product: 6132356300122
+Name: lorage, Code Product: 6132356300115
+Name: activia, Code Product: 6130646005825
+Name: activa, Code Product: 6130646005795
+Name: danette, Code Product: 6130646005610
+Name: danette, Code Product: 6130646005962
+Name: danone, Code Product: 6130646005108
+Name: danone, Code Product: 6130646005122
+Name: danone, Code Product: 6130646005573
+Name: sprite, Code Product: 6133166000400
+Name: fanta, Code Product: 6130003015825
+Name: pois ghiches, Code Product: 6132354900324
+Name: fanta 2l, Code Product: 6133166000202
+Name: lagratania, Code Product: 6135231000483
+Name: isis machine 3l, Code Product: 6130430006212
+Name: frutty, Code Product: 6132502919185
+Name: ramy 2l, Code Product: 6134091915203
+Name: lave sol, Code Product: 6130216052662
+Name: lave sol, Code Product: 6130216052631
+Name: lave sol, Code Product: 6130216052655
+Name: aigle, Code Product: 6135533002987
+Name: aigle, Code Product: 6135533002994
+Name: assiettes, Code Product: 6132524540015
+Name: ramy, Code Product: 6134091914503
+Name: legend, Code Product: 6134928002885
+Name: legend, Code Product: 6134928002915
+Name: nescafe, Code Product: 8445290204417
+Name: bouglez, Code Product: 6130576001195
+Name: cheezy, Code Product: 6130413003481
+Name: bingo, Code Product: 6130793010819
+Name: dorex, Code Product: 6130520006085
+Name: dorex, Code Product: 6130520006115
+Name: dorex, Code Product: 6130520006078
+Name: moutarde, Code Product: 6130234004919
+Name: mais doux, Code Product: 6132002800129
+Name: extra, Code Product: 6132504290312
+Name: harissa sim, Code Product: 6133106000897
+Name: lesieur, Code Product: 6135345000027
+Name: sunsilk, Code Product: 6130601010758
+Name: sunsilk, Code Product: 6130601010659
+Name: pois chihes, Code Product: 6134196000811
+Name: dorex, Code Product: 6130520006108
+Name: witch sodp, Code Product: 6132520150287
+Name: gel douche, Code Product: 6135204003367
+Name: gel douche, Code Product: 6135204003350
+Name: gel douche, Code Product: 6135204003282
+Name: gel douche, Code Product: 6135204003329
+Name: tomate, Code Product: 6132502220601
+Name: tomate, Code Product: 6132502220618
+Name: brosse de lest, Code Product: 8052302001089
+Name: lesieur, Code Product: 6135345000010
+Name: dialna, Code Product: 6130760004209
+Name: riz etuve, Code Product: 6132362200102
+Name: yorty, Code Product: 6132501945123
+Name: danone, Code Product: 6130646005351
+Name: molped, Code Product: 6130793008212
+Name: yo aboire, Code Product: 6130759002155
+Name: yo aboire, Code Product: 6130759002179
+Name: top sols, Code Product: 6135533003274
+Name: shambooing dove, Code Product: 6130601006805
+Name: shampooing dove, Code Product: 6130601009912
+Name: shampooing dove, Code Product: 6130601009929
+Name: shampooing dove, Code Product: 6130601009813
+Name: shampooing venus, Code Product: 6130024160702
+Name: incidence, Code Product: 6130730002488
+Name: narita, Code Product: 3760069520747
+Name: one ex, Code Product: 6130640016087
+Name: love, Code Product: 6130730000088
+Name: dolle, Code Product: 6130640013918
+Name: one ex, Code Product: 6130640016070
+Name: dolle, Code Product: 6130640982009
+Name: one ex, Code Product: 6130640016094
+Name: reaction, Code Product: 6132502980772
+Name: reaction, Code Product: 6132502980789
+Name: narita, Code Product: 3760069523328
+Name: one ex, Code Product: 6130640000529
+Name: aluminium, Code Product: 6132355900019
+Name: lesieur, Code Product: 6135345000041
+Name: mont dor, Code Product: 6135231000087
+Name: witchoap, Code Product: 6132520150645
+Name: witchoap, Code Product: 6132520150744
+Name: activia, Code Product: 6130646005801
+Name: javel 5l, Code Product: 6134598003151
+Name: fruit dor, Code Product: 6133428000131
+Name: wouroud, Code Product: 6135849000318
+Name: wouroud, Code Product: 6135849000523
+Name: wouroud, Code Product: 6135849000370
+Name: mais doux, Code Product: 6132002800273
+Name: mais doux, Code Product: 6132002800266
+Name: cherchell, Code Product: 6130619003094
+Name: cherchell, Code Product: 6130619003063
+Name: bingo, Code Product: 6130793010963
+Name: vanille, Code Product: 6130001621004
+Name: sanibon, Code Product: 6132306100222
+Name: binko, Code Product: 6130793010635
+Name: al baraka, Code Product: 6134971000241
+Name: al baraka, Code Product: 6134971001132
+Name: al baraka, Code Product: 6134971000180
+Name: al baraka, Code Product: 6134971000203
+Name: al baraka, Code Product: 6134971000555
+Name: life machine, Code Product: 6345980022777
+Name: sosemie, Code Product: 6130519001305
+Name: sosemie, Code Product: 6130519001312
+Name: sosemie, Code Product: 6130519001817
+Name: sosemie, Code Product: 6130519001398
+Name: ramy milky, Code Product: 6134091914244
+Name: fendjel, Code Product: 6135382000264
+Name: vital, Code Product: 6132275200305
+Name: vital, Code Product: 6132909497002
+Name: latina, Code Product: 6132502220076
+Name: latina, Code Product: 6132502220748
+Name: bouglez, Code Product: 6130576000624
+Name: bouglez, Code Product: 6130576001102
+Name: tifra lait, Code Product: 6130784000881
+Name: danone, Code Product: 6130646006303
+Name: sunsilk, Code Product: 6130601010796
+Name: dorex, Code Product: 6130520006092
+Name: flux, Code Product: 6130548015106
+Name: flux, Code Product: 6130548015144
+Name: flux, Code Product: 6130548015243
+Name: sunsilk, Code Product: 6130601010703
+Name: bingo 600ml, Code Product: 6130793010451
+Name: molped, Code Product: 6130793010284
+Name: rouiba, Code Product: 6130002005391
+Name: slim, Code Product: 6130695112550
+Name: slim, Code Product: 6130695112543
+Name: slim, Code Product: 6130695113045
+Name: lilas extra, Code Product: 6133559002134
+Name: activa, Code Product: 6130646005818
+Name: tomate sim, Code Product: 6133106000378
+Name: sandwigh, Code Product: 6135228000076
+Name: sandwigh, Code Product: 6135228000021
+Name: sandwigh, Code Product: 6135228000182
+Name: sandwigh, Code Product: 6135228000038
+Name: sandwigh, Code Product: 6135228000069
+Name: bingo, Code Product: 6130793010628
+Name: danone, Code Product: 6130646006129
+Name: newvital, Code Product: 6134131000012
+Name: newvital, Code Product: 6134131000142
+Name: latina, Code Product: 6132502220625
+Name: shehrazad, Code Product: 6134446000851
+Name: ambi sens, Code Product: 6130445003541
+Name: ambi sens, Code Product: 6130445003534
+Name: loraje, Code Product: 6130272003851
+Name: bingo, Code Product: 6130793010956
+Name: test 2l, Code Product: 6130793008434
+Name: couscous amour, Code Product: 6133690000242
+Name: ponja scour, Code Product: 6132517030042
+Name: president, Code Product: 6130759002131
+Name: el bahdja, Code Product: 6130396002372
+Name: sandwigh, Code Product: 6130030000252
+Name: sandwigh, Code Product: 6130030000269
+Name: signal, Code Product: 6130601008625
+Name: madeleine, Code Product: 6132950027012
+Name: milky, Code Product: 6134091914251
+Name: milky, Code Product: 6134091914237
+Name: ifruit, Code Product: 6130093065649
+Name: ifruit, Code Product: 6130093065670
+Name: jal douche, Code Product: 6135337000400
+Name: jal douche, Code Product: 6135147000812
+Name: shampooing, Code Product: 6135150001530
+Name: champooing, Code Product: 6135150001554
+Name: champooing, Code Product: 6135150000250
+Name: witch soap, Code Product: 6132520150140
+Name: witch soap, Code Product: 6132520150294
+Name: witch soap, Code Product: 6132520150331
+Name: gel douche, Code Product: 6135337000417
+Name: gel douche, Code Product: 6130024168159
+Name: sandwigh, Code Product: 6130896000182
+Name: mahbol, Code Product: 6130336004176
+Name: test machine, Code Product: 6130793009172
+Name: soumado, Code Product: 6136125000015
+Name: poiure noir, Code Product: 6130472091207
+Name: casbah, Code Product: 6130632000018
+Name: amazone, Code Product: 6134318006813
+Name: le chat, Code Product: 6130430006267
+Name: siplait, Code Product: 6130413003054
+Name: molfix 6, Code Product: 6130793009516
+Name: dossy, Code Product: 6135342000778
+Name: candy fruity, Code Product: 6130433001474
+Name: candy fruity, Code Product: 6130433001450
+Name: danone, Code Product: 6130646006242
+Name: shampoing dorex, Code Product: 6130520009260
+Name: shampoing dorex, Code Product: 6130520009284
+Name: berber, Code Product: 6132480500030
+Name: berber, Code Product: 6008155017915
+Name: dorex, Code Product: 6130520003879
+Name: dorex, Code Product: 6130520003886
+Name: dorex, Code Product: 6130520004371
+Name: dorex, Code Product: 6130520009093
+Name: dorex, Code Product: 6130520009109
+Name: dorex, Code Product: 6130520009147
+Name: rouiba, Code Product: 6130002005636
+Name: pepsi 2l, Code Product: 6130743018346
+Name: pepsi 1l, Code Product: 6130743018308
+Name: president, Code Product: 6132037600015
+Name: cherchell, Code Product: 6130619002677
+Name: danao, Code Product: 6130646006037
+Name: danone, Code Product: 6130646006280
+Name: activia, Code Product: 6130646006013
+Name: king top, Code Product: 6133157001065
+Name: allena, Code Product: 6131336000175
+Name: allena, Code Product: 6131336000144
+Name: allena, Code Product: 6131336000168
+Name: top sols, Code Product: 6135533002499
+Name: amazone, Code Product: 6134318007346
+Name: pepsi, Code Product: 6130743018360
+Name: avril tomate, Code Product: 6136195000069
+Name: lave sol brilex, Code Product: 6135053001699
+Name: lave sol brilex, Code Product: 6135053001668
+Name: lave sol brelex, Code Product: 6135053001729
+Name: lave sol brelex, Code Product: 6135053001675
+Name: brilex, Code Product: 6135053001545
+Name: molfix 5, Code Product: 6130793009486
+Name: lentilles, Code Product: 6132362200027
+Name: lentilles, Code Product: 6135011000146
+Name: mahboul, Code Product: 6130336004152
+Name: la vache guirit, Code Product: 6134261001392
+Name: riz basmati, Code Product: 6131732000076
+Name: buenos, Code Product: 6134555002258
+Name: party, Code Product: 6134250000627
+Name: party, Code Product: 6134250000641
+Name: ramy extra, Code Product: 6134091002569
+Name: optilla, Code Product: 6133337002905
+Name: optilla, Code Product: 6133337002929
+Name: optilla, Code Product: 6133337002912
+Name: optilla, Code Product: 6133337001502
+Name: pepsi, Code Product: 6130743018254
+Name: riz elihsane, Code Product: 6135011000092
+Name: brino, Code Product: 6132501546955
+Name: cherchell, Code Product: 6130619003100
+Name: cherchell, Code Product: 6130619003049
+Name: mechati, Code Product: 6135261000163
+Name: mechati, Code Product: 6135261000156
+Name: kool, Code Product: 6133414008677
+Name: el arabi, Code Product: 6132507022200
+Name: javel life, Code Product: 6134598000877
+Name: javel life, Code Product: 6134598002208
+Name: la vache kuirit, Code Product: 6134261001354
+Name: lampe, Code Product: 6971476340911
+Name: confort jumbo, Code Product: 6133559001915
+Name: confort jumbo, Code Product: 6133559001922
+Name: life, Code Product: 6134598003793
+Name: test, Code Product: 6130793009196
+Name: capthon, Code Product: 6132336300258
+Name: ponja scour, Code Product: 6132517030059
+Name: activia, Code Product: 6130646006372
+Name: danone, Code Product: 6130646006259
+Name: danone, Code Product: 6130646006273
+Name: danone, Code Product: 6130646006327
+Name: danette, Code Product: 6130646005658
+Name: danette, Code Product: 6130646005603
+Name: safran, Code Product: 6133776119202
+Name: amazon, Code Product: 6134318007759
+Name: tartino, Code Product: 6130413002156
+Name: tartino, Code Product: 6130413001937
+Name: tartino, Code Product: 6130413003399
+Name: lentilles, Code Product: 6132457400035
+Name: pois chiche, Code Product: 6132457400097
+Name: ramy, Code Product: 6134091915104
+Name: ultra joy, Code Product: 6134843000447
+Name: ultra joy, Code Product: 6134843000515
+Name: bingo 3l, Code Product: 6130793010208
+Name: liguid vaisselle, Code Product: 6135402000670
+Name: savon liguide, Code Product: 6135402000700
+Name: savon liguide, Code Product: 6135402000687
+Name: savon liouide, Code Product: 6135402000717
+Name: savon liouide, Code Product: 6135402000694
+Name: savon liguide, Code Product: 6135402000748
+Name: javel 5l, Code Product: 6135402000076
+Name: siplait, Code Product: 6130413003412
+Name: sandwich, Code Product: 6132175400034
+Name: elitta, Code Product: 6132501545538
+Name: nchafa, Code Product: 6130437157771
+Name: big chips, Code Product: 6132515040333
+Name: big chips, Code Product: 6132515040340
+Name: mahboul, Code Product: 6130336004183
+Name: amir glean, Code Product: 6133630000745
+Name: amir glean, Code Product: 6133630000707
+Name: nouara, Code Product: 6130763000796
+Name: signal, Code Product: 6130601008670
+Name: maxon, Code Product: 6133414004808
+Name: molfix 5, Code Product: 6130793009479
+Name: activia, Code Product: 6130646006402
+Name: tartino, Code Product: 6130413002170
+Name: dulcesol, Code Product: 6134961000916
+Name: dulcesol, Code Product: 8410087650036
+Name: dulcesol, Code Product: 6134961001234
+Name: amazon, Code Product: 6134318006042
+Name: danao, Code Product: 6130646006020
+Name: danao, Code Product: 6130646006044
+Name: activia, Code Product: 6130646005443
+Name: ramy milky, Code Product: 6134091914343
+Name: soumado, Code Product: 6136125000077
+Name: signal, Code Product: 6130601008663
+Name: signal, Code Product: 6130601008656
+Name: avril tomate, Code Product: 6136195000076
+Name: ketchup, Code Product: 6130234004940
+Name: danao, Code Product: 6130646005320
+Name: lovely, Code Product: 6134450001011
+Name: amazone, Code Product: 6134318006691
+Name: harissa, Code Product: 6130403001619
+Name: haricot, Code Product: 6132457400011
+Name: pois ghiches, Code Product: 6132354900294
+Name: alibi, Code Product: 6130060070140
+Name: alibi, Code Product: 6130060070157
+Name: alibi, Code Product: 6130060070485
+Name: alibi, Code Product: 6130060210508
+Name: savon liquide, Code Product: 6135150000304
+Name: bingo, Code Product: 6130793010215
+Name: bugles, Code Product: 6130336004893
+Name: bugles, Code Product: 6130336002356
+Name: sanibon, Code Product: 6132062500250
+Name: dorex, Code Product: 6130520010051
+Name: dorex, Code Product: 6130520009659
+Name: dorex, Code Product: 6130520010037
+Name: dorex, Code Product: 6130520010136
+Name: flux, Code Product: 6130548015267
+Name: flux, Code Product: 6130548015342
+Name: flux, Code Product: 6130548015281
+Name: savon db, Code Product: 6136161000284
+Name: savon db, Code Product: 6136161000307
+Name: savon db, Code Product: 6136161000291
+Name: savon db, Code Product: 6136161000260
+Name: dove, Code Product: 6130601009905
+Name: dove, Code Product: 6130601009943
+Name: dove, Code Product: 6130601009851
+Name: sacs poubelle, Code Product: 6135606000360
+Name: petit pois, Code Product: 6132238300653
+Name: pois chihes, Code Product: 6132503574093
+Name: kool, Code Product: 6133414007137
+Name: kool break, Code Product: 6133414009537
+Name: king top, Code Product: 6133157001164
+Name: wafa classico, Code Product: 6135873000582
+Name: test, Code Product: 6130793010697
+Name: activia, Code Product: 6130646006365
+Name: savon liqud, Code Product: 6134812000010
+Name: savon liqud, Code Product: 6134812000034
+Name: vawo, Code Product: 6132513530560
+Name: vawo, Code Product: 6132513530416
+Name: vawo, Code Product: 6132513530027
+Name: vawo 5l, Code Product: 6132513530522
+Name: vawo 5l, Code Product: 6132513530393
+Name: vawo 5l, Code Product: 6132513530270
+Name: vawo 10l, Code Product: 6132513530300
+Name: vawo 10l, Code Product: 6132513530669
+Name: vawo 10l, Code Product: 6132513530294
+Name: vawo 10l, Code Product: 6132513530331
+Name: bugles, Code Product: 6130336004886
+Name: bugles, Code Product: 6130336004916
+Name: maxon, Code Product: 6133414009841
+Name: legend, Code Product: 6134928000539
+Name: savon liquide, Code Product: 6136166000043
+Name: savon liquide, Code Product: 6136166000050
+Name: sosemie, Code Product: 6130519001381
+Name: ifruit, Code Product: 6130093066257
+Name: loya, Code Product: 6132480500320
+Name: brasse, Code Product: 6130760003646
+Name: finger, Code Product: 6134555000025
+Name: sandwich, Code Product: 6132501549703
+Name: pril isis, Code Product: 6130430006243
+Name: ramy, Code Product: 6132502914081
+Name: ramy milky, Code Product: 6134091915135
+Name: ramy milky, Code Product: 6134091915159
+Name: ramy milky, Code Product: 6134091915456
+Name: ramy milky, Code Product: 6134091915449
+Name: viter, Code Product: 6136542000551
+Name: pois chiches, Code Product: 6134196000637
+Name: chamia el gods, Code Product: 6130630001017
+Name: chamia el gods, Code Product: 6130630001031
+Name: flano rabha, Code Product: 6130049000472
+Name: flano rabha, Code Product: 6130049000458
+Name: flano rabha, Code Product: 6130049000465
+Name: bingo 3l, Code Product: 6130793011717
+Name: king top, Code Product: 6133157001133
+Name: ramy, Code Product: 6134091915364
+Name: akram, Code Product: 6131708401128
+Name: ramy, Code Product: 6134091915784
+Name: amazone, Code Product: 6134318006080
+Name: dulcesol, Code Product: 8410087021812
+Name: safari, Code Product: 6134427001761
+Name: el bahdja, Code Product: 6130396001009
+Name: danette, Code Product: 6130646006440
+Name: bonus, Code Product: 6131697000296
+Name: bingo, Code Product: 6130793011212
+Name: dulesol, Code Product: 6134961001319
+Name: dulcesol, Code Product: 6134961001128
+Name: bona 1l, Code Product: 6133218001065
+Name: petit beurre, Code Product: 6134555001480
+Name: finger, Code Product: 6134555001060
+Name: loraje, Code Product: 6132356301037
+Name: loraje, Code Product: 6132356301006
+Name: loraje, Code Product: 6132356301020
+Name: ambi sens, Code Product: 6130445003688
+Name: loraje, Code Product: 6132356301211
+Name: lorage, Code Product: 6132356301013
+Name: mais doux, Code Product: 6134274002072
+Name: life gel, Code Product: 6134598005254
+Name: life gel, Code Product: 6134598002291
+Name: bono 2l, Code Product: 6132081500309
+Name: fendjel, Code Product: 6135382000271
+Name: famelio, Code Product: 6132501547709
+Name: buenos, Code Product: 6134555002135
+Name: brinssi, Code Product: 6134555000278
+Name: brinssi, Code Product: 6134555000209
+Name: dulesol, Code Product: 8410087650012
+Name: serpilliere, Code Product: 6132418000045
+Name: sosemie, Code Product: 6130519001343
+Name: jajja gake, Code Product: 6132175401413
+Name: jajja gake, Code Product: 6132175401420
+Name: aluminium, Code Product: 6135494000473
+Name: aluminium, Code Product: 6135494000466
+Name: mont dor, Code Product: 6135231000971
+Name: lagratania, Code Product: 6135231002128
+Name: taa one, Code Product: 6135737000307
+Name: loukoum, Code Product: 6132501334675
+Name: loukoum, Code Product: 6134499010890
+Name: loukoum, Code Product: 6134499010906
+Name: mahbol, Code Product: 6130336004305
+Name: mahboul, Code Product: 6130336004596
+Name: mahboul, Code Product: 6130336001953
+Name: life lave sol, Code Product: 6134598004448
+Name: ariane, Code Product: 6132500145227
+Name: test 2l, Code Product: 6130793010055
+Name: ifruit 1l, Code Product: 6130093058986
+Name: ifruit 1l, Code Product: 6130093064031
+Name: test, Code Product: 6130793011663
+Name: bingo, Code Product: 6130793011625
+Name: abellia, Code Product: 6132316200264
+Name: abellia, Code Product: 6132316200240
+Name: abellia, Code Product: 6132316200332
+Name: abellia, Code Product: 6132316200325
+Name: abellia, Code Product: 6132316200349
+Name: shehrazad, Code Product: 6134446000684
+Name: el arabi, Code Product: 6132507022194
+Name: elarabi, Code Product: 6132507022187
+Name: mont dor, Code Product: 6135231002401
+Name: siplait, Code Product: 6130413003269
+Name: mont dor, Code Product: 6135231000766
+Name: siplait, Code Product: 6130413003351
+Name: siplait, Code Product: 6130413003382
+Name: tartino, Code Product: 6130413003726
+Name: moment, Code Product: 6133414010120
+Name: lesieur, Code Product: 6135345000034
+Name: binko, Code Product: 6130793011229
+Name: poivre noir, Code Product: 6142580005502
+Name: amandes, Code Product: 6131363214163
+Name: capthon, Code Product: 6132336300340
+Name: dulcesol, Code Product: 8410087143651
+Name: savon liquide, Code Product: 6130460000747
+Name: brilex, Code Product: 6135053000302
+Name: halkome, Code Product: 6139245411112
+Name: brilex, Code Product: 6135053000951
+Name: gel douche, Code Product: 6130024168326
+Name: siplait, Code Product: 6130413003825
+Name: molfix, Code Product: 6130793009448
+Name: nescafe, Code Product: 8445290906847
+Name: molfix, Code Product: 6130793009509
+Name: cheezy, Code Product: 6130413004310
+Name: fanta 1l, Code Product: 6130003014989
+Name: fanta 2l, Code Product: 6130003003037
+Name: fanta 2l, Code Product: 6133166000301
+Name: fiesta, Code Product: 6133157000334
+Name: mais doux, Code Product: 6132003300819
+Name: bingo, Code Product: 6130793011632
+Name: el mordjene, Code Product: 6132500711408
+Name: brilex, Code Product: 6135053000999
+Name: victoria, Code Product: 8691241004012
+Name: nouara, Code Product: 6130763000444
+Name: rouiba, Code Product: 6130002005858
+Name: rouiba, Code Product: 6130002005797
+Name: arqme, Code Product: 6132115900594
+Name: arqme, Code Product: 6132115900662
+Name: nab, Code Product: 6976882950006
+Name: nab, Code Product: 6976882950020
+Name: nab, Code Product: 6991419012064
+Name: aptamil 2, Code Product: 3041091814258
+Name: optilla, Code Product: 6133337003728
+Name: siplait, Code Product: 6130413003801
+Name: viter, Code Product: 6136542000605
+Name: wafa, Code Product: 6135873000407
+Name: dove, Code Product: 6130601009844
+Name: venus, Code Product: 6130024161501
+Name: raha, Code Product: 6130730003263
+Name: raha, Code Product: 6130730000972
+Name: raha, Code Product: 6130730000996
+Name: raha, Code Product: 6130730003461
+Name: raha, Code Product: 6130548015670
+Name: raha, Code Product: 6130024167879
+Name: raha, Code Product: 6130730003409
+Name: raha, Code Product: 6130730000491
+Name: raha, Code Product: 6130548018435
+Name: raha, Code Product: 6130640016100
+Name: raha, Code Product: 6130548015618
+Name: raha, Code Product: 6130730000125
+Name: raha, Code Product: 6130730003492
+Name: raha, Code Product: 6130730001511
+Name: raha, Code Product: 6130730001474
+Name: raha, Code Product: 6132363200019
+Name: raha, Code Product: 6132514670357
+Name: raha, Code Product: 6132502983407
+Name: raha, Code Product: 6132502983391
+Name: raha, Code Product: 6130271003784
+Name: raha, Code Product: 6130271002824
+Name: wafa, Code Product: 6135873000759
+Name: lorage, Code Product: 6132356300689
+Name: lorage, Code Product: 6132356300740
+Name: lorage, Code Product: 6132356300672
+Name: lorage, Code Product: 6132356300726
+Name: paradice, Code Product: 6130490003350
+Name: paradice, Code Product: 6130490003343
+Name: paradice, Code Product: 6130490002483
+Name: paradice, Code Product: 6130490003121
+Name: molped, Code Product: 6130793008229
+Name: wouroud, Code Product: 6135849000394
+Name: activia, Code Product: 6130646006389
+Name: wafa classico, Code Product: 6130649002203
+Name: pril isis, Code Product: 6130430006281
+Name: brilex, Code Product: 6135053001682
+Name: loya, Code Product: 6132480500610
+Name: danone, Code Product: 6130646006112
+Name: slim 1l, Code Product: 6130695111935
+Name: slim 1l, Code Product: 6130695113571
+Name: casa mar, Code Product: 6132512020215
+Name: thon mar, Code Product: 6132512020208
+Name: thon mar, Code Product: 6132512020222
+Name: casa mar, Code Product: 6132512020239
+Name: dulcesol, Code Product: 8410087143521
+Name: talent, Code Product: 6132501544814
+Name: moment, Code Product: 6133414006987
+Name: cheezy, Code Product: 6130413003665
+Name: life, Code Product: 6134598005261
+Name: bingo, Code Product: 6130793011700
+Name: test, Code Product: 6130793009554
+Name: bingo 600ml, Code Product: 6130793011618
+Name: lynx, Code Product: 6130868000523
+Name: lynx, Code Product: 6130868001490
+Name: gheezy, Code Product: 6130413003559
+Name: coca cola, Code Product: 6133166000080
+Name: sprite, Code Product: 6132007700462
+Name: ramy milky, Code Product: 6134091916576
+Name: pois chiches, Code Product: 6134897000448
+Name: led, Code Product: 6132405800047
+Name: led, Code Product: 6136450000032
+Name: harissa, Code Product: 6130403001589
+Name: pril isis, Code Product: 6130430006298
+Name: abussad 4pcs, Code Product: 6131645004833
+Name: abussad 4pcs, Code Product: 6131645004772
