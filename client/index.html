@@ -11,7 +11,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {packages: ['corechart']});
+        google.charts.load('current', {packages: ['corechart', 'annotationchart']});
     </script>
     <style>
         body {
@@ -107,7 +107,24 @@
                 </div>
             </div>
 
-            <!-- Add more columns for individual sensor data if needed -->
+            <!-- Column 3: Historical Median Values -->
+            <div class="col-lg-4 col-md-6">
+                <div class="sensor-box">
+                    <h2>Historical Median Values</h2>
+                    <div class="chart-container">
+                        <h4>Median Pulse Counts</h4>
+                        <div id="annotation-chart"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Median Flow Rates</h4>
+                        <div id="flowrate-chart"></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Cumulative Volume</h4>
+                        <div id="area-chart"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -115,6 +132,7 @@
         google.charts.setOnLoadCallback(drawMedianPulseChart);
         google.charts.setOnLoadCallback(drawMedianFlowRateChart);
         google.charts.setOnLoadCallback(drawMedianVolumeChart);
+        google.charts.setOnLoadCallback(drawHistoricalCharts);
 
         function drawMedianPulseChart() {
             var data = google.visualization.arrayToDataTable([
@@ -209,7 +227,7 @@
                 .then(data => {
                     console.log('Switch state response:', data);
                     // Update the state after switching
-                    setTimeout(fetchSystemState, 1000);
+                    setTimeout(fetchSystemState, 100);
                 })
                 .catch(error => console.error('Error switching system state:', error));
         }
@@ -217,7 +235,62 @@
         document.getElementById('switch-button').addEventListener('click', switchSystemState);
 
         // Fetch the system state every second
-        setInterval(fetchSystemState, 1000);
+        setInterval(fetchSystemState, 100);
+
+        function drawHistoricalCharts() {
+            const date = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+
+            // Fetch and draw median pulse counts
+            fetch(`/history/median_pulses?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    var annotationData = new google.visualization.DataTable();
+                    annotationData.addColumn('date', 'Date');
+                    annotationData.addColumn('number', 'Pulse Count');
+                    annotationData.addColumn({type: 'string', role: 'annotation'});
+                    annotationData.addColumn({type: 'string', role: 'annotationText'});
+                    data.forEach(row => {
+                        annotationData.addRow([new Date(row.timestamp), row.median_pulse_count, null, null]);
+                    });
+                    var chart = new google.visualization.AnnotationChart(document.getElementById('annotation-chart'));
+                    var options = { displayAnnotations: true, width: '100%' };
+                    chart.draw(annotationData, options);
+                });
+
+            // Fetch and draw median flow rates
+            fetch(`/history/median_flow_rates?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    var annotationData = new google.visualization.DataTable();
+                    annotationData.addColumn('date', 'Date');
+                    annotationData.addColumn('number', 'Flow Rate');
+                    annotationData.addColumn({type: 'string', role: 'annotation'});
+                    annotationData.addColumn({type: 'string', role: 'annotationText'});
+                    data.forEach(row => {
+                        annotationData.addRow([new Date(row.timestamp), row.median_flow_rate, null, null]);
+                    });
+                    var chart = new google.visualization.AnnotationChart(document.getElementById('flowrate-chart'));
+                    var options = { displayAnnotations: true, width: '100%' };
+                    chart.draw(annotationData, options);
+                });
+
+            // Fetch and draw cumulative volume
+            fetch(`/history/median_volumes?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    var areaData = new google.visualization.DataTable();
+                    areaData.addColumn('date', 'Date');
+                    areaData.addColumn('number', 'Cumulative Volume');
+                    var cumulativeVolume = 0;
+                    data.forEach(row => {
+                        cumulativeVolume += row.median_volume;
+                        areaData.addRow([new Date(row.timestamp), cumulativeVolume]);
+                    });
+                    var chart = new google.visualization.AreaChart(document.getElementById('area-chart'));
+                    var options = { title: 'Cumulative Volume Over Time', hAxis: {title: 'Time'}, vAxis: {title: 'Volume'}, legend: {position: 'bottom'}, width: '100%' };
+                    chart.draw(areaData, options);
+                });
+        }
     </script>
 </body>
 </html>
