@@ -66,7 +66,7 @@ db.serialize(() => {
 });
 
 // Set up serial port
-const serialPort = new SerialPort({ path: 'COM15', baudRate: 9600 });
+const serialPort = new SerialPort({ path: 'COM15', baudRate: 115200 });
 const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
 parser.on('data', data => {
@@ -75,8 +75,6 @@ parser.on('data', data => {
 
   if (trimmedData === 'ON' || trimmedData === 'OFF') {
     latestSystemState = trimmedData;
-    blockageDetected = false; // Clear blockage state
-    leakDetected = false; // Clear leak state
     // Log the system state change to the database
     db.run("INSERT INTO system_state (state) VALUES (?)", [trimmedData], err => {
       if (err) console.error('Error inserting into system_state table:', err.message);
@@ -185,8 +183,8 @@ parser.on('data', data => {
         if (latestSystemState === 'ON') {
           const flowRateDiff1 = Math.abs(realTimeData[0].flowRate - realTimeData[1].flowRate);
           const flowRateDiff2 = Math.abs(realTimeData[1].flowRate - realTimeData[2].flowRate);
-          const tolerance1 = 0.35 * realTimeData[0].flowRate; // 50% tolerance
-          const tolerance2 = 0.35 * realTimeData[1].flowRate; // 50% tolerance
+          const tolerance1 = 0.5 * realTimeData[0].flowRate; // 50% tolerance for the first difference
+          const tolerance2 = 0.5 * realTimeData[1].flowRate; // 50% tolerance for the second difference
 
           if ((flowRateDiff1 > tolerance1) || (flowRateDiff2 > tolerance2)) {
             if (!leakStartTime) {
@@ -214,6 +212,8 @@ parser.on('data', data => {
 // Endpoint to switch system state
 app.post('/system/switch', (req, res) => {
   serialPort.write('P');
+  leakDetected = false; // Reset leak state
+  blockageDetected = false; // Reset blockage state
   res.json({ message: 'System state switched' });
 });
 
@@ -354,6 +354,7 @@ app.get('/history/median_volumes', (req, res) => {
     res.json(rows);
   });
 });
+
 // Error log endpoint
 app.get('/errors', (req, res) => {
   console.log('GET /errors');
@@ -365,6 +366,12 @@ app.get('/errors', (req, res) => {
     }
     res.json(rows);
   });
+});
+
+// Endpoint to get leakDetected and blockageDetected status
+app.get('/detection_status', (req, res) => {
+  console.log('GET /detection_status');
+  res.json({ leakDetected, blockageDetected });
 });
 
 // Start server

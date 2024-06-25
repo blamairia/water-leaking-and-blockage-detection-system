@@ -44,8 +44,74 @@
         .state-indicator.off {
             background-color: red;
         }
+        .error-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .error-indicator.ok {
+            background-color: green;
+        }
+        .error-indicator.error {
+            background-color: red;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
         .switch-button {
             margin-top: 10px;
+        }
+        .error-table {
+            width: 100%;
+            margin-top: 20px;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 0.25rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .error-table th, .error-table td {
+            text-align: left;
+            padding: 12px;
+            vertical-align: middle;
+            border: 1px solid #d3d3d3;
+        }
+        .error-table th {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.1em;
+            border-bottom: 2px solid #000;
+        }
+        .error-table td {
+            font-size: 1em;
+            color: #333;
+        }
+        .error-table .error-type {
+            font-weight: bold;
+        }
+        .error-table .error-row-leak {
+            background-color: #e8f5e9;
+        }
+        .error-table .error-row-blockage {
+            background-color: #ffebee;
+        }
+        .error-table .error-row-leak .error-type {
+            color: #2e7d32;
+        }
+        .error-table .error-row-blockage .error-type {
+            color: #c62828;
+        }
+        .error-details {
+            border-top: 1px solid #d3d3d3;
+            padding-top: 8px;
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+        .rounded-border {
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -104,6 +170,25 @@
                         <div id="state-text">Loading...</div>
                     </div>
                     <button id="switch-button" class="btn btn-primary switch-button">Switch State</button>
+                    <h2>Error Status</h2>
+                    <div class="system-state">
+                        <div id="error-indicator" class="error-indicator"></div>
+                        <div id="error-text">No Errors</div>
+                    </div>
+                </div>
+                <div class="sensor-box">
+                    <h2>Errors</h2>
+                    <table id="error-table" class="error-table rounded-border">
+                        <thead>
+                            <tr>
+                                <th>Error Type</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="error-table-body">
+                            <!-- Error rows will be appended here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -220,6 +305,55 @@
                 .catch(error => console.error('Error fetching system state:', error));
         }
 
+        // Fetch and display error status
+        function fetchErrorStatus() {
+            fetch('/detection_status')
+                .then(response => response.json())
+                .then(data => {
+                    const errorIndicator = document.getElementById('error-indicator');
+                    const errorText = document.getElementById('error-text');
+                    if (data.leakDetected) {
+                        errorIndicator.classList.remove('ok');
+                        errorIndicator.classList.add('error');
+                        errorText.innerText = 'Error: Leak Detected';
+                    } else if (data.blockageDetected) {
+                        errorIndicator.classList.remove('ok');
+                        errorIndicator.classList.add('error');
+                        errorText.innerText = 'Error: Blockage Detected';
+                    } else {
+                        errorIndicator.classList.remove('error');
+                        errorIndicator.classList.add('ok');
+                        errorText.innerText = 'No Errors';
+                    }
+                })
+                .catch(error => console.error('Error fetching error status:', error));
+        }
+
+        // Fetch and display errors in the table
+        function fetchErrors() {
+            fetch('/errors')
+                .then(response => response.json())
+                .then(data => {
+                    const errorTableBody = document.getElementById('error-table-body');
+                    errorTableBody.innerHTML = ''; // Clear the table body
+
+                    data.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.classList.add('error-row');
+                        tr.classList.add(row.error_type === 'Leak Detected' ? 'error-row-leak' : 'error-row-blockage');
+                        tr.innerHTML = `
+                            <td class="error-type">${row.error_type}</td>
+                            <td>
+                                <div>${new Date(row.timestamp).toLocaleString()}</div>
+                                <div class="error-details">${row.details}</div>
+                            </td>
+                        `;
+                        errorTableBody.appendChild(tr);
+                    });
+                })
+                .catch(error => console.error('Error fetching errors:', error));
+        }
+
         // Switch the system state
         function switchSystemState() {
             fetch('/system/switch', { method: 'POST' })
@@ -234,8 +368,10 @@
 
         document.getElementById('switch-button').addEventListener('click', switchSystemState);
 
-        // Fetch the system state every second
-        setInterval(fetchSystemState, 100);
+        // Fetch the system state and errors every second
+        setInterval(fetchSystemState, 1000);
+        setInterval(fetchErrorStatus, 1000);
+        setInterval(fetchErrors, 1000);
 
         function drawHistoricalCharts() {
             const date = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
