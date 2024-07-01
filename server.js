@@ -97,111 +97,119 @@ parser.on('data', data => {
         // Calculate volume (liters)
         const volume = pulseCount / calibrationFactors[sensorId];
 
-        // Update real-time data
-        realTimeData[sensorId] = {
-          pulseCount: pulseCount,
-          flowRate: flowRate,
-          volume: volume
-        };
-
-        // Calculate accumulated volume
-        lastVolume[sensorId] += volume;
-
-        // Calculate median real-time data
-        const totalFlowRate = realTimeData.reduce((acc, data) => acc + data.flowRate, 0);
-        const totalPulseCount = realTimeData.reduce((acc, data) => acc + data.pulseCount, 0);
-        const totalVolume = lastVolume.reduce((acc, vol) => acc + vol, 0);
-
-        medianRealTimeData = {
-          flowRate: totalFlowRate / 3,
-          pulseCount: totalPulseCount / 3,
-          volume: totalVolume / 3
-        };
-
-        // Emit real-time data to the front-end
-        io.emit('realtime-data', { sensorId, pulseCount: pulseCount, flowRate: flowRate, volume: lastVolume[sensorId] });
-        io.emit('realtime-median-data', medianRealTimeData);
-
-        // Log pulse count into the database if changed
-        if (lastPulseCount[sensorId] !== pulseCount) {
-          db.run("INSERT INTO pulses (sensor_id, pulse_count) VALUES (?, ?)", [sensorId, pulseCount], err => {
-            if (err) console.error('Error inserting into pulses table:', err.message);
-            else console.log(`Pulse count logged for sensor ${sensorId + 1}: ${pulseCount}`);
-          });
-          lastPulseCount[sensorId] = pulseCount;
-        }
-
-        // Log flow rate into the database if changed
-        if (lastFlowRate[sensorId] !== flowRate) {
-          db.run("INSERT INTO flow_rates (sensor_id, flow_rate) VALUES (?, ?)", [sensorId, flowRate], err => {
-            if (err) console.error('Error inserting into flow_rates table:', err.message);
-            else console.log(`Flow rate logged for sensor ${sensorId + 1}: ${flowRate}`);
-          });
-          lastFlowRate[sensorId] = flowRate;
-        }
-
-        // Log volume into the database if changed
-        if (lastVolume[sensorId] !== volume) {
-          db.run("INSERT INTO volumes (sensor_id, volume) VALUES (?, ?)", [sensorId, lastVolume[sensorId]], err => {
-            if (err) console.error('Error inserting into volumes table:', err.message);
-            else console.log(`Volume logged for sensor ${sensorId + 1}: ${lastVolume[sensorId]}`);
-          });
-        }
-
-        // Log median values
-        db.run("INSERT INTO median_pulses (median_pulse_count) VALUES (?)", [medianRealTimeData.pulseCount], err => {
-          if (err) console.error('Error inserting into median_pulses table:', err.message);
-          else console.log('Median pulse count logged:', medianRealTimeData.pulseCount);
-        });
-        db.run("INSERT INTO median_flow_rates (median_flow_rate) VALUES (?)", [medianRealTimeData.flowRate], err => {
-          if (err) console.error('Error inserting into median_flow_rates table:', err.message);
-          else console.log('Median flow rate logged:', medianRealTimeData.flowRate);
-        });
-        db.run("INSERT INTO median_volumes (median_volume) VALUES (?)", [medianRealTimeData.volume], err => {
-          if (err) console.error('Error inserting into median_volumes table:', err.message);
-          else console.log('Median volume logged:', medianRealTimeData.volume);
-        });
-
-        // Detect blockage using flow rate as indicator
-        if (latestSystemState === 'ON' && sensorId === 2 && flowRate <= flowRateTolerance) {
-          if (!blockageStartTime) {
-            blockageStartTime = Date.now();
-          } else if (Date.now() - blockageStartTime >= blockageDetectionDelay) {
-            blockageDetected = true;
-            serialPort.write('P'); // Switch off the system
-            db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", ['Blockage Detected', 'Blockage detected between Sensor 2 and Sensor 3.'], err => {
-              if (err) console.error('Error inserting into error_log table:', err.message);
-              else console.log('Blockage detected and logged.');
-            });
-            blockageStartTime = null;
-          }
-        } else if (sensorId === 2 && flowRate > flowRateTolerance) {
-          blockageStartTime = null;
-        }
-
-        // Detect leak using flow rate and a threshold
-        if (latestSystemState === 'ON') {
-          const flowRateDiff1 = Math.abs(realTimeData[0].flowRate - realTimeData[1].flowRate);
-          const flowRateDiff2 = Math.abs(realTimeData[1].flowRate - realTimeData[2].flowRate);
-          const tolerance1 = 0.5 * realTimeData[0].flowRate; // 50% tolerance for the first difference
-          const tolerance2 = 0.5 * realTimeData[1].flowRate; // 50% tolerance for the second difference
-
-          if ((flowRateDiff1 > tolerance1) || (flowRateDiff2 > tolerance2)) {
-            if (!leakStartTime) {
-              leakStartTime = Date.now();
-            } else if (Date.now() - leakStartTime >= leakDetectionDelay) {
-              leakDetected = true;
-              serialPort.write('P'); // Switch off the system
-              db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", ['Leak Detected', 'Leak detected between sensors.'], err => {
-                if (err) console.error('Error inserting into error_log table:', err.message);
-                else console.log('Leak detected and logged.');
-              });
-              leakStartTime = null;
-            }
+        // Fetch the last logged volume for the sensor
+        db.get("SELECT volume FROM volumes WHERE sensor_id = ? ORDER BY timestamp DESC LIMIT 1", [sensorId], (err, row) => {
+          if (err) {
+            console.error('Error fetching last volume from volumes table:', err.message);
           } else {
-            leakStartTime = null;
+            const lastLoggedVolume = row ? row.volume : 0;
+            const accumulatedVolume = lastLoggedVolume + volume;
+
+            // Update real-time data
+            realTimeData[sensorId] = {
+              pulseCount: pulseCount,
+              flowRate: flowRate,
+              volume: accumulatedVolume
+            };
+
+            // Calculate median real-time data
+            const totalFlowRate = realTimeData.reduce((acc, data) => acc + data.flowRate, 0);
+            const totalPulseCount = realTimeData.reduce((acc, data) => acc + data.pulseCount, 0);
+            const totalVolume = realTimeData.reduce((acc, data) => acc + data.volume, 0);
+
+            medianRealTimeData = {
+              flowRate: totalFlowRate / 3,
+              pulseCount: totalPulseCount / 3,
+              volume: totalVolume / 3
+            };
+
+            // Emit real-time data to the front-end
+            io.emit('realtime-data', { sensorId, pulseCount: pulseCount, flowRate: flowRate, volume: accumulatedVolume });
+            io.emit('realtime-median-data', medianRealTimeData);
+
+            // Log pulse count into the database if changed
+            if (lastPulseCount[sensorId] !== pulseCount) {
+              db.run("INSERT INTO pulses (sensor_id, pulse_count) VALUES (?, ?)", [sensorId, pulseCount], err => {
+                if (err) console.error('Error inserting into pulses table:', err.message);
+                else console.log(`Pulse count logged for sensor ${sensorId + 1}: ${pulseCount}`);
+              });
+              lastPulseCount[sensorId] = pulseCount;
+            }
+
+            // Log flow rate into the database if changed
+            if (lastFlowRate[sensorId] !== flowRate) {
+              db.run("INSERT INTO flow_rates (sensor_id, flow_rate) VALUES (?, ?)", [sensorId, flowRate], err => {
+                if (err) console.error('Error inserting into flow_rates table:', err.message);
+                else console.log(`Flow rate logged for sensor ${sensorId + 1}: ${flowRate}`);
+              });
+              lastFlowRate[sensorId] = flowRate;
+            }
+
+            // Log volume into the database if changed
+            if (lastVolume[sensorId] !== volume) {
+              db.run("INSERT INTO volumes (sensor_id, volume) VALUES (?, ?)", [sensorId, accumulatedVolume], err => {
+                if (err) console.error('Error inserting into volumes table:', err.message);
+                else console.log(`Volume logged for sensor ${sensorId + 1}: ${accumulatedVolume}`);
+              });
+              lastVolume[sensorId] = accumulatedVolume;
+            }
+
+            // Log median values
+            db.run("INSERT INTO median_pulses (median_pulse_count) VALUES (?)", [medianRealTimeData.pulseCount], err => {
+              if (err) console.error('Error inserting into median_pulses table:', err.message);
+              else console.log('Median pulse count logged:', medianRealTimeData.pulseCount);
+            });
+            db.run("INSERT INTO median_flow_rates (median_flow_rate) VALUES (?)", [medianRealTimeData.flowRate], err => {
+              if (err) console.error('Error inserting into median_flow_rates table:', err.message);
+              else console.log('Median flow rate logged:', medianRealTimeData.flowRate);
+            });
+            db.run("INSERT INTO median_volumes (median_volume) VALUES (?)", [medianRealTimeData.volume], err => {
+              if (err) console.error('Error inserting into median_volumes table:', err.message);
+              else console.log('Median volume logged:', medianRealTimeData.volume);
+            });
+
+            // Detect blockage using flow rate as indicator
+            if (latestSystemState === 'ON' && sensorId === 2 && flowRate <= flowRateTolerance) {
+              if (!blockageStartTime) {
+                blockageStartTime = Date.now();
+              } else if (Date.now() - blockageStartTime >= blockageDetectionDelay) {
+                blockageDetected = true;
+                serialPort.write('P'); // Switch off the system
+                db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", ['Blockage Detected', 'Blockage detected between Sensor 2 and Sensor 3.'], err => {
+                  if (err) console.error('Error inserting into error_log table:', err.message);
+                  else console.log('Blockage detected and logged.');
+                });
+                blockageStartTime = null;
+              }
+            } else if (sensorId === 2 && flowRate > flowRateTolerance) {
+              blockageStartTime = null;
+            }
+
+            // Detect leak using flow rate and a threshold
+            if (latestSystemState === 'ON') {
+              const flowRateDiff1 = Math.abs(realTimeData[0].flowRate - realTimeData[1].flowRate);
+              const flowRateDiff2 = Math.abs(realTimeData[1].flowRate - realTimeData[2].flowRate);
+              const tolerance1 = 0.5 * realTimeData[0].flowRate; // 50% tolerance for the first difference
+              const tolerance2 = 0.5 * realTimeData[1].flowRate; // 50% tolerance for the second difference
+
+              if ((flowRateDiff1 > tolerance1) || (flowRateDiff2 > tolerance2)) {
+                if (!leakStartTime) {
+                  leakStartTime = Date.now();
+                } else if (Date.now() - leakStartTime >= leakDetectionDelay) {
+                  leakDetected = true;
+                  serialPort.write('P'); // Switch off the system
+                  db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", ['Leak Detected', 'Leak detected between sensors.'], err => {
+                    if (err) console.error('Error inserting into error_log table:', err.message);
+                    else console.log('Leak detected and logged.');
+                  });
+                  leakStartTime = null;
+                }
+              } else {
+                leakStartTime = null;
+              }
+            }
           }
-        }
+        });
       } else {
         console.warn('Invalid data format received from serial:', line);
       }
@@ -272,12 +280,13 @@ app.get('/realtime/median_volumes', (req, res) => {
   res.json([{ volume: medianRealTimeData.volume }]);
 });
 
-// Historical data endpoints with date filtering
+// Historical data endpoints with date range filtering
 app.get('/history/pulses/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
-  const date = req.query.date;
-  console.log(`GET /history/pulses/${sensorId}?date=${date}`);
-  db.all("SELECT * FROM pulses WHERE sensor_id = ? AND DATE(timestamp) = ?", [sensorId, date], (err, rows) => {
+  const startDate = req.query.start_date;
+  const endDate = req.query.end_date;
+  console.log(`GET /history/pulses/${sensorId}?start_date=${startDate}&end_date=${endDate}`);
+  db.all("SELECT * FROM pulses WHERE sensor_id = ? AND DATE(timestamp) BETWEEN ? AND ?", [sensorId, startDate, endDate], (err, rows) => {
     if (err) {
       console.error('Error fetching from pulses table:', err.message);
       res.status(500).json({ error: err.message });
@@ -289,9 +298,10 @@ app.get('/history/pulses/:sensorId', (req, res) => {
 
 app.get('/history/flow_rates/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
-  const date = req.query.date;
-  console.log(`GET /history/flow_rates/${sensorId}?date=${date}`);
-  db.all("SELECT * FROM flow_rates WHERE sensor_id = ? AND DATE(timestamp) = ?", [sensorId, date], (err, rows) => {
+  const startDate = req.query.start_date;
+  const endDate = req.query.end_date;
+  console.log(`GET /history/flow_rates/${sensorId}?start_date=${startDate}&end_date=${endDate}`);
+  db.all("SELECT * FROM flow_rates WHERE sensor_id = ? AND DATE(timestamp) BETWEEN ? AND ?", [sensorId, startDate, endDate], (err, rows) => {
     if (err) {
       console.error('Error fetching from flow_rates table:', err.message);
       res.status(500).json({ error: err.message });
@@ -303,9 +313,10 @@ app.get('/history/flow_rates/:sensorId', (req, res) => {
 
 app.get('/history/volumes/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
-  const date = req.query.date;
-  console.log(`GET /history/volumes/${sensorId}?date=${date}`);
-  db.all("SELECT * FROM volumes WHERE sensor_id = ? AND DATE(timestamp) = ?", [sensorId, date], (err, rows) => {
+  const startDate = req.query.start_date;
+  const endDate = req.query.end_date;
+  console.log(`GET /history/volumes/${sensorId}?start_date=${startDate}&end_date=${endDate}`);
+  db.all("SELECT * FROM volumes WHERE sensor_id = ? AND DATE(timestamp) BETWEEN ? AND ?", [sensorId, startDate, endDate], (err, rows) => {
     if (err) {
       console.error('Error fetching from volumes table:', err.message);
       res.status(500).json({ error: err.message });
@@ -315,11 +326,12 @@ app.get('/history/volumes/:sensorId', (req, res) => {
   });
 });
 
-// Historical median data endpoints with date filtering
+// Historical median data endpoints with date range filtering
 app.get('/history/median_pulses', (req, res) => {
-  const date = req.query.date;
-  console.log(`GET /history/median_pulses?date=${date}`);
-  db.all("SELECT * FROM median_pulses WHERE DATE(timestamp) = ?", [date], (err, rows) => {
+  const startDate = req.query.start_date;
+  const endDate = req.query.end_date;
+  console.log(`GET /history/median_pulses?start_date=${startDate}&end_date=${endDate}`);
+  db.all("SELECT * FROM median_pulses WHERE DATE(timestamp) BETWEEN ? AND ?", [startDate, endDate], (err, rows) => {
     if (err) {
       console.error('Error fetching from median_pulses table:', err.message);
       res.status(500).json({ error: err.message });
@@ -330,9 +342,10 @@ app.get('/history/median_pulses', (req, res) => {
 });
 
 app.get('/history/median_flow_rates', (req, res) => {
-  const date = req.query.date;
-  console.log(`GET /history/median_flow_rates?date=${date}`);
-  db.all("SELECT * FROM median_flow_rates WHERE DATE(timestamp) = ?", [date], (err, rows) => {
+  const startDate = req.query.start_date;
+  const endDate = req.query.end_date;
+  console.log(`GET /history/median_flow_rates?start_date=${startDate}&end_date=${endDate}`);
+  db.all("SELECT * FROM median_flow_rates WHERE DATE(timestamp) BETWEEN ? AND ?", [startDate, endDate], (err, rows) => {
     if (err) {
       console.error('Error fetching from median_flow_rates table:', err.message);
       res.status(500).json({ error: err.message });
@@ -343,9 +356,10 @@ app.get('/history/median_flow_rates', (req, res) => {
 });
 
 app.get('/history/median_volumes', (req, res) => {
-  const date = req.query.date;
-  console.log(`GET /history/median_volumes?date=${date}`);
-  db.all("SELECT * FROM median_volumes WHERE DATE(timestamp) = ?", [date], (err, rows) => {
+  const startDate = req.query.start_date;
+  const endDate = req.query.end_date;
+  console.log(`GET /history/median_volumes?start_date=${startDate}&end_date=${endDate}`);
+  db.all("SELECT * FROM median_volumes WHERE DATE(timestamp) BETWEEN ? AND ?", [startDate, endDate], (err, rows) => {
     if (err) {
       console.error('Error fetching from median_volumes table:', err.message);
       res.status(500).json({ error: err.message });

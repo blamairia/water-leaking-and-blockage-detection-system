@@ -9,6 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script type="text/javascript">
         google.charts.load('current', {packages: ['corechart', 'annotationchart']});
     </script>
@@ -25,6 +27,9 @@
             border: 1px solid #dee2e6;
             border-radius: 0.25rem;
             background-color: #f8f9fa;
+        }
+        .date-range-picker {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -53,6 +58,10 @@
         <header class="text-center mb-4">
             <h1>Water Flow Monitoring History</h1>
         </header>
+
+        <div class="date-range-picker text-center">
+            <input id="date-range" class="form-control" placeholder="Select Date Range" />
+        </div>
 
         <div class="row">
             <!-- Sensor 1 -->
@@ -118,12 +127,25 @@
         google.charts.setOnLoadCallback(initialize);
 
         function initialize() {
-            const date = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
-            drawHistoricalCharts(date);
+            const endDate = new Date().toISOString().slice(0, 10); // Today's date
+            const startDate = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10); // 15 days ago
+            drawHistoricalCharts(startDate, endDate);
+
+            // Initialize date range picker
+            flatpickr("#date-range", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                defaultDate: [startDate, endDate],
+                onClose: function(selectedDates, dateStr, instance) {
+                    if (selectedDates.length === 2) {
+                        drawHistoricalCharts(selectedDates[0].toISOString().slice(0, 10), selectedDates[1].toISOString().slice(0, 10));
+                    }
+                }
+            });
         }
 
-        function drawHistoricalCharts(date) {
-            fetch(`/history/pulses/0?date=${date}`)
+        function drawHistoricalCharts(startDate, endDate) {
+            fetch(`/history/pulses/0?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -139,7 +161,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/flow_rates/0?date=${date}`)
+            fetch(`/history/flow_rates/0?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -155,7 +177,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/volumes/0?date=${date}`)
+            fetch(`/history/volumes/0?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var areaData = new google.visualization.DataTable();
@@ -172,7 +194,7 @@
                 });
 
             // Repeat for Sensor 2
-            fetch(`/history/pulses/1?date=${date}`)
+            fetch(`/history/pulses/1?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -188,7 +210,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/flow_rates/1?date=${date}`)
+            fetch(`/history/flow_rates/1?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -204,7 +226,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/volumes/1?date=${date}`)
+            fetch(`/history/volumes/1?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var areaData = new google.visualization.DataTable();
@@ -221,7 +243,7 @@
                 });
 
             // Repeat for Sensor 3
-            fetch(`/history/pulses/2?date=${date}`)
+            fetch(`/history/pulses/2?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -237,7 +259,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/flow_rates/2?date=${date}`)
+            fetch(`/history/flow_rates/2?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var annotationData = new google.visualization.DataTable();
@@ -253,7 +275,7 @@
                     chart.draw(annotationData, options);
                 });
 
-            fetch(`/history/volumes/2?date=${date}`)
+            fetch(`/history/volumes/2?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
                     var areaData = new google.visualization.DataTable();
