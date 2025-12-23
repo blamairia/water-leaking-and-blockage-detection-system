@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WLeaks - Water Leak Detection System Demo</title>
+    <meta name="description" content="IoT-based water leak detection and monitoring system simulation demo">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* ============================================
+           CSS Custom Properties (Design Tokens)
+           ============================================ */
+        :root {
+            --bg-primary: #0a0f1a;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1a2234;
+            --bg-card: rgba(17, 24, 39, 0.85);
+            --bg-card-hover: rgba(26, 34, 52, 0.95);
+            --accent-primary: #06b6d4;
+            --accent-secondary: #3b82f6;
+            --accent-tertiary: #8b5cf6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border-primary: rgba(6, 182, 212, 0.2);
+            --border-subtle: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(17, 24, 39, 0.7);
+            --glass-blur: blur(12px);
+            --shadow-glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3);
+            --shadow-glow-red: 0 0 20px rgba(239, 68, 68, 0.4);
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 0%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-primary);
+            padding: 1rem 1.5rem;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.15s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent-primary);
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+        }
+
+        /* Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            transition: all 0.25s;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(6, 182, 212, 0.3);
+            box-shadow: var(--shadow-glow-cyan);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .card-error {
+            border-color: var(--accent-danger);
+        }
+
+        .card-error.active {
+            animation: glow-red 1.5s infinite;
+        }
+
+        @keyframes glow-red {
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-glow-cyan);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-indicator .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .status-on {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-success);
+        }
+
+        .status-on .dot {
+            background: var(--accent-success);
+            box-shadow: 0 0 10px var(--accent-success);
+        }
+
+        .status-off {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-danger);
+        }
+
+        .status-off .dot {
+            background: var(--accent-danger);
+            animation: none;
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-warning);
+        }
+
+        .status-warning .dot {
+            background: var(--accent-warning);
+            animation: blink 0.5s infinite;
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-controls-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            font-size: 0.875rem;
+            color: var(--accent-tertiary);
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-controls .btn {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        /* System Status */
+        .system-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, transparent 100%);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-primary);
+            margin-bottom: 1rem;
+        }
+
+        .system-status-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .system-status-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+        }
+
+        .text-success {
+            color: var(--accent-success);
+        }
+
+        .text-danger {
+            color: var(--accent-danger);
+        }
+
+        .text-warning {
+            color: var(--accent-warning);
+        }
+
+        /* Water Flow Animation */
+        .water-flow {
+            position: relative;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .water-flow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            animation: flow 2s linear infinite;
+        }
+
+        .water-flow.paused::after {
+            animation-play-state: paused;
+        }
+
+        @keyframes flow {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Charts */
+        .chart-container {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .chart-container h4 {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-wrapper {
+            height: 200px;
+        }
+
+        /* Sensor Cards */
+        .sensor-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sensor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .sensor-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sensor-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            color: white;
+        }
+
+        .sensor-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .sensor-id {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Gauge Grid */
+        .gauge-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .gauge-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .gauge-value {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--accent-primary);
+        }
+
+        .gauge-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        .gauge-unit {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Error Table */
+        .error-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .error-table th,
+        .error-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .error-table th {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .error-type-leak {
+            color: var(--accent-danger);
+        }
+
+        .error-type-blockage {
+            color: var(--accent-warning);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .mt-2 {
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar-inner {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .gauge-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="navbar-brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                </svg>
+                WLeaks
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://github.com/blamairia/wleaks" class="nav-link" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>💧 Water Leak Detection System</h1>
+            <p>Real-time IoT monitoring with automated pump shutoff — Interactive Demo</p>
+        </header>
+
+        <!-- Demo Controls -->
+        <div class="demo-controls">
+            <span class="demo-controls-label">
+                <i data-lucide="wand-2"></i>
+                Demo Controls — Try triggering scenarios!
+            </span>
+            <button class="btn btn-outline btn-sm" onclick="triggerLeak()">
+                <i data-lucide="droplets"></i> Trigger Leak
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="triggerBlockage()">
+                <i data-lucide="octagon-x"></i> Trigger Blockage
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="resetDemo()">
+                <i data-lucide="refresh-cw"></i> Reset
+            </button>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid-3">
+            <!-- System Control -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">System Control</h2>
+                    <div id="system-status" class="status-indicator status-on">
+                        <span class="dot"></span>
+                        <span id="status-text">Running</span>
+                    </div>
+                </div>
+
+                <div class="system-status">
+                    <div>
+                        <div class="system-status-label">Pump Status</div>
+                        <div id="pump-status" class="system-status-value text-success">ON</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="toggleSystem()">
+                        <i data-lucide="power"></i> Toggle
+                    </button>
+                </div>
+
+                <h4
+                    style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.5rem;">
+                    Water Flow</h4>
+                <div id="water-flow" class="water-flow"></div>
+
+                <div class="system-status">
+                    <div>
+                        <div class="system-status-label">Error Status</div>
+                        <div id="error-status-text" class="system-status-value text-success">OK</div>
+                    </div>
+                    <div id="error-indicator" class="status-indicator status-on">
+                        <span class="dot"></span>
+                        <span>Normal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Metrics -->
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon"><i data-lucide="activity"></i></div>
+                    <div>
+                        <div class="sensor-name">Live Metrics</div>
+                        <div class="sensor-id">Averaged across all sensors</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h4>Flow Rate (L/min)</h4>
+                    <div id="flowrate-chart" class="chart-wrapper"></div>
+                </div>
+                <div class="chart-container">
+                    <h4>Volume (L)</h4>
+                    <div id="volume-chart" class="chart-wrapper"></div>
+                </div>
+            </div>
+
+            <!-- Error Log -->
+            <div id="error-log-card" class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Error Log</h2>
+                    <span id="error-count" class="status-indicator status-on">
+                        <span class="dot"></span>
+                        <span>0 errors</span>
+                    </span>
+                </div>
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <table class="error-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="error-table-body">
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">No errors recorded</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sensor Row -->
+        <div class="grid-3 mt-2">
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon"><i data-lucide="gauge"></i></div>
+                    <div>
+                        <div class="sensor-name">Sensor 1</div>
+                        <div class="sensor-id">Entry Point</div>
+                    </div>
+                </div>
+                <div class="gauge-grid">
+                    <div class="gauge-item">
+                        <div id="s1-flow" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Flow</div>
+                        <div class="gauge-unit">L/min</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="s1-pulse" class="gauge-value">0</div>
+                        <div class="gauge-label">Pulses</div>
+                        <div class="gauge-unit">/sec</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="s1-volume" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Volume</div>
+                        <div class="gauge-unit">L</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);"><i
+                            data-lucide="gauge"></i></div>
+                    <div>
+                        <div class="sensor-name">Sensor 2</div>
+                        <div class="sensor-id">Mid Point</div>
+                    </div>
+                </div>
+                <div class="gauge-grid">
+                    <div class="gauge-item">
+                        <div id="s2-flow" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Flow</div>
+                        <div class="gauge-unit">L/min</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="s2-pulse" class="gauge-value">0</div>
+                        <div class="gauge-label">Pulses</div>
+                        <div class="gauge-unit">/sec</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="s2-volume" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Volume</div>
+                        <div class="gauge-unit">L</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);"><i
+                            data-lucide="gauge"></i></div>
+                    <div>
+                        <div class="sensor-name">Sensor 3</div>
+                        <div class="sensor-id">Exit Point</div>
+                    </div>
+                </div>
+                <div class="gauge-grid">
+                    <div class="gauge-item">
+                        <div id="s3-flow" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Flow</div>
+                        <div class="gauge-unit">L/min</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="s3-pulse" class="gauge-value">0</div>
+                        <div class="gauge-label">Pulses</div>
+                        <div class="gauge-unit">/sec</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="s3-volume" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Volume</div>
+                        <div class="gauge-unit">L</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // ============================================
+        // CLIENT-SIDE SIMULATOR (No server needed!)
+        // ============================================
+        const calibrationFactors = [342.5, 314, 438.5];
+        const baseFlowRate = 2.5;
+
+        let systemState = true;
+        let scenario = 'normal'; // 'normal', 'leak', 'blockage'
+        let scenarioStartTime = null;
+        let errorDetected = false;
+        let errors = [];
+        let volumes = [0, 0, 0];
+
+        // Chart instances
+        let flowRateChart, volumeChart;
+        const chartData = { flowRate: [], volume: [] };
+        const maxDataPoints = 30;
+
+        // ============================================
+        // Simulator Logic
+        // ============================================
+        function generateSensorData() {
+            if (!systemState) return null;
+
+            const time = Date.now() / 1000;
+            const sensors = [];
+
+            for (let i = 0; i < 3; i++) {
+                const pumpVariation = Math.sin(time * Math.PI) * 0.1;
+                const noise = (Math.random() - 0.5) * 0.3;
+                const sensorOffset = [0, -0.05, 0.03][i];
+
+                let flowRate = Math.max(0, baseFlowRate + pumpVariation + noise + sensorOffset);
+
+                // Apply scenario
+                if (scenario === 'leak') {
+                    if (i === 1) flowRate *= 0.4;
+                    else if (i === 2) flowRate *= 0.35;
+                } else if (scenario === 'blockage' && i === 2) {
+                    flowRate *= 0.02;
+                }
+
+                const pulseCount = Math.round((flowRate / 60) * calibrationFactors[i]);
+                volumes[i] += flowRate / 60;
+
+                sensors.push({ flowRate, pulseCount, volume: volumes[i] });
+            }
+
+            return sensors;
+        }
+
+        function checkForErrors(sensors) {
+            if (!systemState || errorDetected) return;
+
+            if (scenario !== 'normal' && !scenarioStartTime) {
+                scenarioStartTime = Date.now();
+            }
+
+            if (scenarioStartTime && Date.now() - scenarioStartTime >= 3000) {
+                errorDetected = true;
+                systemState = false;
+
+                const errorType = scenario === 'leak' ? 'Leak Detected' : 'Blockage Detected';
+                const details = scenario === 'leak'
+                    ? 'Leak detected between sensors. System shut down.'
+                    : 'Blockage detected at exit. System shut down.';
+
+                errors.unshift({ type: errorType, details, time: new Date() });
+                updateErrorDisplay();
+                updateSystemDisplay();
+            }
+        }
+
+        // ============================================
+        // UI Updates
+        // ============================================
+        function updateSystemDisplay() {
+            const statusEl = document.getElementById('system-status');
+            const statusText = document.getElementById('status-text');
+            const pumpStatus = document.getElementById('pump-status');
+            const waterFlow = document.getElementById('water-flow');
+
+            if (systemState) {
+                statusEl.className = 'status-indicator status-on';
+                statusText.textContent = 'Running';
+                pumpStatus.textContent = 'ON';
+                pumpStatus.className = 'system-status-value text-success';
+                waterFlow.classList.remove('paused');
+            } else {
+                statusEl.className = 'status-indicator status-off';
+                statusText.textContent = 'Stopped';
+                pumpStatus.textContent = 'OFF';
+                pumpStatus.className = 'system-status-value text-danger';
+                waterFlow.classList.add('paused');
+            }
+
+            const errorIndicator = document.getElementById('error-indicator');
+            const errorStatusText = document.getElementById('error-status-text');
+            const errorCard = document.getElementById('error-log-card');
+
+            if (errorDetected) {
+                errorIndicator.className = 'status-indicator status-warning';
+                errorIndicator.querySelector('span:last-child').textContent = scenario === 'leak' ? 'Leak!' : 'Blockage!';
+                errorStatusText.textContent = scenario === 'leak' ? 'LEAK' : 'BLOCKAGE';
+                errorStatusText.className = 'system-status-value ' + (scenario === 'leak' ? 'text-danger' : 'text-warning');
+                errorCard.classList.add('card-error', 'active');
+            } else {
+                errorIndicator.className = 'status-indicator status-on';
+                errorIndicator.querySelector('span:last-child').textContent = 'Normal';
+                errorStatusText.textContent = 'OK';
+                errorStatusText.className = 'system-status-value text-success';
+                errorCard.classList.remove('card-error', 'active');
+            }
+        }
+
+        function updateErrorDisplay() {
+            const tbody = document.getElementById('error-table-body');
+            const errorCount = document.getElementById('error-count');
+
+            if (errors.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">No errors recorded</td></tr>';
+                errorCount.querySelector('span:last-child').textContent = '0 errors';
+                errorCount.className = 'status-indicator status-on';
+            } else {
+                tbody.innerHTML = errors.slice(0, 10).map(e => `
+                    <tr>
+                        <td class="${e.type.includes('Leak') ? 'error-type-leak' : 'error-type-blockage'}">
+                            <strong>${e.type}</strong>
+                        </td>
+                        <td>
+                            <div class="text-muted" style="font-size: 0.75rem;">${e.time.toLocaleTimeString()}</div>
+                            <div>${e.details}</div>
+                        </td>
+                    </tr>
+                `).join('');
+                errorCount.querySelector('span:last-child').textContent = `${errors.length} error${errors.length > 1 ? 's' : ''}`;
+                errorCount.className = 'status-indicator status-warning';
+            }
+        }
+
+        function updateSensorDisplays(sensors) {
+            if (!sensors) return;
+
+            for (let i = 0; i < 3; i++) {
+                document.getElementById(`s${i + 1}-flow`).textContent = sensors[i].flowRate.toFixed(2);
+                document.getElementById(`s${i + 1}-pulse`).textContent = sensors[i].pulseCount;
+                document.getElementById(`s${i + 1}-volume`).textContent = sensors[i].volume.toFixed(2);
+            }
+
+            // Update charts
+            const timestamp = new Date().getTime();
+            const avgFlow = sensors.reduce((a, s) => a + s.flowRate, 0) / 3;
+            const avgVol = sensors.reduce((a, s) => a + s.volume, 0) / 3;
+
+            chartData.flowRate.push([timestamp, avgFlow.toFixed(2)]);
+            chartData.volume.push([timestamp, avgVol.toFixed(2)]);
+
+            if (chartData.flowRate.length > maxDataPoints) {
+                chartData.flowRate.shift();
+                chartData.volume.shift();
+            }
+
+            flowRateChart.updateSeries([{ data: chartData.flowRate }]);
+            volumeChart.updateSeries([{ data: chartData.volume }]);
+        }
+
+        // ============================================
+        // Demo Controls
+        // ============================================
+        function triggerLeak() {
+            if (!systemState) return;
+            scenario = 'leak';
+            scenarioStartTime = null;
+        }
+
+        function triggerBlockage() {
+            if (!systemState) return;
+            scenario = 'blockage';
+            scenarioStartTime = null;
+        }
+
+        function resetDemo() {
+            scenario = 'normal';
+            scenarioStartTime = null;
+            errorDetected = false;
+            systemState = true;
+            updateSystemDisplay();
+        }
+
+        function toggleSystem() {
+            if (errorDetected) {
+                resetDemo();
+            } else {
+                systemState = !systemState;
+                updateSystemDisplay();
+            }
+        }
+
+        // ============================================
+        // Chart Initialization
+        // ============================================
+        function initCharts() {
+            const chartOptions = {
+                chart: {
+                    type: 'area',
+                    height: 180,
+                    animations: { enabled: true, easing: 'linear', dynamicAnimation: { speed: 1000 } },
+                    toolbar: { show: false },
+                    background: 'transparent',
+                    fontFamily: 'Inter, sans-serif'
+                },
+                theme: { mode: 'dark' },
+                stroke: { curve: 'smooth', width: 2 },
+                fill: {
+                    type: 'gradient',
+                    gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1, stops: [0, 90, 100] }
+                },
+                grid: { borderColor: 'rgba(255,255,255,0.1)', strokeDashArray: 3 },
+                xaxis: { type: 'datetime', labels: { style: { colors: '#9ca3af' } } },
+                yaxis: { labels: { style: { colors: '#9ca3af' } } },
+                tooltip: { theme: 'dark' }
+            };
+
+            flowRateChart = new ApexCharts(document.getElementById('flowrate-chart'), {
+                ...chartOptions,
+                series: [{ name: 'Flow Rate', data: [] }],
+                colors: ['#06b6d4']
+            });
+            flowRateChart.render();
+
+            volumeChart = new ApexCharts(document.getElementById('volume-chart'), {
+                ...chartOptions,
+                series: [{ name: 'Volume', data: [] }],
+                colors: ['#10b981']
+            });
+            volumeChart.render();
+        }
+
+        // ============================================
+        // Main Loop
+        // ============================================
+        function tick() {
+            const sensors = generateSensorData();
+            if (sensors) {
+                updateSensorDisplays(sensors);
+                checkForErrors(sensors);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            updateSystemDisplay();
+            setInterval(tick, 1000);
+        });
+    </script>
+</body>
+
+</html>
