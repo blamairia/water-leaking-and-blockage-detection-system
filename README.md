@@ -32,7 +32,7 @@ Water leaks in residential and commercial buildings cause billions in damages an
 
 ## 🌐 Live Demo
 
-> **[▶️ Try the Interactive Demo](#)** — Simulates real sensor data without hardware
+> **[▶️ Try the Interactive Demo](https://static-demo-three.vercel.app)** — Simulates real sensor data without hardware
 
 The demo mode allows you to:
 - Trigger simulated **leak** and **blockage** scenarios
