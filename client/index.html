@@ -1,432 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Flow Monitoring</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>WLeaks - Water Leak Detection System</title>
+    <meta name="description"
+        content="IoT-based water leak detection and monitoring system with real-time sensor data visualization">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="css/theme.css">
+
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <!-- Socket.IO -->
     <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', {packages: ['corechart', 'annotationchart']});
-    </script>
-    <style>
-        body {
-            padding-top: 20px;
-        }
-        .chart-container {
-            margin-bottom: 30px;
-        }
-        .sensor-box {
-            padding: 15px;
-            margin-bottom: 30px;
-            border: 1px solid #dee2e6;
-            border-radius: 0.25rem;
-            background-color: #f8f9fa;
-        }
-        .system-state {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .state-indicator {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .state-indicator.on {
-            background-color: green;
-        }
-        .state-indicator.off {
-            background-color: red;
-        }
-        .error-indicator {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .error-indicator.ok {
-            background-color: green;
-        }
-        .error-indicator.error {
-            background-color: red;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        .switch-button {
-            margin-top: 10px;
-        }
-        .error-table {
-            width: 100%;
-            margin-top: 20px;
-            background-color: #fff;
-            border: 2px solid #000;
-            border-radius: 0.25rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .error-table th, .error-table td {
-            text-align: left;
-            padding: 12px;
-            vertical-align: middle;
-            border: 1px solid #d3d3d3;
-        }
-        .error-table th {
-            background-color: #007bff;
-            color: white;
-            font-size: 1.1em;
-            border-bottom: 2px solid #000;
-        }
-        .error-table td {
-            font-size: 1em;
-            color: #333;
-        }
-        .error-table .error-type {
-            font-weight: bold;
-        }
-        .error-table .error-row-leak {
-            background-color: #e8f5e9;
-        }
-        .error-table .error-row-blockage {
-            background-color: #ffebee;
-        }
-        .error-table .error-row-leak .error-type {
-            color: #2e7d32;
-        }
-        .error-table .error-row-blockage .error-type {
-            color: #c62828;
-        }
-        .error-details {
-            border-top: 1px solid #d3d3d3;
-            padding-top: 8px;
-            margin-top: 8px;
-            font-size: 0.9em;
-        }
-        .rounded-border {
-            border-radius: 8px;
-        }
-    </style>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Water Flow Monitoring</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                </svg>
+                WLeaks
+            </a>
             <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sensors-real-time.html">Real-Time Monitoring</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sensors-history.html">History</a>
-                </li>
+                <li><a href="index.html" class="nav-link active">Dashboard</a></li>
+                <li><a href="sensors-real-time.html" class="nav-link">Real-Time</a></li>
+                <li><a href="sensors-history.html" class="nav-link">History</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <header class="text-center mb-4">
-            <h1>Water Flow Monitoring</h1>
+    <main class="container-fluid">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Water Leak Detection Dashboard</h1>
+            <p>Real-time monitoring and automated leak detection for water distribution systems</p>
         </header>
 
-        <div class="row">
-            <!-- Column 1: Median Charts -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>Median Values</h2>
-                    <div class="chart-container">
-                        <h4>Median Pulse Counts</h4>
-                        <div id="median-pulse-chart"></div>
+        <!-- Demo Controls (visible in demo mode) -->
+        <div id="demo-controls" class="demo-controls hidden">
+            <span class="demo-controls-label">
+                <i data-lucide="wand-2"></i>
+                Demo Mode Controls
+            </span>
+            <button class="btn btn-outline btn-sm" onclick="triggerLeak()">
+                <i data-lucide="droplets"></i> Trigger Leak
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="triggerBlockage()">
+                <i data-lucide="octagon-x"></i> Trigger Blockage
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="resetDemo()">
+                <i data-lucide="refresh-cw"></i> Reset
+            </button>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="row row-3">
+            <!-- Column 1: System Control -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">System Control</h2>
+                    <div id="system-status" class="status-indicator status-off">
+                        <span class="dot"></span>
+                        <span id="status-text">Loading...</span>
                     </div>
-                    <div class="chart-container">
-                        <h4>Median Flow Rates</h4>
-                        <div id="median-flowrate-chart"></div>
+                </div>
+
+                <div class="control-panel">
+                    <div class="system-status">
+                        <div>
+                            <div class="system-status-label">Pump Status</div>
+                            <div id="pump-status" class="system-status-value">--</div>
+                        </div>
+                        <button id="switch-btn" class="btn btn-primary" onclick="switchSystemState()">
+                            <i data-lucide="power"></i>
+                            Toggle
+                        </button>
                     </div>
-                    <div class="chart-container">
-                        <h4>Median Volumes</h4>
-                        <div id="median-volume-chart"></div>
+
+                    <!-- Water Flow Animation -->
+                    <div>
+                        <h4>Water Flow</h4>
+                        <div id="water-flow" class="water-flow paused"></div>
+                    </div>
+
+                    <!-- Error Status -->
+                    <div id="error-status-card" class="system-status">
+                        <div>
+                            <div class="system-status-label">Error Status</div>
+                            <div id="error-status-text" class="system-status-value text-success">OK</div>
+                        </div>
+                        <div id="error-indicator" class="status-indicator status-on">
+                            <span class="dot"></span>
+                            <span>Normal</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Column 2: System State and Control -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>System State</h2>
-                    <div class="system-state">
-                        <div id="state-indicator" class="state-indicator"></div>
-                        <div id="state-text">Loading...</div>
+            <!-- Column 2: Real-Time Median Charts -->
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon">
+                        <i data-lucide="activity"></i>
                     </div>
-                    <button id="switch-button" class="btn btn-primary switch-button">Switch State</button>
-                    <h2>Error Status</h2>
-                    <div class="system-state">
-                        <div id="error-indicator" class="error-indicator"></div>
-                        <div id="error-text">No Errors</div>
+                    <div>
+                        <div class="sensor-name">Live Metrics</div>
+                        <div class="sensor-id">Averaged across all sensors</div>
                     </div>
                 </div>
-                <div class="sensor-box">
-                    <h2>Errors</h2>
-                    <table id="error-table" class="error-table rounded-border">
+
+                <div class="chart-container">
+                    <h4>Flow Rate (L/min)</h4>
+                    <div id="median-flowrate-chart" class="chart-wrapper"></div>
+                </div>
+
+                <div class="chart-container">
+                    <h4>Pulse Count</h4>
+                    <div id="median-pulse-chart" class="chart-wrapper"></div>
+                </div>
+
+                <div class="chart-container">
+                    <h4>Volume (L)</h4>
+                    <div id="median-volume-chart" class="chart-wrapper"></div>
+                </div>
+            </div>
+
+            <!-- Column 3: Error Log -->
+            <div id="error-log-card" class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Error Log</h2>
+                    <span id="error-count" class="status-indicator status-on">
+                        <span class="dot"></span>
+                        <span>0 errors</span>
+                    </span>
+                </div>
+
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table class="error-table">
                         <thead>
                             <tr>
-                                <th>Error Type</th>
+                                <th>Type</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
                         <tbody id="error-table-body">
-                            <!-- Error rows will be appended here -->
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">No errors recorded</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+        </div>
 
-            <!-- Column 3: Historical Median Values -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>Historical Median Values</h2>
-                    <div class="chart-container">
-                        <h4>Median Pulse Counts</h4>
-                        <div id="annotation-chart"></div>
+        <!-- Sensor Overview Row -->
+        <div class="row row-3 mt-3">
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon">
+                        <i data-lucide="gauge"></i>
                     </div>
-                    <div class="chart-container">
-                        <h4>Median Flow Rates</h4>
-                        <div id="flowrate-chart"></div>
+                    <div>
+                        <div class="sensor-name">Sensor 1</div>
+                        <div class="sensor-id">Entry Point</div>
                     </div>
-                    <div class="chart-container">
-                        <h4>Cumulative Volume</h4>
-                        <div id="area-chart"></div>
+                </div>
+                <div class="gauge-grid">
+                    <div class="gauge-item">
+                        <div id="sensor1-flow" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Flow Rate</div>
+                        <div class="gauge-unit">L/min</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="sensor1-pulse" class="gauge-value">0</div>
+                        <div class="gauge-label">Pulses</div>
+                        <div class="gauge-unit">/sec</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="sensor1-volume" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Volume</div>
+                        <div class="gauge-unit">L</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon">
+                        <i data-lucide="gauge"></i>
+                    </div>
+                    <div>
+                        <div class="sensor-name">Sensor 2</div>
+                        <div class="sensor-id">Mid Point</div>
+                    </div>
+                </div>
+                <div class="gauge-grid">
+                    <div class="gauge-item">
+                        <div id="sensor2-flow" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Flow Rate</div>
+                        <div class="gauge-unit">L/min</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="sensor2-pulse" class="gauge-value">0</div>
+                        <div class="gauge-label">Pulses</div>
+                        <div class="gauge-unit">/sec</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="sensor2-volume" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Volume</div>
+                        <div class="gauge-unit">L</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon">
+                        <i data-lucide="gauge"></i>
+                    </div>
+                    <div>
+                        <div class="sensor-name">Sensor 3</div>
+                        <div class="sensor-id">Exit Point</div>
+                    </div>
+                </div>
+                <div class="gauge-grid">
+                    <div class="gauge-item">
+                        <div id="sensor3-flow" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Flow Rate</div>
+                        <div class="gauge-unit">L/min</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="sensor3-pulse" class="gauge-value">0</div>
+                        <div class="gauge-label">Pulses</div>
+                        <div class="gauge-unit">/sec</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div id="sensor3-volume" class="gauge-value">0.00</div>
+                        <div class="gauge-label">Volume</div>
+                        <div class="gauge-unit">L</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script type="text/javascript">
-        google.charts.setOnLoadCallback(drawMedianPulseChart);
-        google.charts.setOnLoadCallback(drawMedianFlowRateChart);
-        google.charts.setOnLoadCallback(drawMedianVolumeChart);
-        google.charts.setOnLoadCallback(drawHistoricalCharts);
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-        function drawMedianPulseChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Datetime', 'Pulse Count'],
-                [new Date(), 0]
-            ]);
+        // Socket.IO connection
+        const socket = io();
 
-            var options = {
-                title: 'Median Pulse Counts',
-                curveType: 'function',
-                legend: { position: 'bottom' }
+        // Chart instances
+        let flowRateChart, pulseChart, volumeChart;
+
+        // Chart data storage
+        const maxDataPoints = 30;
+        const chartData = {
+            flowRate: [],
+            pulse: [],
+            volume: [],
+            timestamps: []
+        };
+
+        // ============================================
+        // Chart Initialization
+        // ============================================
+        function initCharts() {
+            const chartOptions = {
+                chart: {
+                    type: 'area',
+                    height: 180,
+                    animations: {
+                        enabled: true,
+                        easing: 'linear',
+                        dynamicAnimation: { speed: 1000 }
+                    },
+                    toolbar: { show: false },
+                    background: 'transparent',
+                    fontFamily: 'Inter, sans-serif'
+                },
+                theme: { mode: 'dark' },
+                stroke: { curve: 'smooth', width: 2 },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.4,
+                        opacityTo: 0.1,
+                        stops: [0, 90, 100]
+                    }
+                },
+                grid: {
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    strokeDashArray: 3
+                },
+                xaxis: {
+                    type: 'datetime',
+                    labels: { style: { colors: '#9ca3af' } }
+                },
+                yaxis: {
+                    labels: { style: { colors: '#9ca3af' } }
+                },
+                tooltip: { theme: 'dark' }
             };
 
-            var chart = new google.visualization.LineChart(document.getElementById('median-pulse-chart'));
-            chart.draw(data, options);
-
-            const socket = io();
-            socket.on('realtime-median-data', function (medianData) {
-                data.addRow([new Date(), medianData.pulseCount]);
-                chart.draw(data, options);
+            // Flow Rate Chart
+            flowRateChart = new ApexCharts(document.getElementById('median-flowrate-chart'), {
+                ...chartOptions,
+                series: [{ name: 'Flow Rate', data: [] }],
+                colors: ['#06b6d4']
             });
+            flowRateChart.render();
+
+            // Pulse Chart
+            pulseChart = new ApexCharts(document.getElementById('median-pulse-chart'), {
+                ...chartOptions,
+                series: [{ name: 'Pulse Count', data: [] }],
+                colors: ['#3b82f6']
+            });
+            pulseChart.render();
+
+            // Volume Chart
+            volumeChart = new ApexCharts(document.getElementById('median-volume-chart'), {
+                ...chartOptions,
+                series: [{ name: 'Volume', data: [] }],
+                colors: ['#10b981']
+            });
+            volumeChart.render();
         }
 
-        function drawMedianFlowRateChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Datetime', 'Flow Rate'],
-                [new Date(), 0]
-            ]);
+        // ============================================
+        // Real-time Data Updates
+        // ============================================
+        socket.on('realtime-median-data', (data) => {
+            const timestamp = new Date().getTime();
 
-            var options = {
-                title: 'Median Flow Rates',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
+            // Update chart data
+            chartData.flowRate.push([timestamp, data.flowRate.toFixed(2)]);
+            chartData.pulse.push([timestamp, data.pulseCount]);
+            chartData.volume.push([timestamp, data.volume.toFixed(2)]);
 
-            var chart = new google.visualization.LineChart(document.getElementById('median-flowrate-chart'));
-            chart.draw(data, options);
+            // Limit data points
+            if (chartData.flowRate.length > maxDataPoints) {
+                chartData.flowRate.shift();
+                chartData.pulse.shift();
+                chartData.volume.shift();
+            }
 
-            const socket = io();
-            socket.on('realtime-median-data', function (medianData) {
-                data.addRow([new Date(), medianData.flowRate]);
-                chart.draw(data, options);
-            });
-        }
+            // Update charts
+            flowRateChart.updateSeries([{ data: chartData.flowRate }]);
+            pulseChart.updateSeries([{ data: chartData.pulse }]);
+            volumeChart.updateSeries([{ data: chartData.volume }]);
+        });
 
-        function drawMedianVolumeChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Datetime', 'Volume'],
-                [new Date(), 0]
-            ]);
+        socket.on('realtime-data', (data) => {
+            const sensorNum = data.sensorId + 1;
+            document.getElementById(`sensor${sensorNum}-flow`).textContent = data.flowRate.toFixed(2);
+            document.getElementById(`sensor${sensorNum}-pulse`).textContent = data.pulseCount;
+            document.getElementById(`sensor${sensorNum}-volume`).textContent = data.volume.toFixed(2);
+        });
 
-            var options = {
-                title: 'Median Volumes',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
+        socket.on('system-state', (state) => {
+            updateSystemState(state);
+        });
 
-            var chart = new google.visualization.LineChart(document.getElementById('median-volume-chart'));
-            chart.draw(data, options);
+        socket.on('error-detected', (error) => {
+            showError(error);
+            fetchErrors();
+        });
 
-            const socket = io();
-            socket.on('realtime-median-data', function (medianData) {
-                data.addRow([new Date(), medianData.volume]);
-                chart.draw(data, options);
-            });
-        }
+        socket.on('system-reset', () => {
+            clearErrors();
+        });
 
-        // Fetch and display the current system state
+        // ============================================
+        // System State Management
+        // ============================================
         function fetchSystemState() {
             fetch('/system/state')
-                .then(response => response.json())
+                .then(res => res.json())
                 .then(data => {
-                    const stateIndicator = document.getElementById('state-indicator');
-                    const stateText = document.getElementById('state-text');
-                    if (data.state === 'ON') {
-                        stateIndicator.classList.remove('off');
-                        stateIndicator.classList.add('on');
-                        stateText.innerText = 'System is ON';
-                    } else {
-                        stateIndicator.classList.remove('on');
-                        stateIndicator.classList.add('off');
-                        stateText.innerText = 'System is OFF';
+                    updateSystemState(data.state);
+                    if (data.demoMode) {
+                        document.getElementById('demo-controls').classList.remove('hidden');
                     }
                 })
-                .catch(error => console.error('Error fetching system state:', error));
+                .catch(err => console.error('Error fetching system state:', err));
         }
 
-        // Fetch and display error status
-        function fetchErrorStatus() {
-            fetch('/detection_status')
-                .then(response => response.json())
-                .then(data => {
-                    const errorIndicator = document.getElementById('error-indicator');
-                    const errorText = document.getElementById('error-text');
-                    if (data.leakDetected) {
-                        errorIndicator.classList.remove('ok');
-                        errorIndicator.classList.add('error');
-                        errorText.innerText = 'Error: Leak Detected';
-                    } else if (data.blockageDetected) {
-                        errorIndicator.classList.remove('ok');
-                        errorIndicator.classList.add('error');
-                        errorText.innerText = 'Error: Blockage Detected';
-                    } else {
-                        errorIndicator.classList.remove('error');
-                        errorIndicator.classList.add('ok');
-                        errorText.innerText = 'No Errors';
-                    }
-                })
-                .catch(error => console.error('Error fetching error status:', error));
+        function updateSystemState(state) {
+            const statusEl = document.getElementById('system-status');
+            const statusText = document.getElementById('status-text');
+            const pumpStatus = document.getElementById('pump-status');
+            const waterFlow = document.getElementById('water-flow');
+
+            if (state === 'ON') {
+                statusEl.className = 'status-indicator status-on';
+                statusText.textContent = 'Running';
+                pumpStatus.textContent = 'ON';
+                pumpStatus.className = 'system-status-value text-success';
+                waterFlow.classList.remove('paused');
+            } else {
+                statusEl.className = 'status-indicator status-off';
+                statusText.textContent = 'Stopped';
+                pumpStatus.textContent = 'OFF';
+                pumpStatus.className = 'system-status-value text-danger';
+                waterFlow.classList.add('paused');
+            }
         }
 
-        // Fetch and display errors in the table
-        function fetchErrors() {
-            fetch('/errors')
-                .then(response => response.json())
-                .then(data => {
-                    const errorTableBody = document.getElementById('error-table-body');
-                    errorTableBody.innerHTML = ''; // Clear the table body
-
-                    data.forEach(row => {
-                        const tr = document.createElement('tr');
-                        tr.classList.add('error-row');
-                        tr.classList.add(row.error_type === 'Leak Detected' ? 'error-row-leak' : 'error-row-blockage');
-                        tr.innerHTML = `
-                            <td class="error-type">${row.error_type}</td>
-                            <td>
-                                <div>${new Date(row.timestamp).toLocaleString()}</div>
-                                <div class="error-details">${row.details}</div>
-                            </td>
-                        `;
-                        errorTableBody.appendChild(tr);
-                    });
-                })
-                .catch(error => console.error('Error fetching errors:', error));
-        }
-
-        // Switch the system state
         function switchSystemState() {
             fetch('/system/switch', { method: 'POST' })
-                .then(response => response.json())
+                .then(res => res.json())
+                .then(() => setTimeout(fetchSystemState, 200))
+                .catch(err => console.error('Error switching state:', err));
+        }
+
+        // ============================================
+        // Error Management
+        // ============================================
+        function fetchDetectionStatus() {
+            fetch('/detection_status')
+                .then(res => res.json())
                 .then(data => {
-                    console.log('Switch state response:', data);
-                    // Update the state after switching
-                    setTimeout(fetchSystemState, 100);
+                    const errorIndicator = document.getElementById('error-indicator');
+                    const errorStatusText = document.getElementById('error-status-text');
+                    const errorCard = document.getElementById('error-log-card');
+
+                    if (data.leakDetected) {
+                        errorIndicator.className = 'status-indicator status-warning';
+                        errorIndicator.querySelector('span:last-child').textContent = 'Leak!';
+                        errorStatusText.textContent = 'LEAK';
+                        errorStatusText.className = 'system-status-value text-danger';
+                        errorCard.classList.add('card-error', 'active');
+                    } else if (data.blockageDetected) {
+                        errorIndicator.className = 'status-indicator status-warning';
+                        errorIndicator.querySelector('span:last-child').textContent = 'Blockage!';
+                        errorStatusText.textContent = 'BLOCKAGE';
+                        errorStatusText.className = 'system-status-value text-warning';
+                        errorCard.classList.add('card-error', 'active');
+                    } else {
+                        errorIndicator.className = 'status-indicator status-on';
+                        errorIndicator.querySelector('span:last-child').textContent = 'Normal';
+                        errorStatusText.textContent = 'OK';
+                        errorStatusText.className = 'system-status-value text-success';
+                        errorCard.classList.remove('card-error', 'active');
+                    }
                 })
-                .catch(error => console.error('Error switching system state:', error));
+                .catch(err => console.error('Error fetching detection status:', err));
         }
 
-        document.getElementById('switch-button').addEventListener('click', switchSystemState);
-
-        // Fetch the system state and errors every second
-        setInterval(fetchSystemState, 1000);
-        setInterval(fetchErrorStatus, 1000);
-        setInterval(fetchErrors, 1000);
-
-        function drawHistoricalCharts() {
-            const date = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
-
-            // Fetch and draw median pulse counts
-            fetch(`/history/median_pulses?date=${date}`)
-                .then(response => response.json())
+        function fetchErrors() {
+            fetch('/errors')
+                .then(res => res.json())
                 .then(data => {
-                    var annotationData = new google.visualization.DataTable();
-                    annotationData.addColumn('date', 'Date');
-                    annotationData.addColumn('number', 'Pulse Count');
-                    annotationData.addColumn({type: 'string', role: 'annotation'});
-                    annotationData.addColumn({type: 'string', role: 'annotationText'});
-                    data.forEach(row => {
-                        annotationData.addRow([new Date(row.timestamp), row.median_pulse_count, null, null]);
-                    });
-                    var chart = new google.visualization.AnnotationChart(document.getElementById('annotation-chart'));
-                    var options = { displayAnnotations: true, width: '100%' };
-                    chart.draw(annotationData, options);
-                });
+                    const tbody = document.getElementById('error-table-body');
+                    const errorCount = document.getElementById('error-count');
 
-            // Fetch and draw median flow rates
-            fetch(`/history/median_flow_rates?date=${date}`)
-                .then(response => response.json())
-                .then(data => {
-                    var annotationData = new google.visualization.DataTable();
-                    annotationData.addColumn('date', 'Date');
-                    annotationData.addColumn('number', 'Flow Rate');
-                    annotationData.addColumn({type: 'string', role: 'annotation'});
-                    annotationData.addColumn({type: 'string', role: 'annotationText'});
-                    data.forEach(row => {
-                        annotationData.addRow([new Date(row.timestamp), row.median_flow_rate, null, null]);
-                    });
-                    var chart = new google.visualization.AnnotationChart(document.getElementById('flowrate-chart'));
-                    var options = { displayAnnotations: true, width: '100%' };
-                    chart.draw(annotationData, options);
-                });
-
-            // Fetch and draw cumulative volume
-            fetch(`/history/median_volumes?date=${date}`)
-                .then(response => response.json())
-                .then(data => {
-                    var areaData = new google.visualization.DataTable();
-                    areaData.addColumn('date', 'Date');
-                    areaData.addColumn('number', 'Cumulative Volume');
-                    var cumulativeVolume = 0;
-                    data.forEach(row => {
-                        cumulativeVolume += row.median_volume;
-                        areaData.addRow([new Date(row.timestamp), cumulativeVolume]);
-                    });
-                    var chart = new google.visualization.AreaChart(document.getElementById('area-chart'));
-                    var options = { title: 'Cumulative Volume Over Time', hAxis: {title: 'Time'}, vAxis: {title: 'Volume'}, legend: {position: 'bottom'}, width: '100%' };
-                    chart.draw(areaData, options);
-                });
+                    if (data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">No errors recorded</td></tr>';
+                        errorCount.querySelector('span:last-child').textContent = '0 errors';
+                        errorCount.className = 'status-indicator status-on';
+                    } else {
+                        tbody.innerHTML = data.map(error => `
+                            <tr>
+                                <td class="${error.error_type.includes('Leak') ? 'error-type-leak' : 'error-type-blockage'}">
+                                    <strong>${error.error_type}</strong>
+                                </td>
+                                <td>
+                                    <div class="text-muted" style="font-size: 0.75rem;">${new Date(error.timestamp).toLocaleString()}</div>
+                                    <div>${error.details}</div>
+                                </td>
+                            </tr>
+                        `).join('');
+                        errorCount.querySelector('span:last-child').textContent = `${data.length} error${data.length > 1 ? 's' : ''}`;
+                        errorCount.className = 'status-indicator status-warning';
+                    }
+                })
+                .catch(err => console.error('Error fetching errors:', err));
         }
+
+        function showError(error) {
+            const errorCard = document.getElementById('error-log-card');
+            errorCard.classList.add('alert-shake');
+            setTimeout(() => errorCard.classList.remove('alert-shake'), 500);
+        }
+
+        function clearErrors() {
+            const errorCard = document.getElementById('error-log-card');
+            errorCard.classList.remove('card-error', 'active');
+        }
+
+        // ============================================
+        // Demo Controls
+        // ============================================
+        function triggerLeak() {
+            fetch('/demo/trigger-leak', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => console.log('Leak triggered:', data))
+                .catch(err => console.error('Error triggering leak:', err));
+        }
+
+        function triggerBlockage() {
+            fetch('/demo/trigger-blockage', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => console.log('Blockage triggered:', data))
+                .catch(err => console.error('Error triggering blockage:', err));
+        }
+
+        function resetDemo() {
+            fetch('/demo/reset', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Demo reset:', data);
+                    fetchSystemState();
+                    fetchDetectionStatus();
+                    fetchErrors();
+                })
+                .catch(err => console.error('Error resetting demo:', err));
+        }
+
+        // ============================================
+        // Initialize
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            fetchSystemState();
+            fetchDetectionStatus();
+            fetchErrors();
+
+            // Periodic updates
+            setInterval(fetchSystemState, 2000);
+            setInterval(fetchDetectionStatus, 1000);
+            setInterval(fetchErrors, 3000);
+        });
     </script>
 </body>
+
 </html>

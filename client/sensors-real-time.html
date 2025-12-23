@@ -1,206 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Flow Real-Time Monitoring</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>WLeaks - Real-Time Monitoring</title>
+    <meta name="description" content="Real-time water flow sensor monitoring with live gauge displays">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="css/theme.css">
+
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <!-- Socket.IO -->
     <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', {packages: ['gauge']});
-    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        body {
-            padding-top: 20px;
+        .radial-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
         }
-        .chart-container {
-            margin-bottom: 30px;
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-lg);
         }
-        .sensor-box {
-            padding: 15px;
-            margin-bottom: 30px;
-            border: 1px solid #dee2e6;
-            border-radius: 0.25rem;
-            background-color: #f8f9fa;
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: var(--space-lg);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .metric-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: var(--space-xs);
+        }
+
+        .sensor-1 .metric-value {
+            color: #06b6d4;
+        }
+
+        .sensor-2 .metric-value {
+            color: #3b82f6;
+        }
+
+        .sensor-3 .metric-value {
+            color: #8b5cf6;
+        }
+
+        .sensor-1 .sensor-icon {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .sensor-2 .sensor-icon {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .sensor-3 .sensor-icon {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .comparison-section {
+            margin-top: var(--space-2xl);
+        }
+
+        .comparison-chart {
+            height: 300px;
         }
     </style>
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Water Flow Monitoring</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                </svg>
+                WLeaks
+            </a>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="sensors-real-time.html">Real-Time Monitoring</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sensors-history.html">History</a>
-                </li>
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="sensors-real-time.html" class="nav-link active">Real-Time</a></li>
+                <li><a href="sensors-history.html" class="nav-link">History</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container">
-        <header class="text-center mb-4">
-            <h1>Water Flow Real-Time Monitoring</h1>
+    <main class="container-fluid">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Real-Time Sensor Monitoring</h1>
+            <p>Live flow meter readings from all three sensors with radial gauges and comparison charts</p>
         </header>
 
-        <div class="row">
+        <!-- Sensor Cards Grid -->
+        <div class="sensor-grid">
             <!-- Sensor 1 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>Sensor 1</h2>
-                    <div class="chart-container">
-                        <h4>Flow Rate</h4>
-                        <div id="gauge-flowrate0"></div>
+            <div class="card sensor-card sensor-1">
+                <div class="sensor-header">
+                    <div class="sensor-icon">
+                        <i data-lucide="gauge"></i>
                     </div>
-                    <div class="chart-container">
-                        <h4>Pulse Count</h4>
-                        <div id="gauge-pulse0"></div>
+                    <div>
+                        <div class="sensor-name">Sensor 1</div>
+                        <div class="sensor-id">Entry Point • Pin 21</div>
                     </div>
-                    <div class="chart-container">
-                        <h4>Volume</h4>
-                        <div id="gauge-volume0"></div>
+                </div>
+
+                <div class="radial-chart-container">
+                    <div id="radial-sensor1"></div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div id="s1-flow" class="metric-value">0.00</div>
+                        <div class="metric-label">Flow Rate (L/min)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div id="s1-pulse" class="metric-value">0</div>
+                        <div class="metric-label">Pulses/sec</div>
+                    </div>
+                    <div class="metric-card">
+                        <div id="s1-volume" class="metric-value">0.00</div>
+                        <div class="metric-label">Volume (L)</div>
                     </div>
                 </div>
             </div>
 
             <!-- Sensor 2 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>Sensor 2</h2>
-                    <div class="chart-container">
-                        <h4>Flow Rate</h4>
-                        <div id="gauge-flowrate1"></div>
+            <div class="card sensor-card sensor-2">
+                <div class="sensor-header">
+                    <div class="sensor-icon">
+                        <i data-lucide="gauge"></i>
                     </div>
-                    <div class="chart-container">
-                        <h4>Pulse Count</h4>
-                        <div id="gauge-pulse1"></div>
+                    <div>
+                        <div class="sensor-name">Sensor 2</div>
+                        <div class="sensor-id">Mid Point • Pin 20</div>
                     </div>
-                    <div class="chart-container">
-                        <h4>Volume</h4>
-                        <div id="gauge-volume1"></div>
+                </div>
+
+                <div class="radial-chart-container">
+                    <div id="radial-sensor2"></div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div id="s2-flow" class="metric-value">0.00</div>
+                        <div class="metric-label">Flow Rate (L/min)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div id="s2-pulse" class="metric-value">0</div>
+                        <div class="metric-label">Pulses/sec</div>
+                    </div>
+                    <div class="metric-card">
+                        <div id="s2-volume" class="metric-value">0.00</div>
+                        <div class="metric-label">Volume (L)</div>
                     </div>
                 </div>
             </div>
 
             <!-- Sensor 3 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>Sensor 3</h2>
-                    <div class="chart-container">
-                        <h4>Flow Rate</h4>
-                        <div id="gauge-flowrate2"></div>
+            <div class="card sensor-card sensor-3">
+                <div class="sensor-header">
+                    <div class="sensor-icon">
+                        <i data-lucide="gauge"></i>
                     </div>
-                    <div class="chart-container">
-                        <h4>Pulse Count</h4>
-                        <div id="gauge-pulse2"></div>
+                    <div>
+                        <div class="sensor-name">Sensor 3</div>
+                        <div class="sensor-id">Exit Point • Pin 19</div>
                     </div>
-                    <div class="chart-container">
-                        <h4>Volume</h4>
-                        <div id="gauge-volume2"></div>
+                </div>
+
+                <div class="radial-chart-container">
+                    <div id="radial-sensor3"></div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div id="s3-flow" class="metric-value">0.00</div>
+                        <div class="metric-label">Flow Rate (L/min)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div id="s3-pulse" class="metric-value">0</div>
+                        <div class="metric-label">Pulses/sec</div>
+                    </div>
+                    <div class="metric-card">
+                        <div id="s3-volume" class="metric-value">0.00</div>
+                        <div class="metric-label">Volume (L)</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Comparison Section -->
+        <section class="comparison-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Flow Rate Comparison</h2>
+                    <span class="text-muted">Real-time comparison across all sensors</span>
+                </div>
+                <div id="comparison-chart" class="comparison-chart"></div>
+            </div>
+        </section>
+    </main>
 
     <script>
-        google.charts.setOnLoadCallback(initialize);
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-        let flowRateCharts = [];
-        let pulseCharts = [];
-        let volumeCharts = [];
-        let flowRateData = [];
-        let pulseData = [];
-        let volumeData = [];
+        // Socket.IO connection
+        const socket = io();
 
-        function initialize() {
-            const options = { width: 300, height: 300, redFrom: 0.9, redTo: 1, yellowFrom: 0.75, yellowTo: 0.9, minorTicks: 5 };
+        // Chart instances
+        let radialCharts = [];
+        let comparisonChart;
 
-            // Initialize the charts with dummy data
+        // Data storage
+        const maxDataPoints = 30;
+        const sensorData = {
+            0: { flow: [], timestamps: [] },
+            1: { flow: [], timestamps: [] },
+            2: { flow: [], timestamps: [] }
+        };
+
+        // Colors for each sensor
+        const sensorColors = ['#06b6d4', '#3b82f6', '#8b5cf6'];
+
+        // ============================================
+        // Radial Gauge Charts
+        // ============================================
+        function initRadialCharts() {
             for (let i = 0; i < 3; i++) {
-                flowRateData[i] = google.visualization.arrayToDataTable([
-                    ['Label', 'Value'],
-                    ['Flow Rate', 0]
-                ]);
-                pulseData[i] = google.visualization.arrayToDataTable([
-                    ['Label', 'Value'],
-                    ['Pulse Count', 0]
-                ]);
-                volumeData[i] = google.visualization.arrayToDataTable([
-                    ['Label', 'Value'],
-                    ['Volume', 0]
-                ]);
+                const options = {
+                    series: [0],
+                    chart: {
+                        type: 'radialBar',
+                        height: 200,
+                        background: 'transparent',
+                        animations: {
+                            enabled: true,
+                            easing: 'easeinout',
+                            speed: 800
+                        }
+                    },
+                    plotOptions: {
+                        radialBar: {
+                            startAngle: -135,
+                            endAngle: 135,
+                            hollow: {
+                                margin: 0,
+                                size: '70%',
+                                background: 'transparent'
+                            },
+                            track: {
+                                background: 'rgba(255,255,255,0.1)',
+                                strokeWidth: '100%'
+                            },
+                            dataLabels: {
+                                name: {
+                                    show: true,
+                                    fontSize: '12px',
+                                    fontFamily: 'Inter, sans-serif',
+                                    color: '#9ca3af',
+                                    offsetY: 60
+                                },
+                                value: {
+                                    show: true,
+                                    fontSize: '24px',
+                                    fontFamily: 'JetBrains Mono, monospace',
+                                    fontWeight: 600,
+                                    color: sensorColors[i],
+                                    offsetY: 10,
+                                    formatter: (val) => (val * 5 / 100).toFixed(2)
+                                }
+                            }
+                        }
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shade: 'dark',
+                            type: 'horizontal',
+                            gradientToColors: [sensorColors[i]],
+                            stops: [0, 100]
+                        }
+                    },
+                    stroke: { lineCap: 'round' },
+                    labels: ['L/min']
+                };
 
-                flowRateCharts[i] = new google.visualization.Gauge(document.getElementById(`gauge-flowrate${i}`));
-                pulseCharts[i] = new google.visualization.Gauge(document.getElementById(`gauge-pulse${i}`));
-                volumeCharts[i] = new google.visualization.Gauge(document.getElementById(`gauge-volume${i}`));
-
-                flowRateCharts[i].draw(flowRateData[i], options);
-                pulseCharts[i].draw(pulseData[i], options);
-                volumeCharts[i].draw(volumeData[i], options);
-            }
-
-            const socket = io();
-
-            // Listen for real-time data
-            socket.on('realtime-data', (data) => {
-                updateGaugeChart(data);
-            });
-
-            // Update the charts every second
-            setInterval(() => {
-                for (let i = 0; i < 3; i++) {
-                    fetch(`/realtime/flow_rates/${i}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            updateGaugeChart({ sensorId: i, flowRate: data[0].flowRate, pulseCount: 0, volume: 0 });
-                        });
-
-                    fetch(`/realtime/pulses/${i}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            updateGaugeChart({ sensorId: i, flowRate: 0, pulseCount: data[0].pulseCount, volume: 0 });
-                        });
-
-                    fetch(`/realtime/volumes/${i}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            updateGaugeChart({ sensorId: i, flowRate: 0, pulseCount: 0, volume: data[0].volume });
-                        });
-                }
-            }, 1000);
-        }
-
-        function updateGaugeChart(data) {
-            const sensorId = data.sensorId;
-
-            if (data.flowRate !== undefined) {
-                flowRateData[sensorId].setValue(0, 1, data.flowRate);
-                flowRateCharts[sensorId].draw(flowRateData[sensorId]);
-            }
-
-            if (data.volume !== undefined) {
-                volumeData[sensorId].setValue(0, 1, data.volume);
-                volumeCharts[sensorId].draw(volumeData[sensorId]);
-            }
-
-            if (data.pulseCount !== undefined) {
-                pulseData[sensorId].setValue(0, 1, data.pulseCount);
-                pulseCharts[sensorId].draw(pulseData[sensorId]);
+                radialCharts[i] = new ApexCharts(
+                    document.getElementById(`radial-sensor${i + 1}`),
+                    options
+                );
+                radialCharts[i].render();
             }
         }
+
+        // ============================================
+        // Comparison Line Chart
+        // ============================================
+        function initComparisonChart() {
+            const options = {
+                series: [
+                    { name: 'Sensor 1', data: [] },
+                    { name: 'Sensor 2', data: [] },
+                    { name: 'Sensor 3', data: [] }
+                ],
+                chart: {
+                    type: 'line',
+                    height: 280,
+                    background: 'transparent',
+                    fontFamily: 'Inter, sans-serif',
+                    toolbar: { show: false },
+                    animations: {
+                        enabled: true,
+                        easing: 'linear',
+                        dynamicAnimation: { speed: 1000 }
+                    }
+                },
+                colors: sensorColors,
+                stroke: { curve: 'smooth', width: 2 },
+                theme: { mode: 'dark' },
+                grid: {
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    strokeDashArray: 3
+                },
+                xaxis: {
+                    type: 'datetime',
+                    labels: { style: { colors: '#9ca3af' } }
+                },
+                yaxis: {
+                    title: { text: 'Flow Rate (L/min)', style: { color: '#9ca3af' } },
+                    labels: { style: { colors: '#9ca3af' } }
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'right',
+                    labels: { colors: '#9ca3af' }
+                },
+                tooltip: { theme: 'dark' }
+            };
+
+            comparisonChart = new ApexCharts(
+                document.getElementById('comparison-chart'),
+                options
+            );
+            comparisonChart.render();
+        }
+
+        // ============================================
+        // Real-time Data Updates
+        // ============================================
+        socket.on('realtime-data', (data) => {
+            const sensorNum = data.sensorId + 1;
+            const timestamp = new Date().getTime();
+
+            // Update metric displays
+            document.getElementById(`s${sensorNum}-flow`).textContent = data.flowRate.toFixed(2);
+            document.getElementById(`s${sensorNum}-pulse`).textContent = data.pulseCount;
+            document.getElementById(`s${sensorNum}-volume`).textContent = data.volume.toFixed(2);
+
+            // Update radial gauge (normalize to 0-100 for 0-5 L/min range)
+            const normalizedFlow = Math.min((data.flowRate / 5) * 100, 100);
+            radialCharts[data.sensorId].updateSeries([normalizedFlow]);
+
+            // Store data for comparison chart
+            sensorData[data.sensorId].flow.push([timestamp, data.flowRate]);
+            sensorData[data.sensorId].timestamps.push(timestamp);
+
+            // Limit data points
+            if (sensorData[data.sensorId].flow.length > maxDataPoints) {
+                sensorData[data.sensorId].flow.shift();
+            }
+
+            // Update comparison chart (only when all sensors have data)
+            if (data.sensorId === 2) {
+                comparisonChart.updateSeries([
+                    { name: 'Sensor 1', data: sensorData[0].flow },
+                    { name: 'Sensor 2', data: sensorData[1].flow },
+                    { name: 'Sensor 3', data: sensorData[2].flow }
+                ]);
+            }
+        });
+
+        // ============================================
+        // Initialize
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initRadialCharts();
+            initComparisonChart();
+        });
     </script>
 </body>
+
 </html>

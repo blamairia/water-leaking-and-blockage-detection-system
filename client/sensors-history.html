@@ -1,296 +1,518 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Flow Monitoring History</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>WLeaks - Historical Data</title>
+    <meta name="description" content="Historical water flow sensor data with interactive date range filtering">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="css/theme.css">
+
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <!-- Flatpickr Date Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script type="text/javascript">
-        google.charts.load('current', {packages: ['corechart', 'annotationchart']});
-    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        body {
-            padding-top: 20px;
+        .date-picker-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            flex-wrap: wrap;
         }
-        .chart-container {
-            margin-bottom: 30px;
+
+        .date-picker-input {
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--glass-bg);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            min-width: 240px;
+            cursor: pointer;
         }
-        .sensor-box {
-            padding: 15px;
-            margin-bottom: 30px;
-            border: 1px solid #dee2e6;
-            border-radius: 0.25rem;
-            background-color: #f8f9fa;
+
+        .date-picker-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
         }
-        .date-range-picker {
-            margin-bottom: 20px;
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .chart-full-width {
+            height: 300px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--accent-primary);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: var(--space-xs);
+        }
+
+        @media (max-width: 768px) {
+            .history-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Water Flow Monitoring</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                </svg>
+                WLeaks
+            </a>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sensors-real-time.html">Real-Time Monitoring</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="sensors-history.html">History</a>
-                </li>
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="sensors-real-time.html" class="nav-link">Real-Time</a></li>
+                <li><a href="sensors-history.html" class="nav-link active">History</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <header class="text-center mb-4">
-            <h1>Water Flow Monitoring History</h1>
+    <main class="container-fluid">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Historical Data Analysis</h1>
+            <p>Explore historical flow meter data with interactive charts and date range filtering</p>
         </header>
 
-        <div class="date-range-picker text-center">
-            <input id="date-range" class="form-control" placeholder="Select Date Range" />
+        <!-- Date Range Picker -->
+        <div class="date-picker-section">
+            <i data-lucide="calendar" style="color: var(--text-secondary);"></i>
+            <input id="date-range" class="date-picker-input" placeholder="Select date range..." />
+            <button class="btn btn-outline btn-sm" onclick="loadLastWeek()">
+                <i data-lucide="clock"></i> Last 7 Days
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="loadLastMonth()">
+                <i data-lucide="calendar-days"></i> Last 30 Days
+            </button>
         </div>
 
-        <div class="row">
+        <!-- Stats Summary -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div id="stat-total-volume" class="stat-value">0 L</div>
+                <div class="stat-label">Total Volume</div>
+            </div>
+            <div class="stat-card">
+                <div id="stat-avg-flow" class="stat-value">0 L/min</div>
+                <div class="stat-label">Avg Flow Rate</div>
+            </div>
+            <div class="stat-card">
+                <div id="stat-data-points" class="stat-value">0</div>
+                <div class="stat-label">Data Points</div>
+            </div>
+            <div class="stat-card">
+                <div id="stat-errors" class="stat-value">0</div>
+                <div class="stat-label">Errors Logged</div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="history-grid">
             <!-- Sensor 1 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>Sensor 1</h2>
-                    <div class="chart-container">
-                        <h4>Pulse Counts</h4>
-                        <div id="annotation-chart1"></div>
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                        <i data-lucide="activity"></i>
                     </div>
-                    <div class="chart-container">
-                        <h4>Flow Rates</h4>
-                        <div id="flowrate-chart1"></div>
+                    <div>
+                        <div class="sensor-name">Sensor 1</div>
+                        <div class="sensor-id">Entry Point</div>
                     </div>
-                    <div class="chart-container">
-                        <h4>Cumulative Volume</h4>
-                        <div id="area-chart1"></div>
-                    </div>
+                </div>
+                <div class="chart-container">
+                    <h4>Flow Rate Over Time</h4>
+                    <div id="chart-sensor1-flow" class="chart-full-width"></div>
+                </div>
+                <div class="chart-container">
+                    <h4>Cumulative Volume</h4>
+                    <div id="chart-sensor1-volume" class="chart-full-width"></div>
                 </div>
             </div>
 
             <!-- Sensor 2 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>Sensor 2</h2>
-                    <div class="chart-container">
-                        <h4>Pulse Counts</h4>
-                        <div id="annotation-chart2"></div>
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                        <i data-lucide="activity"></i>
                     </div>
-                    <div class="chart-container">
-                        <h4>Flow Rates</h4>
-                        <div id="flowrate-chart2"></div>
+                    <div>
+                        <div class="sensor-name">Sensor 2</div>
+                        <div class="sensor-id">Mid Point</div>
                     </div>
-                    <div class="chart-container">
-                        <h4>Cumulative Volume</h4>
-                        <div id="area-chart2"></div>
-                    </div>
+                </div>
+                <div class="chart-container">
+                    <h4>Flow Rate Over Time</h4>
+                    <div id="chart-sensor2-flow" class="chart-full-width"></div>
+                </div>
+                <div class="chart-container">
+                    <h4>Cumulative Volume</h4>
+                    <div id="chart-sensor2-volume" class="chart-full-width"></div>
                 </div>
             </div>
 
             <!-- Sensor 3 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="sensor-box">
-                    <h2>Sensor 3</h2>
-                    <div class="chart-container">
-                        <h4>Pulse Counts</h4>
-                        <div id="annotation-chart3"></div>
+            <div class="card sensor-card">
+                <div class="sensor-header">
+                    <div class="sensor-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i data-lucide="activity"></i>
                     </div>
-                    <div class="chart-container">
-                        <h4>Flow Rates</h4>
-                        <div id="flowrate-chart3"></div>
+                    <div>
+                        <div class="sensor-name">Sensor 3</div>
+                        <div class="sensor-id">Exit Point</div>
                     </div>
-                    <div class="chart-container">
-                        <h4>Cumulative Volume</h4>
-                        <div id="area-chart3"></div>
-                    </div>
+                </div>
+                <div class="chart-container">
+                    <h4>Flow Rate Over Time</h4>
+                    <div id="chart-sensor3-flow" class="chart-full-width"></div>
+                </div>
+                <div class="chart-container">
+                    <h4>Cumulative Volume</h4>
+                    <div id="chart-sensor3-volume" class="chart-full-width"></div>
+                </div>
+            </div>
+
+            <!-- Median Summary -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">System Average</h2>
+                    <span class="text-muted">Median values across all sensors</span>
+                </div>
+                <div class="chart-container">
+                    <h4>Average Flow Rate</h4>
+                    <div id="chart-median-flow" class="chart-full-width"></div>
+                </div>
+                <div class="chart-container">
+                    <h4>Cumulative Volume</h4>
+                    <div id="chart-median-volume" class="chart-full-width"></div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        google.charts.setOnLoadCallback(initialize);
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-        function initialize() {
-            const endDate = new Date().toISOString().slice(0, 10); // Today's date
-            const startDate = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10); // 15 days ago
-            drawHistoricalCharts(startDate, endDate);
+        // Chart instances
+        const charts = {
+            sensor1Flow: null,
+            sensor1Volume: null,
+            sensor2Flow: null,
+            sensor2Volume: null,
+            sensor3Flow: null,
+            sensor3Volume: null,
+            medianFlow: null,
+            medianVolume: null
+        };
 
-            // Initialize date range picker
-            flatpickr("#date-range", {
-                mode: "range",
-                dateFormat: "Y-m-d",
-                defaultDate: [startDate, endDate],
-                onClose: function(selectedDates, dateStr, instance) {
+        // Colors
+        const colors = {
+            sensor1: '#06b6d4',
+            sensor2: '#3b82f6',
+            sensor3: '#8b5cf6',
+            median: '#10b981'
+        };
+
+        // Date range
+        let dateRange = {
+            start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+            end: new Date().toISOString().slice(0, 10)
+        };
+
+        // ============================================
+        // Chart Configuration
+        // ============================================
+        function getChartOptions(color, type = 'line') {
+            return {
+                chart: {
+                    type: type,
+                    height: 280,
+                    background: 'transparent',
+                    fontFamily: 'Inter, sans-serif',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                            selection: true,
+                            zoom: true,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true,
+                            reset: true
+                        }
+                    },
+                    animations: { enabled: true }
+                },
+                colors: [color],
+                stroke: { curve: 'smooth', width: 2 },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.4,
+                        opacityTo: 0.1,
+                        stops: [0, 90, 100]
+                    }
+                },
+                theme: { mode: 'dark' },
+                grid: {
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    strokeDashArray: 3
+                },
+                xaxis: {
+                    type: 'datetime',
+                    labels: { style: { colors: '#9ca3af' } }
+                },
+                yaxis: {
+                    labels: { style: { colors: '#9ca3af' } }
+                },
+                tooltip: { theme: 'dark' },
+                noData: {
+                    text: 'No data available',
+                    style: { color: '#9ca3af', fontSize: '14px' }
+                }
+            };
+        }
+
+        // ============================================
+        // Initialize Charts
+        // ============================================
+        function initCharts() {
+            // Sensor 1
+            charts.sensor1Flow = new ApexCharts(
+                document.getElementById('chart-sensor1-flow'),
+                { ...getChartOptions(colors.sensor1, 'area'), series: [{ name: 'Flow Rate', data: [] }] }
+            );
+            charts.sensor1Volume = new ApexCharts(
+                document.getElementById('chart-sensor1-volume'),
+                { ...getChartOptions(colors.sensor1, 'area'), series: [{ name: 'Volume', data: [] }] }
+            );
+
+            // Sensor 2
+            charts.sensor2Flow = new ApexCharts(
+                document.getElementById('chart-sensor2-flow'),
+                { ...getChartOptions(colors.sensor2, 'area'), series: [{ name: 'Flow Rate', data: [] }] }
+            );
+            charts.sensor2Volume = new ApexCharts(
+                document.getElementById('chart-sensor2-volume'),
+                { ...getChartOptions(colors.sensor2, 'area'), series: [{ name: 'Volume', data: [] }] }
+            );
+
+            // Sensor 3
+            charts.sensor3Flow = new ApexCharts(
+                document.getElementById('chart-sensor3-flow'),
+                { ...getChartOptions(colors.sensor3, 'area'), series: [{ name: 'Flow Rate', data: [] }] }
+            );
+            charts.sensor3Volume = new ApexCharts(
+                document.getElementById('chart-sensor3-volume'),
+                { ...getChartOptions(colors.sensor3, 'area'), series: [{ name: 'Volume', data: [] }] }
+            );
+
+            // Median
+            charts.medianFlow = new ApexCharts(
+                document.getElementById('chart-median-flow'),
+                { ...getChartOptions(colors.median, 'area'), series: [{ name: 'Avg Flow Rate', data: [] }] }
+            );
+            charts.medianVolume = new ApexCharts(
+                document.getElementById('chart-median-volume'),
+                { ...getChartOptions(colors.median, 'area'), series: [{ name: 'Cumulative Volume', data: [] }] }
+            );
+
+            // Render all charts
+            Object.values(charts).forEach(chart => chart.render());
+        }
+
+        // ============================================
+        // Data Loading
+        // ============================================
+        async function loadHistoricalData() {
+            const { start, end } = dateRange;
+            let totalDataPoints = 0;
+            let totalVolume = 0;
+            let totalFlowSum = 0;
+            let flowCount = 0;
+
+            // Load sensor data
+            for (let i = 0; i < 3; i++) {
+                try {
+                    // Flow rates
+                    const flowRes = await fetch(`/history/flow_rates/${i}?start_date=${start}&end_date=${end}`);
+                    const flowData = await flowRes.json();
+                    const flowChartData = flowData.map(row => [new Date(row.timestamp).getTime(), row.flow_rate]);
+
+                    // Volumes
+                    const volRes = await fetch(`/history/volumes/${i}?start_date=${start}&end_date=${end}`);
+                    const volData = await volRes.json();
+                    const volChartData = volData.map(row => [new Date(row.timestamp).getTime(), row.volume]);
+
+                    // Update charts
+                    const sensorNum = i + 1;
+                    charts[`sensor${sensorNum}Flow`].updateSeries([{ data: flowChartData }]);
+                    charts[`sensor${sensorNum}Volume`].updateSeries([{ data: volChartData }]);
+
+                    // Accumulate stats
+                    totalDataPoints += flowData.length;
+                    flowData.forEach(row => {
+                        totalFlowSum += row.flow_rate;
+                        flowCount++;
+                    });
+                    if (volData.length > 0) {
+                        totalVolume += volData[volData.length - 1].volume;
+                    }
+                } catch (err) {
+                    console.error(`Error loading sensor ${i} data:`, err);
+                }
+            }
+
+            // Load median data
+            try {
+                const medianFlowRes = await fetch(`/history/median_flow_rates?start_date=${start}&end_date=${end}`);
+                const medianFlowData = await medianFlowRes.json();
+                const medianFlowChartData = medianFlowData.map(row => [new Date(row.timestamp).getTime(), row.median_flow_rate]);
+                charts.medianFlow.updateSeries([{ data: medianFlowChartData }]);
+
+                const medianVolRes = await fetch(`/history/median_volumes?start_date=${start}&end_date=${end}`);
+                const medianVolData = await medianVolRes.json();
+                let cumVolume = 0;
+                const medianVolChartData = medianVolData.map(row => {
+                    cumVolume += row.median_volume;
+                    return [new Date(row.timestamp).getTime(), cumVolume];
+                });
+                charts.medianVolume.updateSeries([{ data: medianVolChartData }]);
+            } catch (err) {
+                console.error('Error loading median data:', err);
+            }
+
+            // Load error count
+            try {
+                const errorsRes = await fetch('/errors');
+                const errors = await errorsRes.json();
+                document.getElementById('stat-errors').textContent = errors.length;
+            } catch (err) {
+                console.error('Error loading errors:', err);
+            }
+
+            // Update stats
+            document.getElementById('stat-total-volume').textContent = `${totalVolume.toFixed(1)} L`;
+            document.getElementById('stat-avg-flow').textContent = `${(totalFlowSum / Math.max(flowCount, 1)).toFixed(2)} L/min`;
+            document.getElementById('stat-data-points').textContent = totalDataPoints.toLocaleString();
+        }
+
+        // ============================================
+        // Date Range Helpers
+        // ============================================
+        function loadLastWeek() {
+            const end = new Date();
+            const start = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            dateRange = {
+                start: start.toISOString().slice(0, 10),
+                end: end.toISOString().slice(0, 10)
+            };
+            datePicker.setDate([start, end]);
+            loadHistoricalData();
+        }
+
+        function loadLastMonth() {
+            const end = new Date();
+            const start = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+            dateRange = {
+                start: start.toISOString().slice(0, 10),
+                end: end.toISOString().slice(0, 10)
+            };
+            datePicker.setDate([start, end]);
+            loadHistoricalData();
+        }
+
+        // ============================================
+        // Date Picker
+        // ============================================
+        let datePicker;
+        function initDatePicker() {
+            datePicker = flatpickr('#date-range', {
+                mode: 'range',
+                dateFormat: 'Y-m-d',
+                defaultDate: [dateRange.start, dateRange.end],
+                theme: 'dark',
+                onClose: function (selectedDates) {
                     if (selectedDates.length === 2) {
-                        drawHistoricalCharts(selectedDates[0].toISOString().slice(0, 10), selectedDates[1].toISOString().slice(0, 10));
+                        dateRange = {
+                            start: selectedDates[0].toISOString().slice(0, 10),
+                            end: selectedDates[1].toISOString().slice(0, 10)
+                        };
+                        loadHistoricalData();
                     }
                 }
             });
         }
 
-        function drawHistoricalCharts(startDate, endDate) {
-            fetch(`/history/pulses/0?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var annotationData = new google.visualization.DataTable();
-                    annotationData.addColumn('date', 'Date');
-                    annotationData.addColumn('number', 'Pulse Count');
-                    annotationData.addColumn({type: 'string', role: 'annotation'});
-                    annotationData.addColumn({type: 'string', role: 'annotationText'});
-                    data.forEach(row => {
-                        annotationData.addRow([new Date(row.timestamp), row.pulse_count, null, null]);
-                    });
-                    var chart = new google.visualization.AnnotationChart(document.getElementById('annotation-chart1'));
-                    var options = { displayAnnotations: true, width: '100%' };
-                    chart.draw(annotationData, options);
-                });
-
-            fetch(`/history/flow_rates/0?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var annotationData = new google.visualization.DataTable();
-                    annotationData.addColumn('date', 'Date');
-                    annotationData.addColumn('number', 'Flow Rate');
-                    annotationData.addColumn({type: 'string', role: 'annotation'});
-                    annotationData.addColumn({type: 'string', role: 'annotationText'});
-                    data.forEach(row => {
-                        annotationData.addRow([new Date(row.timestamp), row.flow_rate, null, null]);
-                    });
-                    var chart = new google.visualization.AnnotationChart(document.getElementById('flowrate-chart1'));
-                    var options = { displayAnnotations: true, width: '100%' };
-                    chart.draw(annotationData, options);
-                });
-
-            fetch(`/history/volumes/0?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var areaData = new google.visualization.DataTable();
-                    areaData.addColumn('date', 'Date');
-                    areaData.addColumn('number', 'Cumulative Volume');
-                    var cumulativeVolume = 0;
-                    data.forEach(row => {
-                        cumulativeVolume += row.volume;
-                        areaData.addRow([new Date(row.timestamp), cumulativeVolume]);
-                    });
-                    var chart = new google.visualization.AreaChart(document.getElementById('area-chart1'));
-                    var options = { title: 'Cumulative Volume Over Time', hAxis: {title: 'Time'}, vAxis: {title: 'Volume'}, legend: {position: 'bottom'}, width: '100%' };
-                    chart.draw(areaData, options);
-                });
-
-            // Repeat for Sensor 2
-            fetch(`/history/pulses/1?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var annotationData = new google.visualization.DataTable();
-                    annotationData.addColumn('date', 'Date');
-                    annotationData.addColumn('number', 'Pulse Count');
-                    annotationData.addColumn({type: 'string', role: 'annotation'});
-                    annotationData.addColumn({type: 'string', role: 'annotationText'});
-                    data.forEach(row => {
-                        annotationData.addRow([new Date(row.timestamp), row.pulse_count, null, null]);
-                    });
-                    var chart = new google.visualization.AnnotationChart(document.getElementById('annotation-chart2'));
-                    var options = { displayAnnotations: true, width: '100%' };
-                    chart.draw(annotationData, options);
-                });
-
-            fetch(`/history/flow_rates/1?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var annotationData = new google.visualization.DataTable();
-                    annotationData.addColumn('date', 'Date');
-                    annotationData.addColumn('number', 'Flow Rate');
-                    annotationData.addColumn({type: 'string', role: 'annotation'});
-                    annotationData.addColumn({type: 'string', role: 'annotationText'});
-                    data.forEach(row => {
-                        annotationData.addRow([new Date(row.timestamp), row.flow_rate, null, null]);
-                    });
-                    var chart = new google.visualization.AnnotationChart(document.getElementById('flowrate-chart2'));
-                    var options = { displayAnnotations: true, width: '100%' };
-                    chart.draw(annotationData, options);
-                });
-
-            fetch(`/history/volumes/1?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var areaData = new google.visualization.DataTable();
-                    areaData.addColumn('date', 'Date');
-                    areaData.addColumn('number', 'Cumulative Volume');
-                    var cumulativeVolume = 0;
-                    data.forEach(row => {
-                        cumulativeVolume += row.volume;
-                        areaData.addRow([new Date(row.timestamp), cumulativeVolume]);
-                    });
-                    var chart = new google.visualization.AreaChart(document.getElementById('area-chart2'));
-                    var options = { title: 'Cumulative Volume Over Time', hAxis: {title: 'Time'}, vAxis: {title: 'Volume'}, legend: {position: 'bottom'}, width: '100%' };
-                    chart.draw(areaData, options);
-                });
-
-            // Repeat for Sensor 3
-            fetch(`/history/pulses/2?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var annotationData = new google.visualization.DataTable();
-                    annotationData.addColumn('date', 'Date');
-                    annotationData.addColumn('number', 'Pulse Count');
-                    annotationData.addColumn({type: 'string', role: 'annotation'});
-                    annotationData.addColumn({type: 'string', role: 'annotationText'});
-                    data.forEach(row => {
-                        annotationData.addRow([new Date(row.timestamp), row.pulse_count, null, null]);
-                    });
-                    var chart = new google.visualization.AnnotationChart(document.getElementById('annotation-chart3'));
-                    var options = { displayAnnotations: true, width: '100%' };
-                    chart.draw(annotationData, options);
-                });
-
-            fetch(`/history/flow_rates/2?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var annotationData = new google.visualization.DataTable();
-                    annotationData.addColumn('date', 'Date');
-                    annotationData.addColumn('number', 'Flow Rate');
-                    annotationData.addColumn({type: 'string', role: 'annotation'});
-                    annotationData.addColumn({type: 'string', role: 'annotationText'});
-                    data.forEach(row => {
-                        annotationData.addRow([new Date(row.timestamp), row.flow_rate, null, null]);
-                    });
-                    var chart = new google.visualization.AnnotationChart(document.getElementById('flowrate-chart3'));
-                    var options = { displayAnnotations: true, width: '100%' };
-                    chart.draw(annotationData, options);
-                });
-
-            fetch(`/history/volumes/2?start_date=${startDate}&end_date=${endDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    var areaData = new google.visualization.DataTable();
-                    areaData.addColumn('date', 'Date');
-                    areaData.addColumn('number', 'Cumulative Volume');
-                    var cumulativeVolume = 0;
-                    data.forEach(row => {
-                        cumulativeVolume += row.volume;
-                        areaData.addRow([new Date(row.timestamp), cumulativeVolume]);
-                    });
-                    var chart = new google.visualization.AreaChart(document.getElementById('area-chart3'));
-                    var options = { title: 'Cumulative Volume Over Time', hAxis: {title: 'Time'}, vAxis: {title: 'Volume'}, legend: {position: 'bottom'}, width: '100%' };
-                    chart.draw(areaData, options);
-                });
-        }
+        // ============================================
+        // Initialize
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            initDatePicker();
+            loadHistoricalData();
+        });
     </script>
 </body>
+
 </html>

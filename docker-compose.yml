@@ -1,0 +1,14 @@
+services:
+  wleaks:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DEMO_MODE=true
+      - PORT=3000
+    volumes:
+      - wleaks-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  wleaks-data:

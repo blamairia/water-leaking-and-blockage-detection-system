@@ -1,16 +1,33 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
-const { SerialPort } = require('serialport');
-const { ReadlineParser } = require('@serialport/parser-readline');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+
+// Demo mode configuration
+const DEMO_MODE = process.env.DEMO_MODE === 'true' || process.env.DEMO_MODE === '1';
+console.log(`[WLeaks] Starting in ${DEMO_MODE ? 'DEMO' : 'HARDWARE'} mode`);
+
+// Conditional imports for hardware mode
+let SerialPort, ReadlineParser, serialPort, parser;
+let DemoSimulator, demoSimulator;
+
+if (DEMO_MODE) {
+  DemoSimulator = require('./demoSimulator');
+  demoSimulator = new DemoSimulator();
+} else {
+  ({ SerialPort } = require('serialport'));
+  ({ ReadlineParser } = require('@serialport/parser-readline'));
+}
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const port = 3000;
+const port = process.env.PORT || 3000;
 const db = new sqlite3.Database('./flowMeterData.db');
+
+// Enable JSON body parsing for POST requests
+app.use(express.json());
 
 // Serve static files from the "client" directory
 app.use(express.static(path.join(__dirname, 'client')));
@@ -65,143 +82,175 @@ db.serialize(() => {
   });
 });
 
-// Set up serial port
-const serialPort = new SerialPort({ path: 'COM15', baudRate: 115200 });
-const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\n' }));
+// ============================================
+// Data processing function (shared between modes)
+// ============================================
+function processSensorData(sensorId, pulseCount, flowRate, volume) {
+  // Fetch the last logged volume for the sensor
+  db.get("SELECT volume FROM volumes WHERE sensor_id = ? ORDER BY timestamp DESC LIMIT 1", [sensorId], (err, row) => {
+    if (err) {
+      console.error('Error fetching last volume from volumes table:', err.message);
+      return;
+    }
 
-parser.on('data', data => {
-  console.log('Serial data received:', data);
-  const trimmedData = data.trim();
+    const lastLoggedVolume = row ? row.volume : 0;
+    const accumulatedVolume = volume !== undefined ? volume : lastLoggedVolume + (pulseCount / calibrationFactors[sensorId]);
 
-  if (trimmedData === 'ON' || trimmedData === 'OFF') {
-    latestSystemState = trimmedData;
-    // Log the system state change to the database
-    db.run("INSERT INTO system_state (state) VALUES (?)", [trimmedData], err => {
+    // Update real-time data
+    realTimeData[sensorId] = {
+      pulseCount: pulseCount,
+      flowRate: flowRate,
+      volume: accumulatedVolume
+    };
+
+    // Calculate median real-time data
+    const totalFlowRate = realTimeData.reduce((acc, data) => acc + data.flowRate, 0);
+    const totalPulseCount = realTimeData.reduce((acc, data) => acc + data.pulseCount, 0);
+    const totalVolume = realTimeData.reduce((acc, data) => acc + data.volume, 0);
+
+    medianRealTimeData = {
+      flowRate: totalFlowRate / 3,
+      pulseCount: totalPulseCount / 3,
+      volume: totalVolume / 3
+    };
+
+    // Emit real-time data to the front-end
+    io.emit('realtime-data', { sensorId, pulseCount: pulseCount, flowRate: flowRate, volume: accumulatedVolume });
+    io.emit('realtime-median-data', medianRealTimeData);
+
+    // Log pulse count into the database if changed
+    if (lastPulseCount[sensorId] !== pulseCount) {
+      db.run("INSERT INTO pulses (sensor_id, pulse_count) VALUES (?, ?)", [sensorId, pulseCount], err => {
+        if (err) console.error('Error inserting into pulses table:', err.message);
+      });
+      lastPulseCount[sensorId] = pulseCount;
+    }
+
+    // Log flow rate into the database if changed
+    if (lastFlowRate[sensorId] !== flowRate) {
+      db.run("INSERT INTO flow_rates (sensor_id, flow_rate) VALUES (?, ?)", [sensorId, flowRate], err => {
+        if (err) console.error('Error inserting into flow_rates table:', err.message);
+      });
+      lastFlowRate[sensorId] = flowRate;
+    }
+
+    // Log volume into the database if changed significantly
+    if (Math.abs(lastVolume[sensorId] - accumulatedVolume) > 0.001) {
+      db.run("INSERT INTO volumes (sensor_id, volume) VALUES (?, ?)", [sensorId, accumulatedVolume], err => {
+        if (err) console.error('Error inserting into volumes table:', err.message);
+      });
+      lastVolume[sensorId] = accumulatedVolume;
+    }
+
+    // Log median values (throttled to avoid too many writes)
+    if (sensorId === 2) { // Only log once per cycle (after all 3 sensors)
+      db.run("INSERT INTO median_pulses (median_pulse_count) VALUES (?)", [medianRealTimeData.pulseCount]);
+      db.run("INSERT INTO median_flow_rates (median_flow_rate) VALUES (?)", [medianRealTimeData.flowRate]);
+      db.run("INSERT INTO median_volumes (median_volume) VALUES (?)", [medianRealTimeData.volume]);
+    }
+  });
+}
+
+// ============================================
+// Demo Mode Setup
+// ============================================
+if (DEMO_MODE) {
+  // Handle demo simulator events
+  demoSimulator.on('data', (data) => {
+    processSensorData(data.sensorId, data.pulseCount, data.flowRate, data.volume);
+  });
+
+  demoSimulator.on('systemState', (state) => {
+    latestSystemState = state;
+    db.run("INSERT INTO system_state (state) VALUES (?)", [state], err => {
       if (err) console.error('Error inserting into system_state table:', err.message);
-      else console.log(`System state logged: ${trimmedData}`);
+      else console.log(`[Demo] System state logged: ${state}`);
     });
-  } else {
-    const lines = trimmedData.split('\n');
-    lines.forEach(line => {
-      const parts = line.split(':');
-      if (parts.length === 2) {
-        const pulseCount = parseInt(parts[1]);
-        const sensorId = parseInt(parts[0].replace('FlowMeter', '')) - 1;
+    io.emit('system-state', state);
+  });
 
-        // Calculate pulses per second (assuming data received every second)
-        const pulsesPerSecond = pulseCount;
+  demoSimulator.on('error', (error) => {
+    if (error.type === 'Leak Detected') {
+      leakDetected = true;
+    } else if (error.type === 'Blockage Detected') {
+      blockageDetected = true;
+    }
 
-        // Calculate flow rate (liters/minute)
-        const flowRate = (pulsesPerSecond / calibrationFactors[sensorId]) * 60;
+    db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", [error.type, error.details], err => {
+      if (err) console.error('Error inserting into error_log table:', err.message);
+      else console.log(`[Demo] Error logged: ${error.type}`);
+    });
+    io.emit('error-detected', error);
+  });
 
-        // Calculate volume (liters)
-        const volume = pulseCount / calibrationFactors[sensorId];
+  demoSimulator.on('reset', () => {
+    leakDetected = false;
+    blockageDetected = false;
+    io.emit('system-reset');
+  });
 
-        // Fetch the last logged volume for the sensor
-        db.get("SELECT volume FROM volumes WHERE sensor_id = ? ORDER BY timestamp DESC LIMIT 1", [sensorId], (err, row) => {
-          if (err) {
-            console.error('Error fetching last volume from volumes table:', err.message);
-          } else {
-            const lastLoggedVolume = row ? row.volume : 0;
-            const accumulatedVolume = lastLoggedVolume + volume;
+  // Start the demo simulator
+  demoSimulator.start();
+}
 
-            // Update real-time data
-            realTimeData[sensorId] = {
-              pulseCount: pulseCount,
-              flowRate: flowRate,
-              volume: accumulatedVolume
-            };
+// ============================================
+// Hardware Mode Setup (Serial Port)
+// ============================================
+if (!DEMO_MODE) {
+  try {
+    serialPort = new SerialPort({ path: 'COM15', baudRate: 115200 });
+    parser = serialPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
-            // Calculate median real-time data
-            const totalFlowRate = realTimeData.reduce((acc, data) => acc + data.flowRate, 0);
-            const totalPulseCount = realTimeData.reduce((acc, data) => acc + data.pulseCount, 0);
-            const totalVolume = realTimeData.reduce((acc, data) => acc + data.volume, 0);
+    parser.on('data', data => {
+      console.log('Serial data received:', data);
+      const trimmedData = data.trim();
 
-            medianRealTimeData = {
-              flowRate: totalFlowRate / 3,
-              pulseCount: totalPulseCount / 3,
-              volume: totalVolume / 3
-            };
+      if (trimmedData === 'ON' || trimmedData === 'OFF') {
+        latestSystemState = trimmedData;
+        db.run("INSERT INTO system_state (state) VALUES (?)", [trimmedData], err => {
+          if (err) console.error('Error inserting into system_state table:', err.message);
+          else console.log(`System state logged: ${trimmedData}`);
+        });
+      } else {
+        const lines = trimmedData.split('\n');
+        lines.forEach(line => {
+          const parts = line.split(':');
+          if (parts.length === 2) {
+            const pulseCount = parseInt(parts[1]);
+            const sensorId = parseInt(parts[0].replace('FlowMeter', '')) - 1;
+            const pulsesPerSecond = pulseCount;
+            const flowRate = (pulsesPerSecond / calibrationFactors[sensorId]) * 60;
 
-            // Emit real-time data to the front-end
-            io.emit('realtime-data', { sensorId, pulseCount: pulseCount, flowRate: flowRate, volume: accumulatedVolume });
-            io.emit('realtime-median-data', medianRealTimeData);
+            processSensorData(sensorId, pulseCount, flowRate);
 
-            // Log pulse count into the database if changed
-            if (lastPulseCount[sensorId] !== pulseCount) {
-              db.run("INSERT INTO pulses (sensor_id, pulse_count) VALUES (?, ?)", [sensorId, pulseCount], err => {
-                if (err) console.error('Error inserting into pulses table:', err.message);
-                else console.log(`Pulse count logged for sensor ${sensorId + 1}: ${pulseCount}`);
-              });
-              lastPulseCount[sensorId] = pulseCount;
-            }
-
-            // Log flow rate into the database if changed
-            if (lastFlowRate[sensorId] !== flowRate) {
-              db.run("INSERT INTO flow_rates (sensor_id, flow_rate) VALUES (?, ?)", [sensorId, flowRate], err => {
-                if (err) console.error('Error inserting into flow_rates table:', err.message);
-                else console.log(`Flow rate logged for sensor ${sensorId + 1}: ${flowRate}`);
-              });
-              lastFlowRate[sensorId] = flowRate;
-            }
-
-            // Log volume into the database if changed
-            if (lastVolume[sensorId] !== volume) {
-              db.run("INSERT INTO volumes (sensor_id, volume) VALUES (?, ?)", [sensorId, accumulatedVolume], err => {
-                if (err) console.error('Error inserting into volumes table:', err.message);
-                else console.log(`Volume logged for sensor ${sensorId + 1}: ${accumulatedVolume}`);
-              });
-              lastVolume[sensorId] = accumulatedVolume;
-            }
-
-            // Log median values
-            db.run("INSERT INTO median_pulses (median_pulse_count) VALUES (?)", [medianRealTimeData.pulseCount], err => {
-              if (err) console.error('Error inserting into median_pulses table:', err.message);
-              else console.log('Median pulse count logged:', medianRealTimeData.pulseCount);
-            });
-            db.run("INSERT INTO median_flow_rates (median_flow_rate) VALUES (?)", [medianRealTimeData.flowRate], err => {
-              if (err) console.error('Error inserting into median_flow_rates table:', err.message);
-              else console.log('Median flow rate logged:', medianRealTimeData.flowRate);
-            });
-            db.run("INSERT INTO median_volumes (median_volume) VALUES (?)", [medianRealTimeData.volume], err => {
-              if (err) console.error('Error inserting into median_volumes table:', err.message);
-              else console.log('Median volume logged:', medianRealTimeData.volume);
-            });
-
-            // Detect blockage using flow rate as indicator
+            // Hardware mode: detect blockage
             if (latestSystemState === 'ON' && sensorId === 2 && flowRate <= flowRateTolerance) {
               if (!blockageStartTime) {
                 blockageStartTime = Date.now();
               } else if (Date.now() - blockageStartTime >= blockageDetectionDelay) {
                 blockageDetected = true;
-                serialPort.write('P'); // Switch off the system
-                db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", ['Blockage Detected', 'Blockage detected between Sensor 2 and Sensor 3.'], err => {
-                  if (err) console.error('Error inserting into error_log table:', err.message);
-                  else console.log('Blockage detected and logged.');
-                });
+                serialPort.write('P');
+                db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", ['Blockage Detected', 'Blockage detected between Sensor 2 and Sensor 3.']);
                 blockageStartTime = null;
               }
             } else if (sensorId === 2 && flowRate > flowRateTolerance) {
               blockageStartTime = null;
             }
 
-            // Detect leak using flow rate and a threshold
+            // Hardware mode: detect leak
             if (latestSystemState === 'ON') {
               const flowRateDiff1 = Math.abs(realTimeData[0].flowRate - realTimeData[1].flowRate);
               const flowRateDiff2 = Math.abs(realTimeData[1].flowRate - realTimeData[2].flowRate);
-              const tolerance1 = 0.5 * realTimeData[0].flowRate; // 50% tolerance for the first difference
-              const tolerance2 = 0.5 * realTimeData[1].flowRate; // 50% tolerance for the second difference
+              const tolerance1 = 0.5 * realTimeData[0].flowRate;
+              const tolerance2 = 0.5 * realTimeData[1].flowRate;
 
               if ((flowRateDiff1 > tolerance1) || (flowRateDiff2 > tolerance2)) {
                 if (!leakStartTime) {
                   leakStartTime = Date.now();
                 } else if (Date.now() - leakStartTime >= leakDetectionDelay) {
                   leakDetected = true;
-                  serialPort.write('P'); // Switch off the system
-                  db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", ['Leak Detected', 'Leak detected between sensors.'], err => {
-                    if (err) console.error('Error inserting into error_log table:', err.message);
-                    else console.log('Leak detected and logged.');
-                  });
+                  serialPort.write('P');
+                  db.run("INSERT INTO error_log (error_type, details) VALUES (?, ?)", ['Leak Detected', 'Leak detected between sensors.']);
                   leakStartTime = null;
                 }
               } else {
@@ -210,33 +259,89 @@ parser.on('data', data => {
             }
           }
         });
-      } else {
-        console.warn('Invalid data format received from serial:', line);
       }
     });
+
+    serialPort.on('error', (err) => {
+      console.error('Serial port error:', err.message);
+    });
+  } catch (err) {
+    console.error('Failed to open serial port:', err.message);
+    console.log('Consider running with DEMO_MODE=true');
   }
-});
+}
+
+// ============================================
+// API Endpoints
+// ============================================
 
 // Endpoint to switch system state
 app.post('/system/switch', (req, res) => {
-  serialPort.write('P');
-  leakDetected = false; // Reset leak state
-  blockageDetected = false; // Reset blockage state
-  res.json({ message: 'System state switched' });
+  if (DEMO_MODE) {
+    demoSimulator.toggleState();
+    leakDetected = false;
+    blockageDetected = false;
+  } else if (serialPort) {
+    serialPort.write('P');
+    leakDetected = false;
+    blockageDetected = false;
+  }
+  res.json({ message: 'System state switched', demoMode: DEMO_MODE });
 });
 
 // Endpoint to get current system state
 app.get('/system/state', (req, res) => {
-  serialPort.write('S');
-  setTimeout(() => {
-    res.json({ state: latestSystemState });
-  }, 1000); // Wait 1 second to give Arduino time to respond
+  if (DEMO_MODE) {
+    res.json({ state: demoSimulator.getState(), demoMode: true });
+  } else if (serialPort) {
+    serialPort.write('S');
+    setTimeout(() => {
+      res.json({ state: latestSystemState, demoMode: false });
+    }, 1000);
+  } else {
+    res.json({ state: latestSystemState, demoMode: false });
+  }
+});
+
+// Demo control endpoints (only active in demo mode)
+app.post('/demo/trigger-leak', (req, res) => {
+  if (!DEMO_MODE) {
+    return res.status(400).json({ error: 'Demo mode not enabled' });
+  }
+  demoSimulator.triggerScenario('leak');
+  res.json({ message: 'Leak scenario triggered', scenario: 'leak' });
+});
+
+app.post('/demo/trigger-blockage', (req, res) => {
+  if (!DEMO_MODE) {
+    return res.status(400).json({ error: 'Demo mode not enabled' });
+  }
+  demoSimulator.triggerScenario('blockage');
+  res.json({ message: 'Blockage scenario triggered', scenario: 'blockage' });
+});
+
+app.post('/demo/reset', (req, res) => {
+  if (!DEMO_MODE) {
+    return res.status(400).json({ error: 'Demo mode not enabled' });
+  }
+  demoSimulator.reset();
+  leakDetected = false;
+  blockageDetected = false;
+  res.json({ message: 'Demo reset to normal operation' });
+});
+
+app.get('/demo/status', (req, res) => {
+  res.json({
+    demoMode: DEMO_MODE,
+    systemState: DEMO_MODE ? demoSimulator.getState() : latestSystemState,
+    leakDetected,
+    blockageDetected
+  });
 });
 
 // Real-time data endpoints
 app.get('/realtime/pulses/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
-  console.log(`GET /realtime/pulses/${sensorId}`);
   if (realTimeData[sensorId]) {
     res.json([{ pulse_count: realTimeData[sensorId].pulseCount }]);
   } else {
@@ -246,7 +351,6 @@ app.get('/realtime/pulses/:sensorId', (req, res) => {
 
 app.get('/realtime/flow_rates/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
-  console.log(`GET /realtime/flow_rates/${sensorId}`);
   if (realTimeData[sensorId]) {
     res.json([{ flow_rate: realTimeData[sensorId].flowRate }]);
   } else {
@@ -256,7 +360,6 @@ app.get('/realtime/flow_rates/:sensorId', (req, res) => {
 
 app.get('/realtime/volumes/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
-  console.log(`GET /realtime/volumes/${sensorId}`);
   if (realTimeData[sensorId]) {
     res.json([{ volume: realTimeData[sensorId].volume }]);
   } else {
@@ -266,17 +369,14 @@ app.get('/realtime/volumes/:sensorId', (req, res) => {
 
 // Real-time median data endpoints
 app.get('/realtime/median_pulses', (req, res) => {
-  console.log('GET /realtime/median_pulses');
   res.json([{ pulse_count: medianRealTimeData.pulseCount }]);
 });
 
 app.get('/realtime/median_flow_rates', (req, res) => {
-  console.log('GET /realtime/median_flow_rates');
   res.json([{ flow_rate: medianRealTimeData.flowRate }]);
 });
 
 app.get('/realtime/median_volumes', (req, res) => {
-  console.log('GET /realtime/median_volumes');
   res.json([{ volume: medianRealTimeData.volume }]);
 });
 
@@ -285,10 +385,8 @@ app.get('/history/pulses/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
   const startDate = req.query.start_date;
   const endDate = req.query.end_date;
-  console.log(`GET /history/pulses/${sensorId}?start_date=${startDate}&end_date=${endDate}`);
   db.all("SELECT * FROM pulses WHERE sensor_id = ? AND DATE(timestamp) BETWEEN ? AND ?", [sensorId, startDate, endDate], (err, rows) => {
     if (err) {
-      console.error('Error fetching from pulses table:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -300,10 +398,8 @@ app.get('/history/flow_rates/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
   const startDate = req.query.start_date;
   const endDate = req.query.end_date;
-  console.log(`GET /history/flow_rates/${sensorId}?start_date=${startDate}&end_date=${endDate}`);
   db.all("SELECT * FROM flow_rates WHERE sensor_id = ? AND DATE(timestamp) BETWEEN ? AND ?", [sensorId, startDate, endDate], (err, rows) => {
     if (err) {
-      console.error('Error fetching from flow_rates table:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -315,10 +411,8 @@ app.get('/history/volumes/:sensorId', (req, res) => {
   const sensorId = req.params.sensorId;
   const startDate = req.query.start_date;
   const endDate = req.query.end_date;
-  console.log(`GET /history/volumes/${sensorId}?start_date=${startDate}&end_date=${endDate}`);
   db.all("SELECT * FROM volumes WHERE sensor_id = ? AND DATE(timestamp) BETWEEN ? AND ?", [sensorId, startDate, endDate], (err, rows) => {
     if (err) {
-      console.error('Error fetching from volumes table:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -330,10 +424,8 @@ app.get('/history/volumes/:sensorId', (req, res) => {
 app.get('/history/median_pulses', (req, res) => {
   const startDate = req.query.start_date;
   const endDate = req.query.end_date;
-  console.log(`GET /history/median_pulses?start_date=${startDate}&end_date=${endDate}`);
   db.all("SELECT * FROM median_pulses WHERE DATE(timestamp) BETWEEN ? AND ?", [startDate, endDate], (err, rows) => {
     if (err) {
-      console.error('Error fetching from median_pulses table:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -344,10 +436,8 @@ app.get('/history/median_pulses', (req, res) => {
 app.get('/history/median_flow_rates', (req, res) => {
   const startDate = req.query.start_date;
   const endDate = req.query.end_date;
-  console.log(`GET /history/median_flow_rates?start_date=${startDate}&end_date=${endDate}`);
   db.all("SELECT * FROM median_flow_rates WHERE DATE(timestamp) BETWEEN ? AND ?", [startDate, endDate], (err, rows) => {
     if (err) {
-      console.error('Error fetching from median_flow_rates table:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -358,10 +448,8 @@ app.get('/history/median_flow_rates', (req, res) => {
 app.get('/history/median_volumes', (req, res) => {
   const startDate = req.query.start_date;
   const endDate = req.query.end_date;
-  console.log(`GET /history/median_volumes?start_date=${startDate}&end_date=${endDate}`);
   db.all("SELECT * FROM median_volumes WHERE DATE(timestamp) BETWEEN ? AND ?", [startDate, endDate], (err, rows) => {
     if (err) {
-      console.error('Error fetching from median_volumes table:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -371,10 +459,8 @@ app.get('/history/median_volumes', (req, res) => {
 
 // Error log endpoint
 app.get('/errors', (req, res) => {
-  console.log('GET /errors');
-  db.all("SELECT * FROM error_log", (err, rows) => {
+  db.all("SELECT * FROM error_log ORDER BY timestamp DESC LIMIT 50", (err, rows) => {
     if (err) {
-      console.error('Error fetching from error_log table:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -384,11 +470,18 @@ app.get('/errors', (req, res) => {
 
 // Endpoint to get leakDetected and blockageDetected status
 app.get('/detection_status', (req, res) => {
-  console.log('GET /detection_status');
-  res.json({ leakDetected, blockageDetected });
+  res.json({ leakDetected, blockageDetected, demoMode: DEMO_MODE });
 });
 
 // Start server
 server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`[WLeaks] Server running on port ${port}`);
+  console.log(`[WLeaks] Demo mode: ${DEMO_MODE ? 'ENABLED' : 'DISABLED'}`);
+  if (DEMO_MODE) {
+    console.log('[WLeaks] Demo endpoints available:');
+    console.log('  POST /demo/trigger-leak');
+    console.log('  POST /demo/trigger-blockage');
+    console.log('  POST /demo/reset');
+    console.log('  GET  /demo/status');
+  }
 });
