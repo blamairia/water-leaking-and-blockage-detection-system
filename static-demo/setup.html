@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware Setup Guide - WLeaks</title>
+    <meta name="description" content="Complete hardware setup guide for the WLeaks IoT Water Leak Detection System">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0a0f1a;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1a2234;
+            --accent-primary: #06b6d4;
+            --accent-secondary: #3b82f6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border-primary: rgba(6, 182, 212, 0.2);
+            --border-subtle: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(17, 24, 39, 0.7);
+            --glass-blur: blur(12px);
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 0%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-primary);
+            padding: 1rem 1.5rem;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.15s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent-primary);
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            background: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin: 1.5rem 0 1rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Component Grid */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .component-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.25s;
+        }
+
+        .component-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .component-img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: #fff;
+            padding: 1rem;
+        }
+
+        .component-info {
+            padding: 1.25rem;
+        }
+
+        .component-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .component-specs {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .component-specs li {
+            margin-bottom: 0.25rem;
+            list-style: none;
+        }
+
+        .component-specs li::before {
+            content: "•";
+            color: var(--accent-primary);
+            margin-right: 0.5rem;
+        }
+
+        /* Wiring Diagram */
+        .wiring-diagram {
+            background: #0d1117;
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+            color: var(--text-secondary);
+        }
+
+        /* Connection Table */
+        .connection-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .connection-table th,
+        .connection-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .connection-table th {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--accent-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .connection-table td {
+            color: var(--text-secondary);
+        }
+
+        .pin {
+            font-family: var(--font-mono);
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-md);
+            color: var(--accent-primary);
+        }
+
+        .wire-red {
+            color: #ef4444;
+        }
+
+        .wire-black {
+            color: #6b7280;
+        }
+
+        .wire-yellow {
+            color: #eab308;
+        }
+
+        .wire-green {
+            color: #22c55e;
+        }
+
+        .wire-blue {
+            color: #3b82f6;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-md);
+            margin: 1rem 0;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--accent-warning);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--accent-danger);
+        }
+
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: var(--accent-primary);
+        }
+
+        /* Code Block */
+        code {
+            font-family: var(--font-mono);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wiring-diagram {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                </svg>
+                WLeaks
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Demo</a></li>
+                <li><a href="setup.html" class="nav-link active">Hardware Setup</a></li>
+                <li><a href="https://github.com/blamairia/wleaks" class="nav-link" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>🔧 Hardware Setup Guide</h1>
+            <p>Complete guide to replicate the WLeaks water leak detection system</p>
+        </header>
+
+        <!-- Overview -->
+        <section class="card">
+            <h2><i data-lucide="info"></i> System Overview</h2>
+            <p>
+                The WLeaks system uses <strong>three YF-S201 flow meters</strong> positioned at entry, middle, and exit
+                points
+                of a water circuit. An <strong>Arduino Mega 2560</strong> reads pulse signals from the sensors and
+                communicates
+                with a Node.js server over USB serial. When a leak or blockage is detected, the Arduino triggers a
+                <strong>relay module</strong> to shut off the water pump.
+            </p>
+
+            <div class="alert alert-info">
+                <i data-lucide="lightbulb"></i>
+                <div>
+                    <strong>Why 3 sensors?</strong> By comparing flow rates at multiple points, we can detect where
+                    issues occur. If sensor 1 reads high but sensor 2 reads low, there's a leak between them.
+                </div>
+            </div>
+        </section>
+
+        <!-- Components List -->
+        <section class="card">
+            <h2><i data-lucide="package"></i> Required Components</h2>
+
+            <div class="component-grid">
+                <!-- Arduino -->
+                <div class="component-card">
+                    <img src="https://raw.githubusercontent.com/blamairia/water-leaking-and-blockage-detection-system/master/docs/hardware/Arduino%20Mega2560%20ATMEGA2560%20CH340G.png"
+                        alt="Arduino Mega 2560" class="component-img" loading="lazy">
+                    <div class="component-info">
+                        <div class="component-name">Arduino Mega 2560</div>
+                        <ul class="component-specs">
+                            <li>ATmega2560 microcontroller</li>
+                            <li>54 digital I/O pins</li>
+                            <li>16 analog inputs</li>
+                            <li>USB serial communication</li>
+                            <li>Operating voltage: 5V</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Flow Meter -->
+                <div class="component-card">
+                    <img src="https://raw.githubusercontent.com/blamairia/water-leaking-and-blockage-detection-system/master/docs/hardware/yf-s201.png"
+                        alt="YF-S201 Flow Meter" class="component-img" loading="lazy">
+                    <div class="component-info">
+                        <div class="component-name">YF-S201 Flow Meter (×3)</div>
+                        <ul class="component-specs">
+                            <li>Hall-effect sensor</li>
+                            <li>Flow range: 1-30 L/min</li>
+                            <li>Pulse frequency: F = 7.5 × Q</li>
+                            <li>Working voltage: 5-18V DC</li>
+                            <li>G1/2" thread connection</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Water Pump -->
+                <div class="component-card">
+                    <img src="https://raw.githubusercontent.com/blamairia/water-leaking-and-blockage-detection-system/master/docs/hardware/pump.jpg"
+                        alt="12V DC Water Pump" class="component-img" loading="lazy">
+                    <div class="component-info">
+                        <div class="component-name">12V DC Submersible Pump</div>
+                        <ul class="component-specs">
+                            <li>Voltage: 12V DC</li>
+                            <li>Current: 1.8A @ 12V</li>
+                            <li>Flow rate: 12 L/min</li>
+                            <li>Motor speed: 8500 RPM</li>
+                            <li>Tubing: 16mm diameter</li>
+                            <li>Material: Stainless steel</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Solenoid Valve -->
+                <div class="component-card">
+                    <img src="https://raw.githubusercontent.com/blamairia/water-leaking-and-blockage-detection-system/master/docs/hardware/ZE-4F180.jpeg"
+                        alt="Solenoid Valve" class="component-img" loading="lazy">
+                    <div class="component-info">
+                        <div class="component-name">ZE-4F180 Solenoid Valve</div>
+                        <ul class="component-specs">
+                            <li>Voltage: 12V DC</li>
+                            <li>Normally closed (NC)</li>
+                            <li>Thread: G1/2"</li>
+                            <li>Max pressure: 0.8 MPa</li>
+                            <li>Response time: &lt;0.15s</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Relay Module -->
+                <div class="component-card">
+                    <img src="https://raw.githubusercontent.com/blamairia/water-leaking-and-blockage-detection-system/master/docs/hardware/switch.png"
+                        alt="Relay Module" class="component-img" loading="lazy">
+                    <div class="component-info">
+                        <div class="component-name">5V Relay Module</div>
+                        <ul class="component-specs">
+                            <li>Input: 5V DC</li>
+                            <li>Optocoupler isolated</li>
+                            <li>Rating: 10A/250VAC</li>
+                            <li>Trigger: Active LOW</li>
+                            <li>LED status indicator</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- PSU -->
+                <div class="component-card">
+                    <img src="https://raw.githubusercontent.com/blamairia/water-leaking-and-blockage-detection-system/master/docs/hardware/psu.jpeg"
+                        alt="ATX PSU" class="component-img" loading="lazy">
+                    <div class="component-info">
+                        <div class="component-name">Modified ATX PSU</div>
+                        <ul class="component-specs">
+                            <li>12V rail: Pump power</li>
+                            <li>5V rail: Logic circuits</li>
+                            <li>Green wire to GND: Always ON</li>
+                            <li>Repurposed from old PC</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Additional Materials</h3>
+            <ul style="color: var(--text-secondary); padding-left: 1.5rem;">
+                <li>LM2596 DC-DC Buck Converter (adjustable, 3A max)</li>
+                <li>16mm silicone tubing (food-grade)</li>
+                <li>Jumper wires (male-to-male, male-to-female)</li>
+                <li>Breadboard or prototype PCB</li>
+                <li>Water container (bucket or tank)</li>
+            </ul>
+        </section>
+
+        <!-- Wiring Diagram -->
+        <section class="card">
+            <h2><i data-lucide="cpu"></i> Wiring Diagram</h2>
+
+            <div class="wiring-diagram">
+                ┌────────────────────────────────────────────────────────────────────┐
+                │ WATER CIRCUIT │
+                │ │
+                ┌──────────┐ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+                │ WATER │─────────────────┼───►│ SENSOR 1 │─────►│ SENSOR 2 │─────►│ SENSOR 3 │───────────────┼───┐
+                │ PUMP │ │ │ (Entry) │ │ (Mid) │ │ (Exit) │ │ │
+                └────┬─────┘ │ └────┬─────┘ └────┬─────┘ └────┬─────┘ │ │
+                │ │ │ │ │ │ │
+                │ 12V │ │ Signal │ Signal │ Signal │ │
+                │ │ │ │ │ │ │
+                ┌────┴─────┐ │ ┌────┴─────────────────┴─────────────────┴────┐ │ │
+                │ RELAY │◄────────────────┼────│ ARDUINO MEGA │ │ │
+                │ MODULE │ Pin 5 │ │ │ │ │
+                └────┬─────┘ │ │ Pin 21 ◄─── Sensor 1 Signal (Yellow) │ │ │
+                │ │ │ Pin 20 ◄─── Sensor 2 Signal (Yellow) │ │ │
+                ┌────┴─────┐ │ │ Pin 19 ◄─── Sensor 3 Signal (Yellow) │ │ │
+                │ ATX PSU │ │ │ Pin 5 ───► Relay Control │ │ │
+                │ 12V/5V │ │ │ 5V ───► Sensors VCC (Red) │ │ │
+                └──────────┘ │ │ GND ───► Sensors GND (Black) │ │ │
+                │ │ USB ───► Computer (Serial) │ │ │
+                │ └─────────────────────────────────────────────┘ │ │
+                │ │ ▼
+                │ BACK TO TANK
+                └────────────────────────────────────────────────────────────────────┘
+            </div>
+
+            <div class="alert alert-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                    <strong>Safety First!</strong> Always disconnect power before making wiring changes.
+                    12V circuits can cause burns and damage components if shorted.
+                </div>
+            </div>
+        </section>
+
+        <!-- Pin Connections -->
+        <section class="card">
+            <h2><i data-lucide="plug"></i> Pin Connections</h2>
+
+            <table class="connection-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Wire Color</th>
+                        <th>Arduino Pin</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Flow Meter 1 (Entry)</td>
+                        <td><span class="wire-yellow">Yellow (Signal)</span></td>
+                        <td><span class="pin">Pin 21</span></td>
+                        <td>Interrupt-capable pin</td>
+                    </tr>
+                    <tr>
+                        <td>Flow Meter 2 (Mid)</td>
+                        <td><span class="wire-yellow">Yellow (Signal)</span></td>
+                        <td><span class="pin">Pin 20</span></td>
+                        <td>Interrupt-capable pin</td>
+                    </tr>
+                    <tr>
+                        <td>Flow Meter 3 (Exit)</td>
+                        <td><span class="wire-yellow">Yellow (Signal)</span></td>
+                        <td><span class="pin">Pin 19</span></td>
+                        <td>Interrupt-capable pin</td>
+                    </tr>
+                    <tr>
+                        <td>All Flow Meters VCC</td>
+                        <td><span class="wire-red">Red (+5V)</span></td>
+                        <td><span class="pin">5V</span></td>
+                        <td>Connect all to 5V rail</td>
+                    </tr>
+                    <tr>
+                        <td>All Flow Meters GND</td>
+                        <td><span class="wire-black">Black (GND)</span></td>
+                        <td><span class="pin">GND</span></td>
+                        <td>Common ground</td>
+                    </tr>
+                    <tr>
+                        <td>Relay Module IN</td>
+                        <td><span class="wire-blue">Blue (Control)</span></td>
+                        <td><span class="pin">Pin 5</span></td>
+                        <td>Digital output</td>
+                    </tr>
+                    <tr>
+                        <td>Relay Module VCC</td>
+                        <td><span class="wire-red">Red (+5V)</span></td>
+                        <td><span class="pin">5V</span></td>
+                        <td>Logic power</td>
+                    </tr>
+                    <tr>
+                        <td>Relay Module GND</td>
+                        <td><span class="wire-black">Black (GND)</span></td>
+                        <td><span class="pin">GND</span></td>
+                        <td>Common ground</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Assembly Steps -->
+        <section class="card">
+            <h2><i data-lucide="list-ordered"></i> Assembly Steps</h2>
+
+            <ol class="steps">
+                <li class="step">
+                    <div class="step-title">Prepare the Power Supply</div>
+                    <div class="step-desc">
+                        Short the green wire (PS_ON) to any black wire (GND) on the ATX PSU's 24-pin connector
+                        to make it always-on. Identify the 12V (yellow) and 5V (red) rails.
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-title">Connect Flow Meters to Water Circuit</div>
+                    <div class="step-desc">
+                        Install the three YF-S201 sensors in-line with the water tubing. Ensure the flow direction
+                        arrows on the sensors match your water flow direction. Use hose clamps for secure connections.
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-title">Wire Flow Meters to Arduino</div>
+                    <div class="step-desc">
+                        Connect each sensor's signal wire (yellow) to the designated interrupt pins (21, 20, 19).
+                        Connect all red wires to 5V and all black wires to GND. Use a breadboard if needed.
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-title">Connect the Relay Module</div>
+                    <div class="step-desc">
+                        Wire the relay's IN pin to Arduino Pin 5. Connect VCC to 5V and GND to ground.
+                        The relay's COM and NO terminals connect to the pump's 12V power circuit.
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-title">Setup the Water Pump Circuit</div>
+                    <div class="step-desc">
+                        Connect the 12V PSU output through the relay to the pump. When the relay is activated,
+                        it breaks the 12V circuit, stopping the pump.
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-title">Upload Arduino Code</div>
+                    <div class="step-desc">
+                        Upload <code>arduinocode.ino</code> to the Arduino via USB. The code reads pulses from
+                        sensors using interrupts and sends data every second over serial at 115200 baud.
+                    </div>
+                </li>
+                <li class="step">
+                    <div class="step-title">Run the Server</div>
+                    <div class="step-desc">
+                        Install dependencies with <code>npm install</code> and start the server with
+                        <code>npm start</code>. Update the serial port path in <code>server.js</code> if needed.
+                    </div>
+                </li>
+            </ol>
+
+            <div class="alert alert-danger">
+                <i data-lucide="zap-off"></i>
+                <div>
+                    <strong>High Current Warning!</strong> The water pump draws 1.8A at 12V. Use appropriate
+                    wire gauge (18 AWG or thicker) and ensure your relay is rated for this current.
+                </div>
+            </div>
+        </section>
+
+        <!-- Calibration -->
+        <section class="card">
+            <h2><i data-lucide="settings"></i> Sensor Calibration</h2>
+
+            <p>
+                Each YF-S201 sensor has a calibration factor that converts pulses to volume. The standard formula is:
+            </p>
+
+            <div
+                style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: var(--radius-md); font-family: var(--font-mono); text-align: center; margin: 1rem 0;">
+                Flow Rate (L/min) = Pulse Frequency (Hz) / 7.5
+            </div>
+
+            <p>
+                However, actual factors may vary. Our measured calibration factors are:
+            </p>
+
+            <table class="connection-table">
+                <thead>
+                    <tr>
+                        <th>Sensor</th>
+                        <th>Calibration Factor</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sensor 1</td>
+                        <td><code>342.5</code> pulses/L</td>
+                        <td>Entry Point</td>
+                    </tr>
+                    <tr>
+                        <td>Sensor 2</td>
+                        <td><code>314.0</code> pulses/L</td>
+                        <td>Mid Point</td>
+                    </tr>
+                    <tr>
+                        <td>Sensor 3</td>
+                        <td><code>438.5</code> pulses/L</td>
+                        <td>Exit Point</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-info">
+                <i data-lucide="info"></i>
+                <div>
+                    <strong>To calibrate:</strong> Measure a known volume (e.g., 1 liter) and count the pulses.
+                    Divide total pulses by volume to get your specific calibration factor.
+                </div>
+            </div>
+        </section>
+
+        <!-- Troubleshooting -->
+        <section class="card">
+            <h2><i data-lucide="wrench"></i> Troubleshooting</h2>
+
+            <h3>No pulse readings</h3>
+            <ul style="color: var(--text-secondary); padding-left: 1.5rem;">
+                <li>Check sensor wiring (signal to correct interrupt pin)</li>
+                <li>Verify 5V power to sensors</li>
+                <li>Ensure water is actually flowing through the sensor</li>
+                <li>Check for air bubbles in the tubing</li>
+            </ul>
+
+            <h3>Erratic readings</h3>
+            <ul style="color: var(--text-secondary); padding-left: 1.5rem;">
+                <li>Add a 10μF capacitor between VCC and GND near each sensor</li>
+                <li>Keep signal wires away from power cables</li>
+                <li>Check for loose connections</li>
+            </ul>
+
+            <h3>Relay not switching</h3>
+            <ul style="color: var(--text-secondary); padding-left: 1.5rem;">
+                <li>Verify relay is receiving 5V on VCC</li>
+                <li>Check if relay is active-HIGH or active-LOW</li>
+                <li>Test with a simple Arduino blink sketch on Pin 5</li>
+            </ul>
+        </section>
+
+        <!-- Footer -->
+        <footer style="text-align: center; padding: 2rem 0; color: var(--text-muted);">
+            <p>Built by <a href="https://www.linkedin.com/in/billel-lamairia-94141723b"
+                    style="color: var(--accent-primary);">Billel Lamairia</a></p>
+            <p style="font-size: 0.875rem;">Questions? Email <a href="mailto:blamairia@gmail.com"
+                    style="color: var(--accent-primary);">blamairia@gmail.com</a></p>
+        </footer>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

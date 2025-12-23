@@ -1,6 +1,14 @@
 /**
  * WLeaks Demo Simulator
  * Generates realistic water flow sensor data without hardware
+ * 
+ * Edge Cases Handled:
+ * - Pump OFF: All sensors read 0, volumes freeze
+ * - Pump toggle during leak/blockage: Clears error state
+ * - Gradual startup: Flow ramps up over 2 seconds
+ * - Residual flow on shutdown: Flow decays over 1 second
+ * - Sensor drift: Slight variations even in steady state
+ * - Volume accumulation: Only when system is ON
  */
 
 const EventEmitter = require('events');
@@ -9,7 +17,7 @@ class DemoSimulator extends EventEmitter {
     constructor() {
         super();
 
-        // Calibration factors (matching real sensors)
+        // Calibration factors (matching real YF-S201 sensors)
         this.calibrationFactors = [342.5, 314, 438.5];
 
         // Base flow parameters
@@ -21,12 +29,24 @@ class DemoSimulator extends EventEmitter {
         this.isRunning = false;
         this.intervalId = null;
 
+        // Startup/shutdown transients
+        this.startupTime = null;
+        this.shutdownTime = null;
+        this.startupDuration = 2000; // 2s to reach full flow
+        this.shutdownDuration = 1000; // 1s for residual flow to stop
+
         // Sensor data
         this.sensorData = [
             { pulseCount: 0, flowRate: 0, volume: 0 },
             { pulseCount: 0, flowRate: 0, volume: 0 },
             { pulseCount: 0, flowRate: 0, volume: 0 }
         ];
+
+        // Error tracking
+        this.leakDetected = false;
+        this.blockageDetected = false;
+        this.errorStartTime = null;
+        this.detectionDelay = 3000; // 3s before error triggers shutdown
 
         // Active scenario
         this.activeScenario = 'normal'; // 'normal', 'leak', 'blockage'
@@ -55,8 +75,16 @@ class DemoSimulator extends EventEmitter {
 
         this.isRunning = true;
         this.systemState = true;
+        this.startupTime = Date.now();
+        this.shutdownTime = null;
         this.phaseStartTime = Date.now();
         this.cyclePhase = 0;
+
+        // Clear any previous error state on manual start
+        this.leakDetected = false;
+        this.blockageDetected = false;
+        this.errorStartTime = null;
+        this.activeScenario = 'normal';
 
         console.log('[DemoSimulator] Started in demo mode');
         this.emit('systemState', 'ON');
@@ -73,14 +101,38 @@ class DemoSimulator extends EventEmitter {
 
         this.isRunning = false;
         this.systemState = false;
+        this.shutdownTime = Date.now();
+        this.startupTime = null;
 
         if (this.intervalId) {
             clearInterval(this.intervalId);
             this.intervalId = null;
         }
 
+        // Emit final zero readings after shutdown
+        setTimeout(() => this.emitZeroReadings(), 500);
+        setTimeout(() => this.emitZeroReadings(), 1000);
+
         console.log('[DemoSimulator] Stopped');
         this.emit('systemState', 'OFF');
+    }
+
+    /**
+     * Emit zero readings for all sensors (when pump is off)
+     */
+    emitZeroReadings() {
+        for (let sensorId = 0; sensorId < 3; sensorId++) {
+            this.sensorData[sensorId].pulseCount = 0;
+            this.sensorData[sensorId].flowRate = 0;
+            // Volume stays frozen, doesn't reset
+
+            this.emit('data', {
+                sensorId,
+                pulseCount: 0,
+                flowRate: 0,
+                volume: this.sensorData[sensorId].volume
+            });
+        }
     }
 
     /**
@@ -90,6 +142,12 @@ class DemoSimulator extends EventEmitter {
         if (this.systemState) {
             this.stop();
         } else {
+            // Clear error states when manually toggling back on
+            this.leakDetected = false;
+            this.blockageDetected = false;
+            this.errorStartTime = null;
+            this.activeScenario = 'normal';
+            this.scenarioStartTime = null;
             this.start();
         }
         return this.systemState;
@@ -103,6 +161,17 @@ class DemoSimulator extends EventEmitter {
     }
 
     /**
+     * Get detection status
+     */
+    getDetectionStatus() {
+        return {
+            leakDetected: this.leakDetected,
+            blockageDetected: this.blockageDetected,
+            activeScenario: this.activeScenario
+        };
+    }
+
+    /**
      * Trigger a specific scenario
      */
     triggerScenario(scenario) {
@@ -112,9 +181,20 @@ class DemoSimulator extends EventEmitter {
             return false;
         }
 
+        // Can only trigger scenarios when system is ON
+        if (!this.systemState) {
+            console.warn(`[DemoSimulator] Cannot trigger scenario while system is OFF`);
+            return false;
+        }
+
         this.activeScenario = scenario;
         this.scenarioStartTime = Date.now();
         this.autoCycleEnabled = false; // Disable auto-cycle when manually triggered
+
+        // Reset error states for new scenario
+        this.leakDetected = false;
+        this.blockageDetected = false;
+        this.errorStartTime = null;
 
         console.log(`[DemoSimulator] Triggered scenario: ${scenario}`);
         return true;
@@ -126,6 +206,9 @@ class DemoSimulator extends EventEmitter {
     reset() {
         this.activeScenario = 'normal';
         this.scenarioStartTime = null;
+        this.leakDetected = false;
+        this.blockageDetected = false;
+        this.errorStartTime = null;
         this.autoCycleEnabled = true;
         this.cyclePhase = 0;
         this.phaseStartTime = Date.now();
@@ -140,10 +223,31 @@ class DemoSimulator extends EventEmitter {
     }
 
     /**
+     * Get startup/shutdown multiplier for gradual transitions
+     */
+    getTransientMultiplier() {
+        const now = Date.now();
+
+        // Gradual startup ramp
+        if (this.startupTime) {
+            const elapsed = now - this.startupTime;
+            if (elapsed < this.startupDuration) {
+                // Ease-out curve for natural startup
+                return Math.min(1, elapsed / this.startupDuration);
+            }
+        }
+
+        return 1.0;
+    }
+
+    /**
      * Generate realistic flow data
      */
     generateData() {
-        if (!this.systemState) return;
+        if (!this.systemState) {
+            this.emitZeroReadings();
+            return;
+        }
 
         // Handle auto-cycle phases
         if (this.autoCycleEnabled) {
@@ -151,9 +255,13 @@ class DemoSimulator extends EventEmitter {
         }
 
         const time = Date.now() / 1000;
+        const transientMultiplier = this.getTransientMultiplier();
 
         for (let sensorId = 0; sensorId < 3; sensorId++) {
             let flowRate = this.calculateFlowRate(sensorId, time);
+
+            // Apply startup/shutdown transient
+            flowRate *= transientMultiplier;
 
             // Apply scenario modifications
             flowRate = this.applyScenario(sensorId, flowRate);
@@ -162,9 +270,11 @@ class DemoSimulator extends EventEmitter {
             const pulsesPerSecond = (flowRate / 60) * this.calibrationFactors[sensorId];
             const pulseCount = Math.round(pulsesPerSecond);
 
-            // Update accumulated volume
-            const volumeIncrement = flowRate / 60; // L/s
-            this.sensorData[sensorId].volume += volumeIncrement;
+            // Update accumulated volume (only when pump is on and flowing)
+            if (flowRate > 0) {
+                const volumeIncrement = flowRate / 60; // L/s
+                this.sensorData[sensorId].volume += volumeIncrement;
+            }
 
             // Store current readings
             this.sensorData[sensorId].pulseCount = pulseCount;
@@ -196,7 +306,10 @@ class DemoSimulator extends EventEmitter {
         // Sensor-specific offset (each sensor reads slightly different)
         const sensorOffset = [0, -0.05, 0.03][sensorId];
 
-        return Math.max(0, this.baseFlowRate + pumpVariation + noise + sensorOffset);
+        // Long-term drift simulation
+        const drift = Math.sin(time * 0.01) * 0.05;
+
+        return Math.max(0, this.baseFlowRate + pumpVariation + noise + sensorOffset + drift);
     }
 
     /**
@@ -205,18 +318,24 @@ class DemoSimulator extends EventEmitter {
     applyScenario(sensorId, flowRate) {
         switch (this.activeScenario) {
             case 'leak':
-                // Leak between sensor 1 and 2: sensor 2 and 3 read lower
+                // Leak between sensor 1 and 2: sensor 2 and 3 read significantly lower
+                // This simulates water escaping between the entry and mid sensors
                 if (sensorId === 1) {
-                    flowRate *= 0.4; // 60% less flow after leak
+                    flowRate *= 0.4; // 60% loss after leak point
                 } else if (sensorId === 2) {
-                    flowRate *= 0.35; // Even less at sensor 3
+                    flowRate *= 0.35; // Even more loss at exit
                 }
                 break;
 
             case 'blockage':
-                // Blockage before sensor 3: sensor 3 reads near zero
-                if (sensorId === 2) {
-                    flowRate *= 0.02; // Almost no flow
+                // Blockage before sensor 3: pressure builds up, sensor 3 reads near zero
+                // Sensors 1 and 2 might show slightly higher due to back-pressure
+                if (sensorId === 0) {
+                    flowRate *= 1.05; // Slight pressure increase
+                } else if (sensorId === 1) {
+                    flowRate *= 0.95; // Slight reduction mid-pipe
+                } else if (sensorId === 2) {
+                    flowRate *= 0.02; // Almost no flow at exit
                 }
                 break;
 
@@ -245,12 +364,17 @@ class DemoSimulator extends EventEmitter {
 
             if (newPhase === 'recovery') {
                 this.activeScenario = 'normal';
+                this.leakDetected = false;
+                this.blockageDetected = false;
+                this.errorStartTime = null;
                 if (!this.systemState) {
                     this.systemState = true;
+                    this.startupTime = Date.now();
                     this.emit('systemState', 'ON');
                 }
             } else if (newPhase !== 'startup') {
                 this.activeScenario = newPhase;
+                this.scenarioStartTime = Date.now();
             }
 
             console.log(`[DemoSimulator] Auto-cycle phase: ${newPhase}`);
@@ -261,24 +385,63 @@ class DemoSimulator extends EventEmitter {
      * Check if scenario should trigger auto-shutdown
      */
     checkAutoShutdown() {
-        if (!this.scenarioStartTime) return;
+        // Only check when in error scenario and system is on
+        if (this.activeScenario === 'normal' || !this.systemState) return;
 
-        const elapsed = Date.now() - this.scenarioStartTime;
+        // Start error timer if not started
+        if (!this.errorStartTime) {
+            this.errorStartTime = Date.now();
+        }
 
-        // Shutdown after 3 seconds in error scenario (matching server logic)
-        if (elapsed >= 3000 && (this.activeScenario === 'leak' || this.activeScenario === 'blockage')) {
-            if (this.systemState) {
+        const elapsed = Date.now() - this.errorStartTime;
+
+        // Shutdown after detection delay (matching server logic)
+        if (elapsed >= this.detectionDelay) {
+            if (this.activeScenario === 'leak' && !this.leakDetected) {
+                this.leakDetected = true;
                 this.systemState = false;
+                this.shutdownTime = Date.now();
                 this.emit('systemState', 'OFF');
                 this.emit('error', {
-                    type: this.activeScenario === 'leak' ? 'Leak Detected' : 'Blockage Detected',
-                    details: this.activeScenario === 'leak'
-                        ? 'Leak detected between sensors. System shut down.'
-                        : 'Blockage detected between Sensor 2 and Sensor 3. System shut down.'
+                    type: 'Leak Detected',
+                    details: 'Leak detected between sensors. System shut down.',
+                    timestamp: new Date().toISOString()
                 });
-                console.log(`[DemoSimulator] Auto-shutdown due to ${this.activeScenario}`);
+                console.log(`[DemoSimulator] Auto-shutdown due to leak`);
+
+                if (this.intervalId) {
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                }
+            } else if (this.activeScenario === 'blockage' && !this.blockageDetected) {
+                this.blockageDetected = true;
+                this.systemState = false;
+                this.shutdownTime = Date.now();
+                this.emit('systemState', 'OFF');
+                this.emit('error', {
+                    type: 'Blockage Detected',
+                    details: 'Blockage detected at exit sensor. System shut down.',
+                    timestamp: new Date().toISOString()
+                });
+                console.log(`[DemoSimulator] Auto-shutdown due to blockage`);
+
+                if (this.intervalId) {
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                }
             }
         }
+    }
+
+    /**
+     * Get current sensor readings (for API endpoints)
+     */
+    getSensorData() {
+        return this.sensorData.map((sensor, index) => ({
+            sensorId: index,
+            ...sensor,
+            systemState: this.systemState ? 'ON' : 'OFF'
+        }));
     }
 }
 

@@ -81,6 +81,7 @@
             z-index: 100;
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             border-bottom: 1px solid var(--border-primary);
             padding: 1rem 1.5rem;
         }
@@ -138,6 +139,7 @@
         .page-header h1 {
             font-size: 2rem;
             background: var(--gradient-primary);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -157,6 +159,7 @@
         .card {
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--border-primary);
             border-radius: var(--radius-xl);
             padding: 1.5rem;
@@ -218,12 +221,17 @@
             transition: all 0.15s;
         }
 
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .btn-primary {
             background: var(--gradient-primary);
             color: white;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             box-shadow: var(--shadow-glow-cyan);
             transform: translateY(-1px);
         }
@@ -234,13 +242,23 @@
             border: 1px solid var(--accent-primary);
         }
 
-        .btn-outline:hover {
+        .btn-outline:hover:not(:disabled) {
             background: rgba(6, 182, 212, 0.1);
         }
 
         .btn-sm {
             padding: 0.25rem 0.75rem;
             font-size: 0.75rem;
+        }
+
+        .btn-danger {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
         }
 
         /* Status Indicators */
@@ -402,6 +420,11 @@
 
         .water-flow.paused::after {
             animation-play-state: paused;
+            left: -100%;
+        }
+
+        .water-flow.slow::after {
+            animation-duration: 4s;
         }
 
         @keyframes flow {
@@ -451,6 +474,10 @@
             background: var(--gradient-primary);
         }
 
+        .sensor-card.sensor-warning::before {
+            background: var(--gradient-danger);
+        }
+
         .sensor-header {
             display: flex;
             align-items: center;
@@ -492,6 +519,12 @@
             background: rgba(0, 0, 0, 0.2);
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-subtle);
+            transition: all 0.3s;
+        }
+
+        .gauge-item.warning {
+            border-color: var(--accent-danger);
+            background: rgba(239, 68, 68, 0.1);
         }
 
         .gauge-value {
@@ -499,6 +532,15 @@
             font-weight: 700;
             font-family: var(--font-mono);
             color: var(--accent-primary);
+            transition: color 0.3s;
+        }
+
+        .gauge-value.zero {
+            color: var(--text-muted);
+        }
+
+        .gauge-value.warning {
+            color: var(--accent-danger);
         }
 
         .gauge-label {
@@ -553,6 +595,33 @@
             margin-top: 1rem;
         }
 
+        /* Scenario Hint */
+        .scenario-hint {
+            padding: 0.75rem 1rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .scenario-hint.visible {
+            display: block;
+        }
+
+        .scenario-hint.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--accent-warning);
+        }
+
+        .scenario-hint.danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--accent-danger);
+            color: var(--accent-danger);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .grid-3 {
@@ -583,6 +652,7 @@
                 WLeaks
             </a>
             <ul class="nav-links">
+                <li><a href="setup.html" class="nav-link">Hardware Setup</a></li>
                 <li><a href="https://github.com/blamairia/wleaks" class="nav-link" target="_blank">GitHub</a></li>
             </ul>
         </div>
@@ -595,16 +665,19 @@
             <p>Real-time IoT monitoring with automated pump shutoff — Interactive Demo</p>
         </header>
 
+        <!-- Scenario Hint -->
+        <div id="scenario-hint" class="scenario-hint"></div>
+
         <!-- Demo Controls -->
         <div class="demo-controls">
             <span class="demo-controls-label">
                 <i data-lucide="wand-2"></i>
                 Demo Controls — Try triggering scenarios!
             </span>
-            <button class="btn btn-outline btn-sm" onclick="triggerLeak()">
+            <button id="btn-leak" class="btn btn-outline btn-sm" onclick="triggerLeak()">
                 <i data-lucide="droplets"></i> Trigger Leak
             </button>
-            <button class="btn btn-outline btn-sm" onclick="triggerBlockage()">
+            <button id="btn-blockage" class="btn btn-outline btn-sm" onclick="triggerBlockage()">
                 <i data-lucide="octagon-x"></i> Trigger Blockage
             </button>
             <button class="btn btn-primary btn-sm" onclick="resetDemo()">
@@ -629,7 +702,7 @@
                         <div class="system-status-label">Pump Status</div>
                         <div id="pump-status" class="system-status-value text-success">ON</div>
                     </div>
-                    <button class="btn btn-primary" onclick="toggleSystem()">
+                    <button id="toggle-btn" class="btn btn-primary" onclick="toggleSystem()">
                         <i data-lucide="power"></i> Toggle
                     </button>
                 </div>
@@ -699,7 +772,7 @@
 
         <!-- Sensor Row -->
         <div class="grid-3 mt-2">
-            <div class="card sensor-card">
+            <div id="sensor-card-1" class="card sensor-card">
                 <div class="sensor-header">
                     <div class="sensor-icon"><i data-lucide="gauge"></i></div>
                     <div>
@@ -708,17 +781,17 @@
                     </div>
                 </div>
                 <div class="gauge-grid">
-                    <div class="gauge-item">
+                    <div id="gauge-s1-flow" class="gauge-item">
                         <div id="s1-flow" class="gauge-value">0.00</div>
                         <div class="gauge-label">Flow</div>
                         <div class="gauge-unit">L/min</div>
                     </div>
-                    <div class="gauge-item">
+                    <div id="gauge-s1-pulse" class="gauge-item">
                         <div id="s1-pulse" class="gauge-value">0</div>
                         <div class="gauge-label">Pulses</div>
                         <div class="gauge-unit">/sec</div>
                     </div>
-                    <div class="gauge-item">
+                    <div id="gauge-s1-volume" class="gauge-item">
                         <div id="s1-volume" class="gauge-value">0.00</div>
                         <div class="gauge-label">Volume</div>
                         <div class="gauge-unit">L</div>
@@ -726,7 +799,7 @@
                 </div>
             </div>
 
-            <div class="card sensor-card">
+            <div id="sensor-card-2" class="card sensor-card">
                 <div class="sensor-header">
                     <div class="sensor-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);"><i
                             data-lucide="gauge"></i></div>
@@ -736,17 +809,17 @@
                     </div>
                 </div>
                 <div class="gauge-grid">
-                    <div class="gauge-item">
+                    <div id="gauge-s2-flow" class="gauge-item">
                         <div id="s2-flow" class="gauge-value">0.00</div>
                         <div class="gauge-label">Flow</div>
                         <div class="gauge-unit">L/min</div>
                     </div>
-                    <div class="gauge-item">
+                    <div id="gauge-s2-pulse" class="gauge-item">
                         <div id="s2-pulse" class="gauge-value">0</div>
                         <div class="gauge-label">Pulses</div>
                         <div class="gauge-unit">/sec</div>
                     </div>
-                    <div class="gauge-item">
+                    <div id="gauge-s2-volume" class="gauge-item">
                         <div id="s2-volume" class="gauge-value">0.00</div>
                         <div class="gauge-label">Volume</div>
                         <div class="gauge-unit">L</div>
@@ -754,7 +827,7 @@
                 </div>
             </div>
 
-            <div class="card sensor-card">
+            <div id="sensor-card-3" class="card sensor-card">
                 <div class="sensor-header">
                     <div class="sensor-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);"><i
                             data-lucide="gauge"></i></div>
@@ -764,17 +837,17 @@
                     </div>
                 </div>
                 <div class="gauge-grid">
-                    <div class="gauge-item">
+                    <div id="gauge-s3-flow" class="gauge-item">
                         <div id="s3-flow" class="gauge-value">0.00</div>
                         <div class="gauge-label">Flow</div>
                         <div class="gauge-unit">L/min</div>
                     </div>
-                    <div class="gauge-item">
+                    <div id="gauge-s3-pulse" class="gauge-item">
                         <div id="s3-pulse" class="gauge-value">0</div>
                         <div class="gauge-label">Pulses</div>
                         <div class="gauge-unit">/sec</div>
                     </div>
-                    <div class="gauge-item">
+                    <div id="gauge-s3-volume" class="gauge-item">
                         <div id="s3-volume" class="gauge-value">0.00</div>
                         <div class="gauge-label">Volume</div>
                         <div class="gauge-unit">L</div>
@@ -790,16 +863,28 @@
 
         // ============================================
         // CLIENT-SIDE SIMULATOR (No server needed!)
+        // Comprehensive edge case handling
         // ============================================
         const calibrationFactors = [342.5, 314, 438.5];
         const baseFlowRate = 2.5;
 
+        // System state
         let systemState = true;
         let scenario = 'normal'; // 'normal', 'leak', 'blockage'
         let scenarioStartTime = null;
         let errorDetected = false;
+        let leakDetected = false;
+        let blockageDetected = false;
         let errors = [];
         let volumes = [0, 0, 0];
+        let lastFlowRates = [0, 0, 0];
+
+        // Timing
+        let startupTime = Date.now();
+        let shutdownTime = null;
+        const startupDuration = 2000; // 2s to reach full flow
+        const shutdownDuration = 1000; // 1s for residual flow
+        const detectionDelay = 3000; // 3s before error triggers
 
         // Chart instances
         let flowRateChart, volumeChart;
@@ -807,32 +892,78 @@
         const maxDataPoints = 30;
 
         // ============================================
-        // Simulator Logic
+        // Edge Case: Startup/Shutdown Transients
+        // ============================================
+        function getTransientMultiplier() {
+            const now = Date.now();
+
+            // Gradual startup ramp (ease-out curve)
+            if (systemState && startupTime) {
+                const elapsed = now - startupTime;
+                if (elapsed < startupDuration) {
+                    // Ease-out: starts fast, slows down
+                    const progress = elapsed / startupDuration;
+                    return 1 - Math.pow(1 - progress, 3);
+                }
+            }
+
+            // Gradual shutdown decay (only for first second after shutdown)
+            if (!systemState && shutdownTime) {
+                const elapsed = now - shutdownTime;
+                if (elapsed < shutdownDuration) {
+                    // Exponential decay
+                    return Math.max(0, 1 - (elapsed / shutdownDuration));
+                }
+                return 0;
+            }
+
+            return systemState ? 1.0 : 0;
+        }
+
+        // ============================================
+        // Simulator Logic with Edge Cases
         // ============================================
         function generateSensorData() {
-            if (!systemState) return null;
-
+            const transientMultiplier = getTransientMultiplier();
             const time = Date.now() / 1000;
             const sensors = [];
 
             for (let i = 0; i < 3; i++) {
-                const pumpVariation = Math.sin(time * Math.PI) * 0.1;
-                const noise = (Math.random() - 0.5) * 0.3;
-                const sensorOffset = [0, -0.05, 0.03][i];
+                // Base calculations only if system is supposed to flow
+                let flowRate = 0;
 
-                let flowRate = Math.max(0, baseFlowRate + pumpVariation + noise + sensorOffset);
+                if (transientMultiplier > 0) {
+                    // Base flow with pump pulsation
+                    const pumpVariation = Math.sin(time * Math.PI) * 0.1;
+                    const noise = (Math.random() - 0.5) * 0.3;
+                    const sensorOffset = [0, -0.05, 0.03][i];
+                    const drift = Math.sin(time * 0.01) * 0.05;
 
-                // Apply scenario
-                if (scenario === 'leak') {
-                    if (i === 1) flowRate *= 0.4;
-                    else if (i === 2) flowRate *= 0.35;
-                } else if (scenario === 'blockage' && i === 2) {
-                    flowRate *= 0.02;
+                    flowRate = Math.max(0, baseFlowRate + pumpVariation + noise + sensorOffset + drift);
+
+                    // Apply scenario modifications
+                    if (scenario === 'leak') {
+                        if (i === 1) flowRate *= 0.4;
+                        else if (i === 2) flowRate *= 0.35;
+                    } else if (scenario === 'blockage') {
+                        if (i === 0) flowRate *= 1.05; // Back-pressure
+                        else if (i === 1) flowRate *= 0.95;
+                        else if (i === 2) flowRate *= 0.02;
+                    }
+
+                    // Apply transient
+                    flowRate *= transientMultiplier;
                 }
 
-                const pulseCount = Math.round((flowRate / 60) * calibrationFactors[i]);
-                volumes[i] += flowRate / 60;
+                // Calculate derived values
+                const pulseCount = flowRate > 0 ? Math.round((flowRate / 60) * calibrationFactors[i]) : 0;
 
+                // Volume only accumulates when flowing
+                if (systemState && flowRate > 0) {
+                    volumes[i] += flowRate / 60;
+                }
+
+                lastFlowRates[i] = flowRate;
                 sensors.push({ flowRate, pulseCount, volume: volumes[i] });
             }
 
@@ -840,35 +971,54 @@
         }
 
         function checkForErrors(sensors) {
+            // Can't detect errors if system is off
             if (!systemState || errorDetected) return;
 
+            // Start detection timer when scenario begins
             if (scenario !== 'normal' && !scenarioStartTime) {
                 scenarioStartTime = Date.now();
             }
 
-            if (scenarioStartTime && Date.now() - scenarioStartTime >= 3000) {
+            // Check after detection delay
+            if (scenarioStartTime && Date.now() - scenarioStartTime >= detectionDelay) {
                 errorDetected = true;
                 systemState = false;
+                shutdownTime = Date.now();
+                startupTime = null;
 
-                const errorType = scenario === 'leak' ? 'Leak Detected' : 'Blockage Detected';
-                const details = scenario === 'leak'
-                    ? 'Leak detected between sensors. System shut down.'
-                    : 'Blockage detected at exit. System shut down.';
+                if (scenario === 'leak') {
+                    leakDetected = true;
+                    errors.unshift({
+                        type: 'Leak Detected',
+                        details: 'Flow rate difference >50% between sensors. Emergency shutdown.',
+                        time: new Date()
+                    });
+                } else if (scenario === 'blockage') {
+                    blockageDetected = true;
+                    errors.unshift({
+                        type: 'Blockage Detected',
+                        details: 'Exit sensor reading <0.1 L/min while pump running. Emergency shutdown.',
+                        time: new Date()
+                    });
+                }
 
-                errors.unshift({ type: errorType, details, time: new Date() });
                 updateErrorDisplay();
                 updateSystemDisplay();
+                updateScenarioHint();
             }
         }
 
         // ============================================
-        // UI Updates
+        // UI Updates with Edge Case Handling
         // ============================================
         function updateSystemDisplay() {
             const statusEl = document.getElementById('system-status');
             const statusText = document.getElementById('status-text');
             const pumpStatus = document.getElementById('pump-status');
             const waterFlow = document.getElementById('water-flow');
+            const toggleBtn = document.getElementById('toggle-btn');
+            const btnLeak = document.getElementById('btn-leak');
+            const btnBlockage = document.getElementById('btn-blockage');
 
             if (systemState) {
                 statusEl.className = 'status-indicator status-on';
@@ -876,23 +1026,45 @@
                 pumpStatus.textContent = 'ON';
                 pumpStatus.className = 'system-status-value text-success';
                 waterFlow.classList.remove('paused');
+
+                // Check if in error scenario (but not yet detected)
+                if (scenario !== 'normal') {
+                    waterFlow.classList.add('slow');
+                } else {
+                    waterFlow.classList.remove('slow');
+                }
+
+                btnLeak.disabled = false;
+                btnBlockage.disabled = false;
             } else {
                 statusEl.className = 'status-indicator status-off';
                 statusText.textContent = 'Stopped';
                 pumpStatus.textContent = 'OFF';
                 pumpStatus.className = 'system-status-value text-danger';
                 waterFlow.classList.add('paused');
+                waterFlow.classList.remove('slow');
+
+                // Disable scenario buttons when system is off
+                btnLeak.disabled = true;
+                btnBlockage.disabled = true;
             }
 
+            // Error indicator
             const errorIndicator = document.getElementById('error-indicator');
             const errorStatusText = document.getElementById('error-status-text');
             const errorCard = document.getElementById('error-log-card');
 
-            if (errorDetected) {
+            if (leakDetected) {
                 errorIndicator.className = 'status-indicator status-warning';
-                errorIndicator.querySelector('span:last-child').textContent = scenario === 'leak' ? 'Leak!' : 'Blockage!';
-                errorStatusText.textContent = scenario === 'leak' ? 'LEAK' : 'BLOCKAGE';
-                errorStatusText.className = 'system-status-value ' + (scenario === 'leak' ? 'text-danger' : 'text-warning');
+                errorIndicator.querySelector('span:last-child').textContent = 'LEAK!';
+                errorStatusText.textContent = 'LEAK';
+                errorStatusText.className = 'system-status-value text-danger';
+                errorCard.classList.add('card-error', 'active');
+            } else if (blockageDetected) {
+                errorIndicator.className = 'status-indicator status-warning';
+                errorIndicator.querySelector('span:last-child').textContent = 'BLOCKED!';
+                errorStatusText.textContent = 'BLOCKAGE';
+                errorStatusText.className = 'system-status-value text-warning';
                 errorCard.classList.add('card-error', 'active');
             } else {
                 errorIndicator.className = 'status-indicator status-on';
@@ -900,6 +1072,29 @@
                 errorStatusText.textContent = 'OK';
                 errorStatusText.className = 'system-status-value text-success';
                 errorCard.classList.remove('card-error', 'active');
+            }
+        }
+
+        function updateScenarioHint() {
+            const hint = document.getElementById('scenario-hint');
+
+            if (!systemState && !errorDetected) {
+                hint.className = 'scenario-hint visible';
+                hint.innerHTML = '<strong>💡 Pump is OFF</strong> — All sensors read 0. Volume is frozen. Click Toggle or Reset to restart.';
+            } else if (scenario === 'leak' && !leakDetected) {
+                hint.className = 'scenario-hint visible warning';
+                hint.innerHTML = `<strong>⚠️ Leak Scenario Active</strong> — Detecting flow difference... (${Math.min(100, Math.round((Date.now() - scenarioStartTime) / detectionDelay * 100))}%)`;
+            } else if (scenario === 'blockage' && !blockageDetected) {
+                hint.className = 'scenario-hint visible warning';
+                hint.innerHTML = `<strong>⚠️ Blockage Scenario Active</strong> — Detecting low exit flow... (${Math.min(100, Math.round((Date.now() - scenarioStartTime) / detectionDelay * 100))}%)`;
+            } else if (leakDetected) {
+                hint.className = 'scenario-hint visible danger';
+                hint.innerHTML = '<strong>🚨 LEAK DETECTED!</strong> — Emergency shutdown triggered. Pump stopped. Click Reset to clear.';
+            } else if (blockageDetected) {
+                hint.className = 'scenario-hint visible danger';
+                hint.innerHTML = '<strong>🚨 BLOCKAGE DETECTED!</strong> — Emergency shutdown triggered. Pump stopped. Click Reset to clear.';
+            } else {
+                hint.className = 'scenario-hint';
             }
         }
 
@@ -929,12 +1124,37 @@
         }
 
         function updateSensorDisplays(sensors) {
-            if (!sensors) return;
-
             for (let i = 0; i < 3; i++) {
-                document.getElementById(`s${i + 1}-flow`).textContent = sensors[i].flowRate.toFixed(2);
-                document.getElementById(`s${i + 1}-pulse`).textContent = sensors[i].pulseCount;
-                document.getElementById(`s${i + 1}-volume`).textContent = sensors[i].volume.toFixed(2);
+                const flowEl = document.getElementById(`s${i + 1}-flow`);
+                const pulseEl = document.getElementById(`s${i + 1}-pulse`);
+                const volumeEl = document.getElementById(`s${i + 1}-volume`);
+                const gaugeFlow = document.getElementById(`gauge-s${i + 1}-flow`);
+                const sensorCard = document.getElementById(`sensor-card-${i + 1}`);
+
+                flowEl.textContent = sensors[i].flowRate.toFixed(2);
+                pulseEl.textContent = sensors[i].pulseCount;
+                volumeEl.textContent = sensors[i].volume.toFixed(2);
+
+                // Visual feedback for zero readings
+                if (sensors[i].flowRate < 0.1) {
+                    flowEl.classList.add('zero');
+                    pulseEl.classList.add('zero');
+                } else {
+                    flowEl.classList.remove('zero');
+                    pulseEl.classList.remove('zero');
+                }
+
+                // Warning styling for affected sensors in error scenarios
+                const isAffected = (scenario === 'leak' && i >= 1) || (scenario === 'blockage' && i === 2);
+                if (isAffected && sensors[i].flowRate < baseFlowRate * 0.5) {
+                    gaugeFlow.classList.add('warning');
+                    flowEl.classList.add('warning');
+                    sensorCard.classList.add('sensor-warning');
+                } else {
+                    gaugeFlow.classList.remove('warning');
+                    flowEl.classList.remove('warning');
+                    sensorCard.classList.remove('sensor-warning');
+                }
             }
 
             // Update charts
@@ -942,8 +1162,8 @@
             const avgFlow = sensors.reduce((a, s) => a + s.flowRate, 0) / 3;
             const avgVol = sensors.reduce((a, s) => a + s.volume, 0) / 3;
 
-            chartData.flowRate.push([timestamp, avgFlow.toFixed(2)]);
-            chartData.volume.push([timestamp, avgVol.toFixed(2)]);
+            chartData.flowRate.push([timestamp, parseFloat(avgFlow.toFixed(2))]);
+            chartData.volume.push([timestamp, parseFloat(avgVol.toFixed(2))]);
 
             if (chartData.flowRate.length > maxDataPoints) {
                 chartData.flowRate.shift();
@@ -955,35 +1175,71 @@
         }
 
         // ============================================
-        // Demo Controls
+        // Demo Controls with Edge Case Handling
         // ============================================
         function triggerLeak() {
-            if (!systemState) return;
+            // Can only trigger when system is ON and no error
+            if (!systemState || errorDetected) return;
+
             scenario = 'leak';
-            scenarioStartTime = null;
+            scenarioStartTime = Date.now();
+            updateScenarioHint();
         }
 
         function triggerBlockage() {
-            if (!systemState) return;
+            // Can only trigger when system is ON and no error
+            if (!systemState || errorDetected) return;
+
             scenario = 'blockage';
-            scenarioStartTime = null;
+            scenarioStartTime = Date.now();
+            updateScenarioHint();
         }
 
         function resetDemo() {
+            // Clear all error states
             scenario = 'normal';
             scenarioStartTime = null;
             errorDetected = false;
+            leakDetected = false;
+            blockageDetected = false;
+
+            // Restart system
             systemState = true;
+            startupTime = Date.now();
+            shutdownTime = null;
+
             updateSystemDisplay();
+            updateScenarioHint();
         }
 
         function toggleSystem() {
-            if (errorDetected) {
-                resetDemo();
+            if (systemState) {
+                // Turning OFF
+                systemState = false;
+                shutdownTime = Date.now();
+                startupTime = null;
+
+                // Clear any pending scenarios but keep error history
+                if (!errorDetected) {
+                    scenario = 'normal';
+                    scenarioStartTime = null;
+                }
             } else {
-                systemState = !systemState;
-                updateSystemDisplay();
+                // Turning ON - clears error states (like pressing reset button on real hardware)
+                systemState = true;
+                startupTime = Date.now();
+                shutdownTime = null;
+
+                // Clear error states on manual restart
+                scenario = 'normal';
+                scenarioStartTime = null;
+                errorDetected = false;
+                leakDetected = false;
+                blockageDetected = false;
             }
+
+            updateSystemDisplay();
+            updateScenarioHint();
         }
 
         // ============================================
@@ -1031,9 +1287,12 @@
         // ============================================
         function tick() {
             const sensors = generateSensorData();
-            if (sensors) {
-                updateSensorDisplays(sensors);
-                checkForErrors(sensors);
+            updateSensorDisplays(sensors);
+            checkForErrors(sensors);
+
+            // Update hint for progress indication
+            if (scenarioStartTime && !errorDetected) {
+                updateScenarioHint();
             }
         }
 
