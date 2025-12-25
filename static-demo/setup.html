@@ -42,6 +42,151 @@
             --font-mono: 'JetBrains Mono', monospace;
         }
 
+        /* Light Mode */
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --bg-tertiary: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-primary: rgba(6, 182, 212, 0.3);
+            --border-subtle: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Light Mode - Component Cards */
+        [data-theme="light"] .component-card {
+            background: #ffffff;
+            border-color: var(--border-subtle);
+        }
+
+        [data-theme="light"] .component-specs li {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="light"] .component-specs li::before {
+            color: #0891b2;
+        }
+
+        /* Light Mode - Wiring Diagram */
+        [data-theme="light"] .wiring-diagram {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+
+        /* Light Mode - Tables */
+        [data-theme="light"] .connection-table th {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .connection-table td {
+            color: var(--text-secondary);
+            border-color: var(--border-subtle);
+        }
+
+        [data-theme="light"] .pin {
+            background: rgba(6, 182, 212, 0.15);
+            color: #0891b2;
+        }
+
+        /* Light Mode - Code Blocks */
+        [data-theme="light"] code {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        /* Light Mode - Alerts */
+        [data-theme="light"] .alert-info {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: rgba(6, 182, 212, 0.4);
+            color: #0e7490;
+        }
+
+        [data-theme="light"] .alert-warning {
+            color: #b45309;
+        }
+
+        [data-theme="light"] .alert-danger {
+            color: #b91c1c;
+        }
+
+        /* Light Mode - Cards and Section Headers */
+        [data-theme="light"] .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: var(--border-subtle);
+        }
+
+        [data-theme="light"] h2 {
+            color: #0891b2;
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        /* Light Mode - Steps */
+        [data-theme="light"] .step-title {
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .step-desc {
+            color: var(--text-secondary);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border-primary);
+            border-radius: 50%;
+            background: var(--glass-bg);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .theme-icon {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+        }
+
+        .theme-icon.sun {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+
+        .theme-icon.moon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        [data-theme="light"] .theme-icon.sun {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        [data-theme="light"] .theme-icon.moon {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.5);
+        }
+
+        /* Theme Transitions */
+        body,
+        .navbar,
+        .card {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
         *,
         *::before,
         *::after {
@@ -399,6 +544,10 @@
                 <li><a href="setup.html" class="nav-link active">Hardware Setup</a></li>
                 <li><a href="https://github.com/blamairia/wleaks" class="nav-link" target="_blank">GitHub</a></li>
             </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon sun">☀️</span>
+                <span class="theme-icon moon">🌙</span>
+            </button>
         </div>
     </nav>
 
@@ -804,6 +953,24 @@
 
     <script>
         lucide.createIcons();
+
+        // Theme Controller
+        (function () {
+            const toggle = document.getElementById('themeToggle');
+            const saved = localStorage.getItem('wleaks-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            document.documentElement.setAttribute('data-theme',
+                saved || (prefersDark ? 'dark' : 'light')
+            );
+
+            toggle.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('wleaks-theme', next);
+            });
+        })();
     </script>
 </body>
 

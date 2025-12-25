@@ -55,6 +55,188 @@
             --font-mono: 'JetBrains Mono', monospace;
         }
 
+        /* Light Mode */
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --bg-tertiary: #e2e8f0;
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --bg-card-hover: rgba(241, 245, 249, 0.98);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-primary: rgba(6, 182, 212, 0.3);
+            --border-subtle: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --shadow-glow-cyan: 0 0 15px rgba(6, 182, 212, 0.15);
+        }
+
+        /* Light Mode - Cards */
+        [data-theme="light"] .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--border-subtle);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .card-header {
+            border-color: var(--border-subtle);
+        }
+
+        /* Light Mode - Chart Container */
+        [data-theme="light"] .chart-container {
+            background: #f8fafc;
+            border-color: var(--border-subtle);
+        }
+
+        [data-theme="light"] .chart-container h4 {
+            color: #0f172a;
+        }
+
+        /* Light Mode - Gauge Items */
+        [data-theme="light"] .gauge-item {
+            background: #f8fafc;
+            border-color: var(--border-subtle);
+        }
+
+        [data-theme="light"] .gauge-label {
+            color: #475569;
+        }
+
+        [data-theme="light"] .gauge-unit {
+            color: #64748b;
+        }
+
+        /* Light Mode - System Status */
+        [data-theme="light"] .system-status {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(255, 255, 255, 0.5) 100%);
+        }
+
+        [data-theme="light"] .system-status-label {
+            color: #475569;
+        }
+
+        /* Light Mode - Error Table */
+        [data-theme="light"] .error-table th {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .error-table td {
+            color: #475569;
+            border-color: var(--border-subtle);
+        }
+
+        /* Light Mode - Demo Controls */
+        [data-theme="light"] .demo-controls {
+            background: rgba(139, 92, 246, 0.08);
+            border-color: rgba(139, 92, 246, 0.25);
+        }
+
+        [data-theme="light"] .demo-controls-label {
+            color: #7c3aed;
+        }
+
+        /* Light Mode - Sensor Cards */
+        [data-theme="light"] .sensor-card::before {
+            opacity: 0.8;
+        }
+
+        [data-theme="light"] .sensor-id {
+            color: #64748b;
+        }
+
+        /* Light Mode - Nav Links */
+        [data-theme="light"] .nav-link {
+            color: #475569;
+        }
+
+        [data-theme="light"] .nav-link:hover,
+        [data-theme="light"] .nav-link.active {
+            color: #0891b2;
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        /* Light Mode - Scenario Hint */
+        [data-theme="light"] .scenario-hint {
+            background: rgba(6, 182, 212, 0.08);
+        }
+
+        /* Light Mode - Buttons */
+        [data-theme="light"] .btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+            border-color: var(--border-subtle);
+        }
+
+        [data-theme="light"] .btn-secondary:hover:not(:disabled) {
+            background: #cbd5e1;
+        }
+
+        [data-theme="light"] .btn-outline {
+            color: #0891b2;
+            border-color: #0891b2;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border-primary);
+            border-radius: 50%;
+            background: var(--bg-card);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow-cyan);
+        }
+
+        .theme-icon {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+        }
+
+        .theme-icon.sun {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+
+        .theme-icon.moon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        [data-theme="light"] .theme-icon.sun {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        [data-theme="light"] .theme-icon.moon {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.5);
+        }
+
+        /* Theme Transitions */
+        body,
+        .navbar,
+        .card,
+        .btn,
+        .gauge-item,
+        .chart-container {
+            transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+        }
+
         *,
         *::before,
         *::after {
@@ -655,6 +837,10 @@
                 <li><a href="setup.html" class="nav-link">Hardware Setup</a></li>
                 <li><a href="https://github.com/blamairia/wleaks" class="nav-link" target="_blank">GitHub</a></li>
             </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon sun">☀️</span>
+                <span class="theme-icon moon">🌙</span>
+            </button>
         </div>
     </nav>
 
@@ -1301,6 +1487,24 @@
             initCharts();
             updateSystemDisplay();
             setInterval(tick, 1000);
+
+            // Theme Controller
+            const themeToggle = document.getElementById('themeToggle');
+            const savedTheme = localStorage.getItem('wleaks-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Set initial theme
+            document.documentElement.setAttribute('data-theme',
+                savedTheme || (prefersDark ? 'dark' : 'light')
+            );
+
+            // Toggle handler
+            themeToggle.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('wleaks-theme', next);
+            });
         });
     </script>
 </body>
